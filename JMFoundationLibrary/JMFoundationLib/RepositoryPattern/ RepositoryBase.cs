@@ -1,9 +1,10 @@
 using System.Linq.Expressions;
+using JMFoundationLib.Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace JMFoundationLib.RepositoryPattern
 {
-  public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
+  public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : Entity
   {
     protected RepositoryContext RepositoryContext;
     public RepositoryBase(RepositoryContext repositoryContext) => RepositoryContext = repositoryContext;
