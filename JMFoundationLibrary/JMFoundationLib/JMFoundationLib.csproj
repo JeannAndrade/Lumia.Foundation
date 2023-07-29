@@ -10,6 +10,4 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.9" />
   </ItemGroup>
 
-  <FileVersion>0.1.0</FileVersion>
-
 </Project>
