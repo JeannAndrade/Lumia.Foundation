@@ -1,4 +1,4 @@
-namespace JMFoundationLib.RepositoryPattern
+namespace Lumia.Utility.Foundation.RepositoryPattern
 {
   public interface IBaseRepositoryManager
   {

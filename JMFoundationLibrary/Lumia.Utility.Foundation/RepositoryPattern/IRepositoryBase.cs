@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace JMFoundationLib.RepositoryPattern;
+namespace Lumia.Utility.Foundation.RepositoryPattern;
 
 public interface IRepositoryBase<T>
 {

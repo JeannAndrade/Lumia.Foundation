@@ -1,4 +1,4 @@
-namespace JMFoundationLib.Domain
+namespace Lumia.Utility.Foundation.Domain
 {
   public abstract class Entity
   {

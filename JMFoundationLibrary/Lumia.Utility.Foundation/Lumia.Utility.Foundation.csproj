@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <PackageId>Lumia.Utility.Foundation</PackageId>
+    <Description>Conjunto de classes utilitárias para projetos em C#</Description>
+    <RepositoryUrl>https://github.com/JeannAndrade/JMFoundationLibrary</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>RepositoryPattern DateTime Entity ValueObject</PackageTags>
+    <PackageReleaseNotes>Versão inicial da lib</PackageReleaseNotes>
+    <PackageVersion>1.0.0</PackageVersion>
+    <Authors>Jeann Andrade</Authors>
+    <Company>Lumia SA</Company>
+    <Product>FoundationLibrary</Product>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.9" />
+  </ItemGroup>
+
+</Project>

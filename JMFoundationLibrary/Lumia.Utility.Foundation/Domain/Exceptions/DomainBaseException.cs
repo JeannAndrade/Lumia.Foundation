@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace JMFoundationLib.Domain.Exceptions
+namespace Lumia.Utility.Foundation.Domain.Exceptions
 {
   public class GenericDomainException : Exception
   {

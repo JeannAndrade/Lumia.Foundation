@@ -1,8 +1,8 @@
 using System.Linq.Expressions;
-using JMFoundationLib.Domain;
+using Lumia.Utility.Foundation.Domain;
 using Microsoft.EntityFrameworkCore;
 
-namespace JMFoundationLib.RepositoryPattern
+namespace Lumia.Utility.Foundation.RepositoryPattern
 {
   public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : Entity
   {
