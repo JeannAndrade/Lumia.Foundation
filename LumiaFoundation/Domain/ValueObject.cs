@@ -1,33 +1,34 @@
-namespace Lumia.Utility.Foundation.Domain
+namespace LumiaFoundation.Domain
 {
   public abstract class ValueObject
   {
     protected static bool EqualOperator(ValueObject left, ValueObject right)
     {
-      if (left is null ^ right is null)
-      {
+      if (ReferenceEquals(left, null) && ReferenceEquals(right, null))
+        return true;
+
+      if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
         return false;
-      }
-      return ReferenceEquals(left, right) || left.Equals(right);
+
+      return left.Equals(right);
     }
 
     protected static bool NotEqualOperator(ValueObject left, ValueObject right)
     {
-      return !(EqualOperator(left, right));
+      return !EqualOperator(left, right);
     }
 
     protected abstract IEnumerable<object> GetEqualityComponents();
 
-    public override bool Equals(object obj)
+
+    public override bool Equals(object? obj)
     {
-      if (obj == null || obj.GetType() != GetType())
-      {
-        return false;
-      }
+      var compareTo = obj as ValueObject;
 
-      var other = (ValueObject)obj;
+      if (ReferenceEquals(this, compareTo)) return true;
+      if (compareTo is null) return false;
 
-      return this.GetEqualityComponents().SequenceEqual(other.GetEqualityComponents());
+      return GetEqualityComponents().SequenceEqual(compareTo.GetEqualityComponents());
     }
 
     public override int GetHashCode()

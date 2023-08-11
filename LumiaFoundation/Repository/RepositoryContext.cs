@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 */
 
 
-namespace Lumia.Utility.Foundation.RepositoryPattern
+namespace LumiaFoundation.Repository
 {
   public class RepositoryContext : DbContext
   {

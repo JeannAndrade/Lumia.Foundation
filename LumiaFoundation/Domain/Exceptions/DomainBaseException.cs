@@ -1,9 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Lumia.Utility.Foundation.Domain.Exceptions
+namespace LumiaFoundation.Domain.Exceptions
 {
   public class GenericDomainException : Exception
   {

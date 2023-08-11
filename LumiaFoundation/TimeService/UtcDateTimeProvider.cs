@@ -1,4 +1,4 @@
-namespace Lumia.Utility.Foundation.DateTimeService
+namespace LumiaFoundation.TimeService
 {
   public class UtcDateTimeProvider : IDateTimeProvider
   {

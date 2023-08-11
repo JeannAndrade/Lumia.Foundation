@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lumia.Utility.Foundation", Lumia.Utility.Foundation\Lumia.Utility.Foundation.csproj", "{091B1876-1334-4D22-985C-BB75B9B522DF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LumiaFoundation", "LumiaFoundation.csproj", "{93E4CDEB-EA3B-47C8-93B5-58CB93EC46E9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -14,9 +14,9 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{091B1876-1334-4D22-985C-BB75B9B522DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{091B1876-1334-4D22-985C-BB75B9B522DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{091B1876-1334-4D22-985C-BB75B9B522DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{091B1876-1334-4D22-985C-BB75B9B522DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93E4CDEB-EA3B-47C8-93B5-58CB93EC46E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93E4CDEB-EA3B-47C8-93B5-58CB93EC46E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93E4CDEB-EA3B-47C8-93B5-58CB93EC46E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93E4CDEB-EA3B-47C8-93B5-58CB93EC46E9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
