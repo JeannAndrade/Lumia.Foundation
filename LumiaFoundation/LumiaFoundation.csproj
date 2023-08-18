@@ -11,7 +11,7 @@
     <PackageTags>Repository DateTime Entity ValueObject</PackageTags>
     <PackageReleaseNotes>Versão inicial da lib</PackageReleaseNotes>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
-    <PackageVersion>0.1.0</PackageVersion>
+    <PackageVersion>0.2.0</PackageVersion>
     <Authors>Jeann Andrade</Authors>
     <Company>Lumia Tech</Company>
     <Product>Lumia.Foundation</Product>
