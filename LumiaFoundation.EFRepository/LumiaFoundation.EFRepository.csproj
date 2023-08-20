@@ -4,21 +4,29 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <PackageId>Lumia.Foundation</PackageId>
-    <Description>Conjunto de classes utilitárias para projetos em C#</Description>
+    <PackageId>Lumia.Foundation.EFRepository</PackageId>
+    <Description>Conjunto de classes utilitárias para projetos que usa EntityFrameworkCore</Description>
     <RepositoryUrl>https://github.com/JeannAndrade/Lumia.Foundation</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageTags>DateTime Entity ValueObject</PackageTags>
+    <PackageTags>Repository</PackageTags>
     <PackageReleaseNotes>Versão inicial da lib</PackageReleaseNotes>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
-    <PackageVersion>0.3.0</PackageVersion>
+    <PackageVersion>0.1.0</PackageVersion>
     <Authors>Jeann Andrade</Authors>
     <Company>Lumia Tech</Company>
     <Product>Lumia.Foundation</Product>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="docs\readme.md" Pack="true" PackagePath="\"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="docs\readme.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LumiaFoundation\LumiaFoundation.csproj" />
   </ItemGroup>
 
 </Project>
