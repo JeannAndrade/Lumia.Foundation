@@ -1,32 +1,28 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <PackageId>Lumia.Foundation.EFRepository</PackageId>
-    <Description>Conjunto de classes utilitárias para projetos que usa EntityFrameworkCore</Description>
+    <PackageId>Lumia.Foundation.Logger</PackageId>
+    <Description>Package com funcionalidades de log</Description>
     <RepositoryUrl>https://github.com/JeannAndrade/Lumia.Foundation</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageTags>Repository</PackageTags>
-    <PackageReleaseNotes>Versão inicial da lib</PackageReleaseNotes>
+    <PackageTags>LoggerService</PackageTags>
+    <PackageReleaseNotes>Expondo método de configuração</PackageReleaseNotes>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
-    <PackageVersion>0.1.0</PackageVersion>
+    <PackageVersion>0.1.1</PackageVersion>
     <Authors>Jeann Andrade</Authors>
     <Company>Lumia Tech</Company>
     <Product>Lumia.Foundation</Product>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.7" />
+    <PackageReference Include="NLog.Extensions.Logging" Version="5.3.11" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="docs\readme.md" Pack="true" PackagePath="\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\LumiaFoundation\LumiaFoundation.csproj" />
   </ItemGroup>
 
 </Project>

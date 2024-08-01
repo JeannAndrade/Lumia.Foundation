@@ -1,3 +1,23 @@
 {
-  "dotnet.defaultSolution": "LumiaFoundation.sln"
+  "dotnet.defaultSolution": "LumiaFoundation.sln",
+  "workbench.colorCustomizations": {
+    "activityBar.activeBackground": "#4beca7",
+    "activityBar.background": "#4beca7",
+    "activityBar.foreground": "#15202b",
+    "activityBar.inactiveForeground": "#15202b99",
+    "activityBarBadge.background": "#b96ff0",
+    "activityBarBadge.foreground": "#15202b",
+    "commandCenter.border": "#15202b99",
+    "sash.hoverBorder": "#4beca7",
+    "statusBar.background": "#1de790",
+    "statusBar.foreground": "#15202b",
+    "statusBarItem.hoverBackground": "#14bd74",
+    "statusBarItem.remoteBackground": "#1de790",
+    "statusBarItem.remoteForeground": "#15202b",
+    "titleBar.activeBackground": "#1de790",
+    "titleBar.activeForeground": "#15202b",
+    "titleBar.inactiveBackground": "#1de79099",
+    "titleBar.inactiveForeground": "#15202b99"
+  },
+  "peacock.remoteColor": "#1de790"
 }
