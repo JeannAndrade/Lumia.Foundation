@@ -9,12 +9,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LumiaFoundation.EFRepository.Repository
 {
-    public class RepositoryContext : DbContext
+    public class RepositoryContext(DbContextOptions options) : DbContext(options)
     {
-        public RepositoryContext(DbContextOptions options)
-        : base(options)
-        {
-        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //modelBuilder.ApplyConfiguration(new SomeEntityConfiguration());

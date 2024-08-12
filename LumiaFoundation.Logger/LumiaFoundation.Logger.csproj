@@ -7,11 +7,12 @@
     <PackageId>Lumia.Foundation.Logger</PackageId>
     <Description>Package com funcionalidades de log</Description>
     <RepositoryUrl>https://github.com/JeannAndrade/Lumia.Foundation</RepositoryUrl>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <RepositoryType>git</RepositoryType>
     <PackageTags>LoggerService</PackageTags>
     <PackageReleaseNotes>Expondo método de configuração</PackageReleaseNotes>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
-    <PackageVersion>0.1.1</PackageVersion>
+    <PackageVersion>0.1.2</PackageVersion>
     <Authors>Jeann Andrade</Authors>
     <Company>Lumia Tech</Company>
     <Product>Lumia.Foundation</Product>
