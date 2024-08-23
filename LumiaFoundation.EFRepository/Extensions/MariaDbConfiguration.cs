@@ -13,7 +13,9 @@ namespace LumiaFoundation.EFRepository.Extensions
 
         public string GetConectionString()
         {
-            return $"server={_server};Port={_port};user={_user};password={_password};database={_database}";
+            var connectionString = $"server={_server};port={_port};user={_user};password={_password};database={_database}";
+            Console.WriteLine(connectionString);
+            return connectionString;
         }
 
         public int MajorVersion => _majorVersion;

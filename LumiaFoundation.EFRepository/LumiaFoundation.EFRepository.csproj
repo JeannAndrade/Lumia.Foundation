@@ -10,9 +10,9 @@
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <RepositoryType>git</RepositoryType>
     <PackageTags>Repository</PackageTags>
-    <PackageReleaseNotes>Adding package license</PackageReleaseNotes>
+    <PackageReleaseNotes>Adding some console log</PackageReleaseNotes>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
-    <PackageVersion>0.2.1</PackageVersion>
+    <PackageVersion>0.2.3</PackageVersion>
     <Authors>Jeann Andrade</Authors>
     <Company>Lumia Tech</Company>
     <Product>Lumia.Foundation</Product>

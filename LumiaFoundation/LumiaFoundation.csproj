@@ -10,9 +10,9 @@
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <RepositoryType>git</RepositoryType>
     <PackageTags>DateTime Entity ValueObject</PackageTags>
-    <PackageReleaseNotes>Versão inicial da lib</PackageReleaseNotes>
+    <PackageReleaseNotes>Adicionado extensao para enum</PackageReleaseNotes>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
-    <PackageVersion>0.3.1</PackageVersion>
+    <PackageVersion>0.4.0</PackageVersion>
     <Authors>Jeann Andrade</Authors>
     <Company>Lumia Tech</Company>
     <Product>Lumia.Foundation</Product>
