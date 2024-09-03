@@ -1,3 +1,6 @@
+using LumiaFoundation.EFRepository.Identity.Model;
+using LumiaFoundation.EFRepository.Repository;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -16,6 +19,21 @@ namespace LumiaFoundation.EFRepository.Extensions
                 .LogTo(Console.WriteLine, LogLevel.Information)
                 .EnableSensitiveDataLogging()
                 .EnableDetailedErrors());
+        }
+
+        public static void ConfigureIdentity(this IServiceCollection services)
+        {
+            var builder = services.AddIdentity<User, IdentityRole>(o =>
+                {
+                    o.Password.RequireDigit = true;
+                    o.Password.RequireLowercase = true;
+                    o.Password.RequireUppercase = true;
+                    o.Password.RequireNonAlphanumeric = true;
+                    o.Password.RequiredLength = 10;
+                    o.User.RequireUniqueEmail = true;
+                })
+                .AddEntityFrameworkStores<IdentityRepositoryContext>()
+                .AddDefaultTokenProviders();
         }
     }
 }
