@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 */
 
 
-namespace LumiaFoundation.EFRepository.Repository
+namespace LumiaFoundation.EFRepository.Repository.IdentityBase
 {
     public class IdentityRepositoryContext : IdentityDbContext<User>
 

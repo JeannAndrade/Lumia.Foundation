@@ -2,12 +2,12 @@ using System.Linq.Expressions;
 using LumiaFoundation.Domain;
 using Microsoft.EntityFrameworkCore;
 
-namespace LumiaFoundation.EFRepository.Repository
+namespace LumiaFoundation.EFRepository.Repository.IdentityBase
 {
-    public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : Entity
+    public abstract class IdentityRepositoryBase<T> : IRepositoryBase<T> where T : Entity
     {
-        protected RepositoryContext RepositoryContext;
-        public RepositoryBase(RepositoryContext repositoryContext) => RepositoryContext = repositoryContext;
+        protected IdentityRepositoryContext RepositoryContext;
+        public IdentityRepositoryBase(IdentityRepositoryContext repositoryContext) => RepositoryContext = repositoryContext;
 
         public IQueryable<T> FindAll(bool trackChanges) => !trackChanges ? RepositoryContext.Set<T>().AsNoTracking() : RepositoryContext.Set<T>();
         public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression, bool trackChanges) =>

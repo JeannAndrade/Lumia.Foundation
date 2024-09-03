@@ -1,5 +1,5 @@
 using LumiaFoundation.EFRepository.Identity.Model;
-using LumiaFoundation.EFRepository.Repository;
+using LumiaFoundation.EFRepository.Repository.IdentityBase;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;

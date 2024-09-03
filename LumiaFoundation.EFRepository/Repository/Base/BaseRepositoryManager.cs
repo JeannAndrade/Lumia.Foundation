@@ -1,6 +1,6 @@
 using LumiaFoundation.Repository;
 
-namespace LumiaFoundation.EFRepository.Repository
+namespace LumiaFoundation.EFRepository.Repository.Base
 {
     public class BaseRepositoryManager : IBaseRepositoryManager
     {
