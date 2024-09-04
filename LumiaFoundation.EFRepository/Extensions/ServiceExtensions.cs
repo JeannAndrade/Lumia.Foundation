@@ -1,6 +1,4 @@
 using LumiaFoundation.EFRepository.Identity.Model;
-using LumiaFoundation.EFRepository.Repository;
-using LumiaFoundation.EFRepository.Repository.Base;
 using LumiaFoundation.EFRepository.Repository.IdentityBase;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +21,15 @@ namespace LumiaFoundation.EFRepository.Extensions
                 .EnableDetailedErrors());
         }
 
+        public static void ConfigureIdentityMariaDbDatabase<T>(this IServiceCollection services, MariaDbConfiguration dbConfig, string migrationAssembly) where T : DbContext
+        {
+            var serverVersion = new MariaDbServerVersion(new Version(dbConfig.MajorVersion, dbConfig.MinorVersion, dbConfig.BuildVersion));
+
+            services.AddDbContext<T>(options =>
+                options
+                .UseMySql(dbConfig.GetConectionString(), serverVersion, b => b.MigrationsAssembly(migrationAssembly)));
+        }
+
         public static void ConfigureIdentity(this IServiceCollection services)
         {
             var builder = services.AddIdentity<User, IdentityRole>(o =>
@@ -37,19 +44,5 @@ namespace LumiaFoundation.EFRepository.Extensions
                 .AddEntityFrameworkStores<IdentityRepositoryContext>()
                 .AddDefaultTokenProviders();
         }
-
-        public static void ConfigureBaseRepository(this IServiceCollection services)
-        {
-            services.AddScoped<IBaseRepositoryManager, BaseRepositoryManager>();
-            services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
-        }
-
-        public static void ConfigureIdentityBaseRepository(this IServiceCollection services)
-        {
-            services.AddScoped<IBaseRepositoryManager, IdentityBaseRepositoryManager>();
-            services.AddScoped(typeof(IBaseRepository<>), typeof(IdentityBaseRepository<>));
-        }
-
-
     }
 }
