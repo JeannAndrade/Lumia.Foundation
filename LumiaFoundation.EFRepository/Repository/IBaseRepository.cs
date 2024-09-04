@@ -1,8 +1,9 @@
 ﻿using System.Linq.Expressions;
+using LumiaFoundation.Domain;
 
 namespace LumiaFoundation.EFRepository.Repository;
 
-public interface IBaseRepository<T>
+public interface IBaseRepository<T> where T : Entity
 {
     IQueryable<T> FindAll(bool trackChanges);
     IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression, bool trackChanges);
