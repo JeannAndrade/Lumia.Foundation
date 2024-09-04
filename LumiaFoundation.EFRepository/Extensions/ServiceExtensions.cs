@@ -1,4 +1,6 @@
 using LumiaFoundation.EFRepository.Identity.Model;
+using LumiaFoundation.EFRepository.Repository;
+using LumiaFoundation.EFRepository.Repository.Base;
 using LumiaFoundation.EFRepository.Repository.IdentityBase;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -35,5 +37,19 @@ namespace LumiaFoundation.EFRepository.Extensions
                 .AddEntityFrameworkStores<IdentityRepositoryContext>()
                 .AddDefaultTokenProviders();
         }
+
+        public static void ConfigureBaseRepository(this IServiceCollection services)
+        {
+            services.AddScoped<IBaseRepositoryManager, BaseRepositoryManager>();
+            services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+        }
+
+        public static void ConfigureIdentityBaseRepository(this IServiceCollection services)
+        {
+            services.AddScoped<IBaseRepositoryManager, IdentityBaseRepositoryManager>();
+            services.AddScoped(typeof(IBaseRepository<>), typeof(IdentityBaseRepository<>));
+        }
+
+
     }
 }

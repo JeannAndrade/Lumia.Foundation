@@ -1,5 +1,3 @@
-using LumiaFoundation.Repository;
-
 namespace LumiaFoundation.EFRepository.Repository.IdentityBase
 {
     public class IdentityBaseRepositoryManager : IBaseRepositoryManager
