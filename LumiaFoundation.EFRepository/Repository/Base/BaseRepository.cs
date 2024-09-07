@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LumiaFoundation.EFRepository.Repository.Base
 {
-    public abstract class BaseRepository<T> : IBaseRepository<T> where T : Entity
+    public abstract class BaseRepository<T> : IIdentityBaseRepository<T> where T : Entity
     {
         protected RepositoryContext RepositoryContext;
         public BaseRepository(RepositoryContext repositoryContext) => RepositoryContext = repositoryContext;

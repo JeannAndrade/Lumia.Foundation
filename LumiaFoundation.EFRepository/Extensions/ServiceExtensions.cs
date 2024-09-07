@@ -41,7 +41,7 @@ namespace LumiaFoundation.EFRepository.Extensions
                     o.Password.RequiredLength = 10;
                     o.User.RequireUniqueEmail = true;
                 })
-                .AddEntityFrameworkStores<IdentityRepositoryContext>()
+                .AddEntityFrameworkStores<IdentityContext>()
                 .AddDefaultTokenProviders();
         }
     }
