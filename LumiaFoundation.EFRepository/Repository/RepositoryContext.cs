@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 */
 
 
-namespace LumiaFoundation.EFRepository.Repository.Base
+namespace LumiaFoundation.EFRepository.Repository
 {
     public class RepositoryContext(DbContextOptions options) : DbContext(options)
     {

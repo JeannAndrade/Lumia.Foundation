@@ -1,8 +1,8 @@
 using System.Linq.Expressions;
-using LumiaFoundation.Domain;
+using LumiaFoundation.EFRepository.Domain;
 using Microsoft.EntityFrameworkCore;
 
-namespace LumiaFoundation.EFRepository.Repository.Base
+namespace LumiaFoundation.EFRepository.Repository
 {
     public abstract class BaseRepository<T> : IIdentityBaseRepository<T> where T : Entity
     {

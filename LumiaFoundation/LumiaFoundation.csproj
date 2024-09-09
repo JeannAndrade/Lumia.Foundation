@@ -12,7 +12,7 @@
     <PackageTags>DateTime Entity ValueObject</PackageTags>
     <PackageReleaseNotes>Adicionado extensao para enum</PackageReleaseNotes>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
-    <PackageVersion>0.4.0</PackageVersion>
+    <PackageVersion>0.4.1</PackageVersion>
     <Authors>Jeann Andrade</Authors>
     <Company>Lumia Tech</Company>
     <Product>Lumia.Foundation</Product>

@@ -1,7 +1,7 @@
 ﻿using System.Linq.Expressions;
-using LumiaFoundation.Domain;
+using LumiaFoundation.EFRepository.Domain;
 
-namespace LumiaFoundation.EFRepository.Repository.Base;
+namespace LumiaFoundation.EFRepository.Repository;
 
 public interface IIdentityBaseRepository<T> where T : Entity
 {

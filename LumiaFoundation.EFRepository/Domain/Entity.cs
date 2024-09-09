@@ -1,4 +1,4 @@
-namespace LumiaFoundation.Domain
+namespace LumiaFoundation.EFRepository.Domain
 {
   public abstract class Entity
   {

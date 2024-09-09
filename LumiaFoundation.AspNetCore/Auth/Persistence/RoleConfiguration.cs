@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace LumiaFoundation.EFRepository.Repository.IdentityBase
+namespace LumiaFoundation.AspNetCore.Auth.Persistence
 {
     public class RoleConfiguration : IEntityTypeConfiguration<IdentityRole>
     {

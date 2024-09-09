@@ -1,4 +1,4 @@
-namespace LumiaFoundation.EFRepository.Repository.Base
+namespace LumiaFoundation.EFRepository.Repository
 {
     public class BaseRepositoryManager : IBaseRepositoryManager
     {
