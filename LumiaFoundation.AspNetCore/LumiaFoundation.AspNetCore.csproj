@@ -10,9 +10,9 @@
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <RepositoryType>git</RepositoryType>
     <PackageTags>ActionFilters</PackageTags>
-    <PackageReleaseNotes>Versão Inicial</PackageReleaseNotes>
+    <PackageReleaseNotes>Refresh Tokens</PackageReleaseNotes>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
-    <PackageVersion>0.3.1</PackageVersion>
+    <PackageVersion>0.4.0</PackageVersion>
     <Authors>Jeann Andrade</Authors>
     <Company>Lumia Tech</Company>
     <Product>Lumia.Foundation</Product>
