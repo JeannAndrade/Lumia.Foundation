@@ -6,22 +6,18 @@ using LumiaFoundation.AspNetCore.Auth.DTO;
 using LumiaFoundation.AspNetCore.Auth.Exceptions;
 using LumiaFoundation.AspNetCore.Auth.Identity.Model;
 using LumiaFoundation.AspNetCore.Commons.Config;
+using LumiaFoundation.Logger.Contracts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 
 namespace LumiaFoundation.AspNetCore.Auth.Services
 {
-    internal sealed class AuthenticationService : IAuthenticationService
+    internal sealed class AuthenticationService(UserManager<User> userManager, IAppConfigurationParameter configuration, ILoggerManager logger) : IAuthenticationService
     {
-        private readonly UserManager<User> _userManager;
-        private readonly IAppConfigurationParameter _configuration;
+        private readonly UserManager<User> _userManager = userManager;
+        private readonly IAppConfigurationParameter _configuration = configuration;
+        private readonly ILoggerManager _logger = logger;
         private User? _user;
-
-        public AuthenticationService(UserManager<User> userManager, IAppConfigurationParameter configuration)
-        {
-            _userManager = userManager;
-            _configuration = configuration;
-        }
 
         public async Task<IdentityResult> RegisterUser(UserForRegistrationDto userForRegistration)
         {
@@ -39,8 +35,8 @@ namespace LumiaFoundation.AspNetCore.Auth.Services
             _user = await _userManager.FindByNameAsync(userForAuth.UserName);
             var result = _user != null && await _userManager.CheckPasswordAsync(_user, userForAuth.Password);
 
-            //if (!result)
-            //    _logger.LogWarn($"{nameof(ValidateUser)}: Authentication failed. Wrong user name or password.");
+            if (!result)
+                _logger.LogWarn($"{nameof(ValidateUser)}: Authentication failed. Wrong user name or password.");
 
             return result;
         }
