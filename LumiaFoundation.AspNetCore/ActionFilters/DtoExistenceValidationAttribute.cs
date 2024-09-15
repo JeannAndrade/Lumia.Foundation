@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace LumiaFoundation.AspNetCore.ActionFilters
 {
-    public class ValidationFilterAttribute : IActionFilter
+    public class DtoExistenceValidationAttribute : IActionFilter
     {
-        public ValidationFilterAttribute() { }
+        public DtoExistenceValidationAttribute() { }
         public void OnActionExecuting(ActionExecutingContext context)
         {
             var action = context.RouteData.Values["action"];

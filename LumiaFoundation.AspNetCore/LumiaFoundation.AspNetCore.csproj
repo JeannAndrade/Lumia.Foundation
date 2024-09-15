@@ -12,7 +12,7 @@
     <PackageTags>ActionFilters Auth GLobalExceptionMiddleware</PackageTags>
     <PackageReleaseNotes>Retrieve user info from JWT Token</PackageReleaseNotes>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
-    <PackageVersion>0.6.4</PackageVersion>
+    <PackageVersion>0.6.5</PackageVersion>
     <Authors>Jeann Andrade</Authors>
     <Company>Lumia Tech</Company>
     <Product>Lumia.Foundation</Product>
