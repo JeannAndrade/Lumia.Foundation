@@ -30,7 +30,7 @@ namespace LumiaFoundation.AspNetCore.Commons.Extensions
                             {
                                 StatusCode = context.Response.StatusCode,
                                 Message = contextFeature.Error.Message,
-                                ExceptionType = nameof(contextFeature.Error)
+                                ExceptionType = contextFeature.Error.GetType().Name
                             }.ToString());
                         }
                         else
