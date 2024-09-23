@@ -1,4 +1,5 @@
 using System.Net;
+using LumiaFoundation.AspNetCore.Commons.Exceptions;
 using LumiaFoundation.AspNetCore.ExceptionHandlers.ErrorModel;
 using LumiaFoundation.Logger.Contracts;
 using Microsoft.AspNetCore.Builder;
@@ -15,18 +16,34 @@ namespace LumiaFoundation.AspNetCore.Commons.Extensions
             {
                 appError.Run(async context =>
                 {
-                    context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                    context.Response.ContentType = "application/json";
                     var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
 
                     if (contextFeature != null)
                     {
-                        logger.LogError($"Something went wrong: {contextFeature.Error}");
-                        await context.Response.WriteAsync(new ErrorDetails()
+                        context.Response.ContentType = "application/json";
+
+                        if (contextFeature.Error is DomainBaseException)
                         {
-                            StatusCode = context.Response.StatusCode,
-                            Message = "Internal Server Error.",
-                        }.ToString());
+                            logger.LogError($"Ocorreu um erro de validação: {contextFeature.Error}");
+                            context.Response.StatusCode = StatusCodes.Status422UnprocessableEntity;
+                            await context.Response.WriteAsync(new ErrorDetails()
+                            {
+                                StatusCode = context.Response.StatusCode,
+                                Message = contextFeature.Error.Message,
+                                ExceptionType = nameof(contextFeature.Error)
+                            }.ToString());
+                        }
+                        else
+                        {
+                            logger.LogError(contextFeature.Error, $"Ocorreu um erro desconhecido: {contextFeature.Error}");
+                            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+                            await context.Response.WriteAsync(new ErrorDetails()
+                            {
+                                StatusCode = context.Response.StatusCode,
+                                Message = "Internal Server Error.",
+                                ExceptionType = nameof(contextFeature.Error)
+                            }.ToString());
+                        }
                     }
                 });
             });
