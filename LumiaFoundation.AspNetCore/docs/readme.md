@@ -1,5 +1,5 @@
-# preciso trabalhar no readme
+# Histórico de versões
 
-0.1.0
+## 0.7.0
 
-Documentação em desenvolvimento
+- Migração para .NET 10.0

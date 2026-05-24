@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using System.Reflection;
 
-namespace LumiaFoundation.Extensions
+namespace LumiaFoundation.Core.Extensions
 {
     public static class EnumExtensions
     {

@@ -1,4 +1,4 @@
-namespace LumiaFoundation.TimeService
+namespace LumiaFoundation.Core.TimeService
 {
   public interface IDateTimeProvider
   {
