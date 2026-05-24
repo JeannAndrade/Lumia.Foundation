@@ -4,7 +4,7 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <PackageId>Lumia.Foundation</PackageId>
+    <PackageId>Lumia.Foundation.Core</PackageId>
     <Description>Conjunto de classes utilitárias para projetos em C#</Description>
     <RepositoryUrl>https://github.com/JeannAndrade/Lumia.Foundation</RepositoryUrl>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
@@ -15,7 +15,7 @@
     <PackageVersion>0.5.0</PackageVersion>
     <Authors>Jeann Andrade</Authors>
     <Company>Lumia Tech</Company>
-    <Product>Lumia.Foundation</Product>
+    <Product>Lumia.Foundation.Core</Product>
   </PropertyGroup>
 
   <ItemGroup>
