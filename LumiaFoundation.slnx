@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="LumiaFoundation.AspNetCore/LumiaFoundation.AspNetCore.csproj" />
+  <Project Path="LumiaFoundation.EFRepository/LumiaFoundation.EFRepository.csproj" />
+  <Project Path="LumiaFoundation.Logger/LumiaFoundation.Logger.csproj" />
+  <Project Path="LumiaFoundation/LumiaFoundation.csproj" />
+</Solution>
