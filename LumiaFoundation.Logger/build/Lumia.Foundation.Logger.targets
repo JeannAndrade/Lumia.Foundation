@@ -9,6 +9,6 @@
       SourceFiles="$(_LumiaFoundationLoggerConfigSource)"
       DestinationFiles="$(_LumiaFoundationLoggerConfigDestination)"
       SkipUnchangedFiles="true"
-      Condition="Exists('$(_LumiaFoundationLoggerConfigSource)')" />
+      Condition="Exists('$(_LumiaFoundationLoggerConfigSource)') And (!Exists('$(_LumiaFoundationLoggerConfigDestination)') Or '$(LumiaFoundationLoggerOverwriteNlogConfig)' == 'true')" />
   </Target>
 </Project>

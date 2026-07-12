@@ -12,7 +12,13 @@ dotnet add package Lumia.Foundation.Logger
 
 ## Como usar
 
-Ao instalar o pacote, o arquivo `nlog.config` da biblioteca é copiado automaticamente para a raiz do projeto consumidor durante o build. Isso facilita a configuração inicial do NLog sem necessidade de copiar manualmente o arquivo.
+Ao instalar o pacote, o arquivo `nlog.config` da biblioteca é copiado automaticamente para a raiz do projeto consumidor durante o build apenas quando ele ainda não existe. Isso facilita a configuração inicial do NLog sem sobrescrever alterações feitas pelo usuário nos builds seguintes.
+
+Se precisar recriar o arquivo a partir da versão do pacote, execute o build informando a propriedade `LumiaFoundationLoggerOverwriteNlogConfig=true`:
+
+```bash
+dotnet build -p:LumiaFoundationLoggerOverwriteNlogConfig=true
+```
 
 Na classe `Program.cs`, configure o arquivo de configuração do NLog e registre a interface de log na injeção de dependência:
 
@@ -224,3 +230,4 @@ Você pode acessar uma propriedade individual usando `${event-properties:item=us
 * 0.2.0 - Ajustes na documentação e uso do pacote com interface de log estruturado por NLog.
 * 0.2.1 - Empacotamento automático do `nlog.config` para a raiz do projeto consumidor durante o build.
 * 0.2.2 - Atualização do `nlog.config` com arquivos atuais de log, arquivamento por tamanho e organização dos logs em texto e JSON.
+* 0.2.3 - O `nlog.config` passa a ser copiado apenas quando ainda não existe no projeto consumidor, evitando sobrescrever customizações locais a cada build.
