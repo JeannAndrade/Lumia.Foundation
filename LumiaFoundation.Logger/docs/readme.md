@@ -59,18 +59,36 @@ O pacote copia o arquivo de configuração para a raiz do projeto consumidor aut
 <nlog xmlns="http://www.nlog-project.org/schemas/NLog.xsd"
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       autoReload="true"
-      internalLogLevel="Info"
-      internalLogFile="./logs/internal-nlog.txt">
+      internalLogLevel="Trace"
+      internalLogFile=".\internal_logs\internallog.txt">
 
   <targets>
-    <target xsi:type="File"
-            name="jsonFile"
-            fileName="./logs/log.json"
-            encoding="utf-8">
+    <target
+      xsi:type="File"
+      name="logfile"
+      fileName=".\logs\current.log"
+      layout="${longdate} ${level:uppercase=true} ${message}"
+      archiveFileName=".\logs\archive\txt\${shortdate}_logfile.{#}.log"
+      archiveAboveSize="10485760"
+      maxArchiveFiles="30"
+      archiveNumbering="Rolling"
+      archiveEvery="Day"
+    />
+
+    <target
+      xsi:type="File"
+      name="jsonFile"
+      fileName=".\logs\current.json"
+      archiveFileName=".\logs\archive\json\${shortdate}_logfile.{#}.json"
+      archiveAboveSize="10485760"
+      maxArchiveFiles="30"
+      archiveNumbering="Rolling"
+      createDirs="true">
       <layout xsi:type="JsonLayout" includeEventProperties="true">
         <attribute name="time" layout="${longdate}" />
         <attribute name="level" layout="${level}" />
         <attribute name="message" layout="${message}" />
+        <!-- O atributo 'properties' conterá todas as suas propriedades estruturadas -->
         <attribute name="properties" layout="${all-event-properties}" />
       </layout>
     </target>
@@ -205,3 +223,4 @@ Você pode acessar uma propriedade individual usando `${event-properties:item=us
 * 0.1.1 - Expondo método de configuração do serviço.
 * 0.2.0 - Ajustes na documentação e uso do pacote com interface de log estruturado por NLog.
 * 0.2.1 - Empacotamento automático do `nlog.config` para a raiz do projeto consumidor durante o build.
+* 0.2.2 - Atualização do `nlog.config` com arquivos atuais de log, arquivamento por tamanho e organização dos logs em texto e JSON.
