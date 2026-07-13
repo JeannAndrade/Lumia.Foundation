@@ -1,1 +1,24 @@
-# preciso trabalhar no readme
+# Lumia.Foundation.Core
+
+Conjunto de classes utilitárias para projetos C#, com abstrações de domínio, provedores de data e hora e extensões de uso comum.
+
+## Instalação
+
+```bash
+dotnet add package Lumia.Foundation.Core
+```
+
+## Recursos
+
+* `ValueObject`: classe base para objetos de valor com comparação por componentes.
+* `GenericSingleValueObject<T>`: implementação genérica para value objects compostos por um único valor.
+* `IDateTimeProvider`: abstração para obter data e hora.
+* `LocalDateTimeProvider`: implementação baseada em `DateTime.Now`.
+* `UtcDateTimeProvider`: implementação baseada em `DateTime.UtcNow`.
+* `EnumExtensions.GetDescription()`: retorna o valor de `DescriptionAttribute` de um enum, quando existir.
+
+## Histórico de versões
+
+* 0.5.0 - Migração para .NET 10.0.
+* 0.2.0 - Adicionado `GenericSingleValueObject`, uma classe genérica para ser base de value objects primitivos.
+* 0.1.0 - Inclusão de repository pattern e DateTimeService.

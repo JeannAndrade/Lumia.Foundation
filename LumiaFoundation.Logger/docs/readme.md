@@ -20,10 +20,10 @@ Se precisar recriar o arquivo a partir da versão do pacote, execute o build inf
 dotnet build -p:LumiaFoundationLoggerOverwriteNlogConfig=true
 ```
 
-Na classe `Program.cs`, configure o arquivo de configuração do NLog e registre a interface de log na injeção de dependência:
+Na classe `Program.cs`, configure o arquivo de configuração do NLog e registre a interface de log na injeção de dependência usando o extension method `ConfigureLoggerService`:
 
 ```csharp
-using LumiaFoundation.Logger.Contracts;
+using LumiaFoundation.Logger.Extensions;
 using LumiaFoundation.Logger.LoggerService;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -31,7 +31,7 @@ var builder = WebApplication.CreateBuilder(args);
 LoggerManager.LoadConfigurationFromFile(
     Path.Combine(builder.Environment.ContentRootPath, "nlog.config"));
 
-builder.Services.AddSingleton<ILoggerManager, LoggerManager>();
+builder.Services.ConfigureLoggerService();
 
 var app = builder.Build();
 ```
@@ -231,3 +231,5 @@ Você pode acessar uma propriedade individual usando `${event-properties:item=us
 * 0.2.1 - Empacotamento automático do `nlog.config` para a raiz do projeto consumidor durante o build.
 * 0.2.2 - Atualização do `nlog.config` com arquivos atuais de log, arquivamento por tamanho e organização dos logs em texto e JSON.
 * 0.2.3 - O `nlog.config` passa a ser copiado apenas quando ainda não existe no projeto consumidor, evitando sobrescrever customizações locais a cada build.
+* 0.2.4 - Ajuste no path do arquivo de configuração.
+* 0.3.0 - Adicionado extension method `ConfigureLoggerService` para registrar o serviço de log na injeção de dependência.
