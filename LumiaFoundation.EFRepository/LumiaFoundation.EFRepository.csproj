@@ -10,22 +10,23 @@
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <RepositoryType>git</RepositoryType>
     <PackageTags>Repository</PackageTags>
-    <PackageReleaseNotes>Migração para .Net 10.0</PackageReleaseNotes>
+    <PackageReleaseNotes>Suporte ao pacote MySql.EntityFrameworkCore</PackageReleaseNotes>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
-    <PackageVersion>0.5.0</PackageVersion>
+    <PackageVersion>0.7.0</PackageVersion>
     <Authors>Jeann Andrade</Authors>
     <Company>Lumia Tech</Company>
     <Product>Lumia.Foundation</Product>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.9" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.9" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.9">
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.11">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="9.0.0" />
+    <PackageReference Include="Microting.EntityFrameworkCore.MySql" Version="10.0.10" />
+    <PackageReference Include="MySql.EntityFrameworkCore" Version="10.0.9" />
   </ItemGroup>
 
   <ItemGroup>

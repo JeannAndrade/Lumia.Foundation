@@ -1,6 +1,6 @@
 namespace LumiaFoundation.EFRepository.Utils
 {
-    public class MariaDbConnectionHelper(string host, string port, string user, string password, string database, int majorVersion, int minorVersion, int buildVersion)
+    public class DbConnectionHelper(string host, string port, string user, string password, string database, int majorVersion, int minorVersion, int buildVersion)
     {
         private readonly string _server = host ?? throw new ArgumentNullException(nameof(host));
         private readonly string _port = port ?? throw new ArgumentNullException(nameof(port));

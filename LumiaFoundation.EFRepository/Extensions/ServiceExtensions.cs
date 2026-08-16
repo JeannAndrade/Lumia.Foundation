@@ -7,13 +7,24 @@ namespace LumiaFoundation.EFRepository.Extensions
 {
     public static class ServiceExtensions
     {
-        public static void ConfigureMariaDbDatabase<T>(this IServiceCollection services, MariaDbConnectionHelper dbConfig) where T : DbContext
+        [Obsolete("Use ConfigurePomeloMariaDbDatabase instead.")]
+        public static void ConfigureMariaDbDatabase<T>(this IServiceCollection services, DbConnectionHelper dbConfig, string migrationsAssembly) where T : DbContext
         {
             var serverVersion = new MariaDbServerVersion(new Version(dbConfig.MajorVersion, dbConfig.MinorVersion, dbConfig.BuildVersion));
 
             services.AddDbContext<T>(options =>
                 options
-                .UseMySql(dbConfig.GetConectionString(), serverVersion)
+                .UseMySql(dbConfig.GetConectionString(), serverVersion, b => b.MigrationsAssembly(migrationsAssembly))
+                .LogTo(Console.WriteLine, LogLevel.Information)
+                .EnableSensitiveDataLogging()
+                .EnableDetailedErrors());
+        }
+
+        public static void ConfigureMySqlDbDatabase<T>(this IServiceCollection services, DbConnectionHelper dbConfig, string migrationsAssembly) where T : DbContext
+        {
+            services.AddDbContext<T>(options =>
+                options
+                .UseMySQL(dbConfig.GetConectionString(), b => b.MigrationsAssembly(migrationsAssembly))
                 .LogTo(Console.WriteLine, LogLevel.Information)
                 .EnableSensitiveDataLogging()
                 .EnableDetailedErrors());
