@@ -1,13 +1,13 @@
 namespace LumiaFoundation.EFRepository.Repository
 {
-    public class BaseRepositoryManager : IBaseRepositoryManager
-    {
-        protected readonly RepositoryContext _repositoryContext;
+    /*
+     * BaseRepositoryManager precisa ser herdado de RepositoryManager no projeto cliente.
+     * Ele irá fornecer o método SaveAsync() para salvar as alterações no banco de dados.
+     */
 
-        public BaseRepositoryManager(RepositoryContext repositoryContext)
-        {
-            _repositoryContext = repositoryContext;
-        }
+    public class BaseRepositoryManager(RepositoryContext repositoryContext) : IBaseRepositoryManager
+    {
+        protected readonly RepositoryContext _repositoryContext = repositoryContext;
 
         public async Task SaveAsync() => await _repositoryContext.SaveChangesAsync();
     }
