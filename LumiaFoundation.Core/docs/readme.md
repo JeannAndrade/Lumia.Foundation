@@ -16,6 +16,11 @@ dotnet add package Lumia.Foundation.Core
 * `LocalDateTimeProvider`: implementação baseada em `DateTime.Now`.
 * `UtcDateTimeProvider`: implementação baseada em `DateTime.UtcNow`.
 * `EnumExtensions.GetDescription()`: retorna o valor de `DescriptionAttribute` de um enum, quando existir.
+* `ParseHelper.ToIntOrDefault()`: converte uma string para `int` e retorna um valor padrão quando a conversão falha.
+
+## Alterações recentes
+
+* Adicionada a classe utilitária `ParseHelper` para conversão segura de valores string para inteiros.
 
 ## Histórico de versões
 
