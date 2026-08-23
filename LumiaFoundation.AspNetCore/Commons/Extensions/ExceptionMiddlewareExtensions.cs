@@ -1,4 +1,3 @@
-using System.Net;
 using LumiaFoundation.AspNetCore.Commons.Exceptions;
 using LumiaFoundation.AspNetCore.ExceptionHandlers.ErrorModel;
 using LumiaFoundation.Logger.Contracts;
@@ -16,37 +15,63 @@ namespace LumiaFoundation.AspNetCore.Commons.Extensions
             {
                 appError.Run(async context =>
                 {
-                    var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
+                    var exception = context.Features.Get<IExceptionHandlerFeature>()?.Error;
 
-                    if (contextFeature != null)
+                    if (exception is not null)
                     {
                         context.Response.ContentType = "application/json";
-
-                        if (contextFeature.Error is DomainBaseException)
-                        {
-                            logger.LogError($"Ocorreu um erro de validação: {contextFeature.Error}");
-                            context.Response.StatusCode = StatusCodes.Status422UnprocessableEntity;
-                            await context.Response.WriteAsync(new ErrorDetails()
-                            {
-                                StatusCode = context.Response.StatusCode,
-                                Message = contextFeature.Error.Message,
-                                ExceptionType = contextFeature.Error.GetType().Name
-                            }.ToString());
-                        }
-                        else
-                        {
-                            logger.LogError(contextFeature.Error, $"Ocorreu um erro desconhecido: {contextFeature.Error}");
-                            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-                            await context.Response.WriteAsync(new ErrorDetails()
-                            {
-                                StatusCode = context.Response.StatusCode,
-                                Message = "Internal Server Error.",
-                                ExceptionType = nameof(contextFeature.Error)
-                            }.ToString());
-                        }
+                        await HandleExceptionAsync(context, logger, exception);
                     }
                 });
             });
+        }
+
+        private static async Task HandleExceptionAsync(HttpContext context, ILoggerManager logger, Exception exception)
+        {
+            LogException(logger, exception);
+            var errorDetails = CreateErrorDetails(exception);
+            context.Response.StatusCode = errorDetails.StatusCode;
+            await context.Response.WriteAsync(errorDetails.ToString());
+        }
+
+        private static ErrorDetails CreateErrorDetails(Exception exception) => exception switch
+        {
+            DomainBaseException domainException => new ErrorDetails
+            {
+                StatusCode = domainException.StatusCode,
+                Message = domainException.Message,
+                ExceptionType = domainException.GetType().Name
+            },
+            _ => new ErrorDetails
+            {
+                StatusCode = StatusCodes.Status500InternalServerError,
+                Message = "Internal Server Error.",
+                ExceptionType = nameof(exception)
+            }
+        };
+
+        private static void LogException(ILoggerManager logger, Exception exception)
+        {
+            if (exception is DomainBaseException domainException)
+            {
+                LogDomainException(logger, domainException);
+                return;
+            }
+
+            logger.LogError(exception, $"Ocorreu um erro desconhecido: {exception}");
+        }
+
+        private static void LogDomainException(ILoggerManager logger, DomainBaseException exception)
+        {
+            switch (exception.StatusCode)
+            {
+                case >= 500 and < 600:
+                    logger.LogError(exception, $"Ocorreu um erro interno: {exception.Message}");
+                    break;
+                case >= 400 and < 500:
+                    logger.LogWarn("Atenção: {0}", exception);
+                    break;
+            }
         }
     }
 }

@@ -56,6 +56,19 @@ public class OrderService
 }
 ```
 
+Para registrar um aviso associado a uma exceção, informe a exceção como primeiro parâmetro. O NLog manterá os dados da exceção no evento de log:
+
+```csharp
+try
+{
+    ProcessOrder();
+}
+catch (Exception exception)
+{
+    _logger.LogWarn(exception, "Não foi possível processar o pedido");
+}
+```
+
 ### Exemplo de `nlog.config`
 
 O pacote copia o arquivo de configuração para a raiz do projeto consumidor automaticamente, então você pode começar com algo como:
@@ -233,3 +246,4 @@ Você pode acessar uma propriedade individual usando `${event-properties:item=us
 * 0.2.3 - O `nlog.config` passa a ser copiado apenas quando ainda não existe no projeto consumidor, evitando sobrescrever customizações locais a cada build.
 * 0.2.4 - Ajuste no path do arquivo de configuração.
 * 0.3.0 - Adicionado extension method `ConfigureLoggerService` para registrar o serviço de log na injeção de dependência.
+* 0.4.0 - Adicionada a sobrecarga `LogWarn(Exception, string)` para registrar avisos associados a exceções.

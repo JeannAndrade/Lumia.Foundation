@@ -10,6 +10,7 @@ namespace LumiaFoundation.Logger.LoggerService
         public void LogDebug(string message) => logger.Debug(message);
         public void LogDebug(string message, params object[] objects) => logger.Debug(message, objects);
         public void LogWarn(string message) => logger.Warn(message);
+        public void LogWarn(Exception exception, string message) => logger.Warn(exception, message);
         public void LogWarn(string message, params object[] objects) => logger.Warn(message, objects);
         public void LogInfo(string message) => logger.Info(message);
         public void LogInfo(string message, params object[] objects) => logger.Info(message, objects);
@@ -25,6 +26,4 @@ namespace LumiaFoundation.Logger.LoggerService
             }
         }
     }
-
-
 }
