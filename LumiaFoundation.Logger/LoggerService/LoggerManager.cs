@@ -5,7 +5,7 @@ namespace LumiaFoundation.Logger.LoggerService
 {
     public class LoggerManager : ILoggerManager
     {
-        private static ILogger logger = LogManager.GetCurrentClassLogger();
+        private static readonly NLog.Logger logger = LogManager.GetCurrentClassLogger();
 
         public void LogDebug(string message) => logger.Debug(message);
         public void LogDebug(string message, params object[] objects) => logger.Debug(message, objects);
