@@ -1,5 +1,25 @@
 # Histórico de versões
 
+## 0.10.0
+
+- Especializado o `DomainExceptionHandler` para tratar apenas exceções do tipo `DomainBaseException`.
+- Adaptado o `UnhandledExceptionHandler` para tratar exceções que não são `DomainBaseException`, retornando status HTTP 500.
+- Handlers que não correspondem ao tipo da exceção retornam `false`, permitindo o processamento pelo próximo handler.
+
+A lib agora ficou com duas possibilidades de tratamento de erros. A primeira, mais moderna, através de service, configurada como:
+
+```csharp
+builder.Services.AddExceptionHandler<DomainExceptionHandler>();
+builder.Services.AddExceptionHandler<UnhandledExceptionHandler>();
+```
+
+e outra é a forma antiga de fazer, através de middleware, configurada através de Extensions:
+
+```csharp
+var logger = app.Services.GetRequiredService<ILoggerManager>();
+app.ConfigureExceptionHandler(logger);
+```
+
 ## 0.9.0
 
 - Refatorado o tratamento de exceções HTTP para registrar erros 5xx como erro e respostas 4xx como aviso.
