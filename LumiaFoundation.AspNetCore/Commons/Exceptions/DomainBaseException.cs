@@ -1,27 +1,22 @@
 namespace LumiaFoundation.AspNetCore.Commons.Exceptions
 {
   [Serializable]
-  public class DomainBaseException : Exception
+  public abstract class DomainBaseException : Exception
   {
-    private readonly int _statusCode;
+    protected abstract int StatusCodeValue { get; }
 
-    public int StatusCode => _statusCode;
+    public int StatusCode => StatusCodeValue;
 
-    public DomainBaseException(int statusCode) : base()
+    public DomainBaseException() : base()
     {
-      _statusCode = statusCode;
     }
 
-    public DomainBaseException(int statusCode, string message) : base(message)
+    public DomainBaseException(string message) : base(message)
     {
-      _statusCode = statusCode;
     }
 
-    public DomainBaseException(int statusCode, string message, Exception inner) : base(message, inner)
+    public DomainBaseException(string message, Exception inner) : base(message, inner)
     {
-      _statusCode = statusCode;
     }
-
-
   }
 }
