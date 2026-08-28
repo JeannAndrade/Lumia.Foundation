@@ -29,5 +29,15 @@ namespace LumiaFoundation.EFRepository.Extensions
                 .EnableSensitiveDataLogging()
                 .EnableDetailedErrors());
         }
+
+        public static void ConfigurePostgreSqlDatabase<T>(this IServiceCollection services, DbConnectionHelper dbConfig, string migrationsAssembly) where T : DbContext
+        {
+            services.AddDbContext<T>(options =>
+                options
+                .UseNpgsql(dbConfig.GetConectionString(), b => b.MigrationsAssembly(migrationsAssembly))
+                .LogTo(Console.WriteLine, LogLevel.Information)
+                .EnableSensitiveDataLogging()
+                .EnableDetailedErrors());
+        }
     }
 }

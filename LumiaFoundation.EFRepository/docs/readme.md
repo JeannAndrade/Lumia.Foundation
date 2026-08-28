@@ -1,6 +1,6 @@
 # Lumia.Foundation.EFRepository
 
-Biblioteca com classes base para projetos que usam Entity Framework Core, incluindo contexto, repositórios genéricos e configuração de banco de dados MySQL/MariaDB.
+Biblioteca com classes base para projetos que usam Entity Framework Core, incluindo contexto, repositórios genéricos e configuração de banco de dados MySQL/MariaDB/PostgreSQL.
 
 ## Instalação
 
@@ -10,7 +10,7 @@ Instale o pacote no projeto que contém a aplicação ou a camada de persistênc
 dotnet add package Lumia.Foundation.EFRepository
 ```
 
-O pacote atualmente utiliza Entity Framework Core 10 e oferece suporte aos provedores MySQL e MariaDB incluídos como dependências.
+O pacote atualmente utiliza Entity Framework Core 10 e oferece suporte aos provedores MySQL, MariaDB e PostgreSQL incluídos como dependências.
 
 ## Como usar
 
@@ -56,6 +56,14 @@ var connection = new DbConnectionHelper(
  buildVersion: 0);
 
 builder.Services.ConfigureMySqlDbDatabase<AppDbContext>(
+ connection,
+ migrationsAssembly: typeof(AppDbContext).Assembly.GetName().Name!);
+```
+
+Para PostgreSQL, use `ConfigurePostgreSqlDatabase<T>()` com o mesmo `DbConnectionHelper`:
+
+```csharp
+builder.Services.ConfigurePostgreSqlDatabase<AppDbContext>(
  connection,
  migrationsAssembly: typeof(AppDbContext).Assembly.GetName().Name!);
 ```
@@ -125,8 +133,15 @@ await repositoryManager.SaveAsync();
 | `BaseRepositoryManager` | Persistência das alterações com `SaveAsync()`. |
 | `DbConnectionHelper` | Dados da conexão e versão do servidor para configurar o provedor. |
 | `ConfigureMySqlDbDatabase<T>()` | Registro do contexto usando o provedor MySQL. |
+| `ConfigurePostgreSqlDatabase<T>()` | Registro do contexto usando o provedor PostgreSQL. |
 
 ## Histórico de versões
+
+### 0.8.0
+
+- Adicionado suporte ao pacote `Npgsql.EntityFrameworkCore.PostgreSQL` (10.0.3).
+- Adicionado o método `ConfigurePostgreSqlDatabase<T>()` para configuração de banco PostgreSQL.
+- Atualizando o pacote `Microting.EntityFrameworkCore.MySql` (10.0.11).
 
 ### 0.7.0
 

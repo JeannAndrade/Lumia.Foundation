@@ -1,11 +1,9 @@
 using System.Text;
 using LumiaFoundation.AspNetCore.Auth.Identity.Model;
 using LumiaFoundation.AspNetCore.Auth.Persistence;
-using LumiaFoundation.AspNetCore.Auth.Utils;
 using LumiaFoundation.AspNetCore.Commons.Config;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
@@ -13,14 +11,6 @@ namespace LumiaFoundation.AspNetCore.Auth.Extensions
 {
     public static class ServiceExtensions
     {
-        public static void ConfigureIdentityMariaDbDatabase<T>(this IServiceCollection services, MariaDbConnectionHelper dbConfig, string migrationAssembly) where T : DbContext
-        {
-            var serverVersion = new MariaDbServerVersion(new Version(dbConfig.MajorVersion, dbConfig.MinorVersion, dbConfig.BuildVersion));
-
-            services.AddDbContext<T>(options =>
-                options
-                .UseMySql(dbConfig.GetConectionString(), serverVersion, b => b.MigrationsAssembly(migrationAssembly)));
-        }
 
         public static void ConfigureIdentity(this IServiceCollection services)
         {

@@ -10,9 +10,9 @@
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <RepositoryType>git</RepositoryType>
     <PackageTags>Repository</PackageTags>
-    <PackageReleaseNotes>Suporte ao pacote MySql.EntityFrameworkCore</PackageReleaseNotes>
+    <PackageReleaseNotes>Suporte ao PostgreSQL com Npgsql.EntityFrameworkCore.PostgreSQL</PackageReleaseNotes>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
-    <PackageVersion>0.7.0</PackageVersion>
+    <PackageVersion>0.8.0</PackageVersion>
     <Authors>Jeann Andrade</Authors>
     <Company>Lumia Tech</Company>
     <Product>Lumia.Foundation</Product>
@@ -25,8 +25,9 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Microting.EntityFrameworkCore.MySql" Version="10.0.10" />
+    <PackageReference Include="Microting.EntityFrameworkCore.MySql" Version="10.0.11" />
     <PackageReference Include="MySql.EntityFrameworkCore" Version="10.0.9" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.3" />
   </ItemGroup>
 
   <ItemGroup>
