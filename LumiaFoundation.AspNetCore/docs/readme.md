@@ -60,7 +60,7 @@ app.UseExceptionHandler();
 
 Os handlers retornam respostas JSON com `StatusCode`, `Message` e `ExceptionType`.
 
-Crie exceções de domínio herdando de `DomainBaseException` e defina o status HTTP em `StatusCodeValue`:
+Crie exceções de domínio herdando de `DomainBaseException` e defina o status HTTP em `StatusCodeValue`. Para casos específicos de validação de comando, o pacote também expõe a classe `CommandValidationException`, que já usa HTTP 422:
 
 ```csharp
 using LumiaFoundation.AspNetCore.Commons.Exceptions;
@@ -74,6 +74,13 @@ public sealed class UserNotFoundException : DomainBaseException
  }
 
  protected override int StatusCodeValue => StatusCodes.Status404NotFound;
+}
+
+public sealed class InvalidUserCommandException : CommandValidationException
+{
+ public InvalidUserCommandException(string message) : base(message)
+ {
+ }
 }
 ```
 
@@ -188,6 +195,13 @@ O serviço de autenticação disponibiliza registro de usuário, validação de 
 O pacote inclui `UserForRegistrationDto`, `UserForAuthenticationDto`, `TokenDto` e `User`. O modelo `User` estende `IdentityUser` com nome, sobrenome e dados de refresh token.
 
 ## Histórico de versões
+
+## 0.12.0
+
+- Atualizada a documentação do pacote sobre o uso de `DomainBaseException` em exceções de domínio.
+- Incluída a referência à classe `CommandValidationException` para cenários de validação de comando com resposta HTTP 422.
+- Mantido o padrão de que cada exceção derivada define seu status HTTP em `StatusCodeValue`.
+- Ajustados os exemplos e a descrição do fluxo de tratamento de erros para refletir a implementação atual.
 
 ## 0.11.0
 
