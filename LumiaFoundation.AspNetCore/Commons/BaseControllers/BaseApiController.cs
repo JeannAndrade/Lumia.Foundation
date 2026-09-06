@@ -8,6 +8,7 @@ namespace LumiaFoundation.AspNetCore.Commons.BaseControllers;
 
 public abstract class BaseApiController : ControllerBase, IAsyncActionFilter
 {
+    [NonAction]
     public async Task OnActionExecutionAsync(
         ActionExecutingContext context,
         ActionExecutionDelegate next)
