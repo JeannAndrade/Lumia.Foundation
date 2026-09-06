@@ -6,43 +6,42 @@ using LumiaFoundation.Logger.Contracts;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 
-namespace LumiaFoundation.AspNetCore.ExceptionHandlers
+namespace LumiaFoundation.AspNetCore.ExceptionHandlers;
+
+public class UnhandledExceptionHandler(ILoggerManager logger) : IExceptionHandler
 {
-    public class UnhandledExceptionHandler(ILoggerManager logger) : IExceptionHandler
+    private readonly ILoggerManager _logger = logger;
+
+    public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
     {
-        private readonly ILoggerManager _logger = logger;
-
-        public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
+        if (exception is DomainBaseException)
         {
-            if (exception is DomainBaseException)
-            {
-                return false;
-            }
-
-            httpContext.Response.ContentType = "application/json";
-            await HandleExceptionAsync(httpContext, _logger, exception, cancellationToken);
-
-            return true;
+            return false;
         }
 
-        private static async Task HandleExceptionAsync(HttpContext context, ILoggerManager logger, Exception exception, CancellationToken cancellationToken)
-        {
-            LogException(logger, exception);
-            var errorDetails = CreateErrorDetails(exception);
-            context.Response.StatusCode = errorDetails.StatusCode;
-            await context.Response.WriteAsync(errorDetails.ToString(), cancellationToken);
-        }
+        httpContext.Response.ContentType = "application/json";
+        await HandleExceptionAsync(httpContext, _logger, exception, cancellationToken);
 
-        private static ErrorDetails CreateErrorDetails(Exception exception) => new()
-        {
-            StatusCode = StatusCodes.Status500InternalServerError,
-            Message = "Internal Server Error.",
-            ExceptionType = nameof(exception)
-        };
+        return true;
+    }
 
-        private static void LogException(ILoggerManager logger, Exception exception)
-        {
-            logger.LogError(exception, $"Ocorreu um erro desconhecido: {exception}");
-        }
+    private static async Task HandleExceptionAsync(HttpContext context, ILoggerManager logger, Exception exception, CancellationToken cancellationToken)
+    {
+        LogException(logger, exception);
+        var errorDetails = CreateErrorDetails(exception);
+        context.Response.StatusCode = errorDetails.StatusCode;
+        await context.Response.WriteAsync(errorDetails.ToString(), cancellationToken);
+    }
+
+    private static ErrorDetails CreateErrorDetails(Exception exception) => new()
+    {
+        StatusCode = StatusCodes.Status500InternalServerError,
+        Message = "Internal Server Error.",
+        ExceptionType = nameof(exception)
+    };
+
+    private static void LogException(ILoggerManager logger, Exception exception)
+    {
+        logger.LogError(exception, $"Ocorreu um erro desconhecido: {exception}");
     }
 }

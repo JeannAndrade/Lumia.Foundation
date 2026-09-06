@@ -1,7 +1,6 @@
-namespace LumiaFoundation.Core.TimeService
-{
+namespace LumiaFoundation.Core.TimeService;
+
   public interface IDateTimeProvider
   {
-    DateTime GetDateTime();
+DateTime GetDateTime();
   }
-}

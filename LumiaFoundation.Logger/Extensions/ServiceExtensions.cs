@@ -6,11 +6,10 @@ using LumiaFoundation.Logger.Contracts;
 using LumiaFoundation.Logger.LoggerService;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace LumiaFoundation.Logger.Extensions
+namespace LumiaFoundation.Logger.Extensions;
+
+public static class ServiceExtensions
 {
-    public static class ServiceExtensions
-    {
-        public static void ConfigureLoggerService(this IServiceCollection services) =>
-            services.AddSingleton<ILoggerManager, LoggerManager>();
-    }
+    public static void ConfigureLoggerService(this IServiceCollection services) =>
+        services.AddSingleton<ILoggerManager, LoggerManager>();
 }

@@ -7,36 +7,32 @@ using Microsoft.EntityFrameworkCore;
 
 Algo assim:
 
-namespace Repository.Context
+namespace Repository.Context;
+
+public class WebapiDbContext(DbContextOptions options) : RepositoryContext(options)
 {
-  public class WebapiDbContext(DbContextOptions options) : RepositoryContext(options)
+  protected override void OnModelCreating(ModelBuilder modelBuilder)
   {
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-      modelBuilder.ApplyConfigurationsFromAssembly(typeof(WebapiDbContext).Assembly);
+    modelBuilder.ApplyConfigurationsFromAssembly(typeof(WebapiDbContext).Assembly);
 
-      base.OnModelCreating(modelBuilder);
-    }
-
-    public DbSet<Company> Companies => Set<Company>();
-    public DbSet<Employee> Employees => Set<Employee>();
+    base.OnModelCreating(modelBuilder);
   }
+
+  public DbSet<Company> Companies => Set<Company>();
+  public DbSet<Employee> Employees => Set<Employee>();
 }
 
 */
 
 
-namespace LumiaFoundation.EFRepository.Repository
+namespace LumiaFoundation.EFRepository.Repository;
+
+public class RepositoryContext(DbContextOptions options) : DbContext(options)
 {
-    public class RepositoryContext(DbContextOptions options) : DbContext(options)
-    {
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            //modelBuilder.ApplyConfiguration(new SomeEntityConfiguration());
-        }
+  protected override void OnModelCreating(ModelBuilder modelBuilder)
+  {
+    //modelBuilder.ApplyConfiguration(new SomeEntityConfiguration());
+  }
 
-
-        //public DbSet<SomeEntity> Companies { get; set; }
-    }
-
+  //public DbSet<SomeEntity> Companies { get; set; }
 }

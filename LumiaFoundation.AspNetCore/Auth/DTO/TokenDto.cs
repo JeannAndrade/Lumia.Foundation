@@ -1,4 +1,3 @@
-namespace LumiaFoundation.AspNetCore.Auth.DTO
-{
-    public record TokenDto(string AccessToken, string RefreshToken);
-}
+namespace LumiaFoundation.AspNetCore.Auth.DTO;
+
+public record TokenDto(string AccessToken, string RefreshToken);

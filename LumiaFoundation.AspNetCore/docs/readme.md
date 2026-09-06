@@ -190,11 +190,46 @@ As configurações são lidas de `JwtSettings:validIssuer`, `JwtSettings:validAu
 
 O serviço de autenticação disponibiliza registro de usuário, validação de credenciais, criação de token e atualização de refresh token por meio de `IAuthenticationService`.
 
+## OpenAPI e Scalar
+
+Configure o documento OpenAPI informando o título e a versão da API:
+
+```csharp
+using LumiaFoundation.AspNetCore.Commons.Extensions;
+
+builder.Services.ConfigureOpenApi(
+ title: "Orders API",
+ version: "v1");
+```
+
+Depois de criar a aplicação, use `MapOpenApiDevTools` para disponibilizar o documento OpenAPI e a interface Scalar somente em desenvolvimento:
+
+```csharp
+using LumiaFoundation.AspNetCore.Commons.Extensions;
+
+var app = builder.Build();
+app.MapOpenApiDevTools();
+```
+
+Para controlar explicitamente a exposição, informe uma função em `shouldExpose`:
+
+```csharp
+app.MapOpenApiDevTools(_ => true);
+```
+
+As extensões `MapOpenApiDocuments` e `MapScalarUi` também podem ser usadas separadamente quando a aplicação precisar mapear esses endpoints de forma independente.
+
 ## DTOs e modelo de usuário
 
 O pacote inclui `UserForRegistrationDto`, `UserForAuthenticationDto`, `TokenDto` e `User`. O modelo `User` estende `IdentityUser` com nome, sobrenome e dados de refresh token.
 
 ## Histórico de versões
+
+### 0.13.0
+
+- Adicionadas as extensões `ConfigureOpenApi`, `MapOpenApiDocuments`, `MapScalarUi` e `MapOpenApiDevTools` para configurar OpenAPI e Scalar UI.
+- `ConfigureOpenApi` recebe o título e a versão do documento como parâmetros.
+- `MapOpenApiDevTools` expõe as ferramentas automaticamente apenas no ambiente de desenvolvimento, com opção de controle explícito.
 
 ## 0.12.0
 

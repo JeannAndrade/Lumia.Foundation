@@ -10,15 +10,17 @@
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <RepositoryType>git</RepositoryType>
     <PackageTags>ActionFilters Auth GLobalExceptionMiddleware</PackageTags>
-    <PackageReleaseNotes>Documentação atualizada para exceções de domínio com DomainBaseException abstrata; classes derivadas devem definir o código HTTP por meio de StatusCodeValue, sem recebê-lo pelos construtores.</PackageReleaseNotes>
+    <PackageReleaseNotes>Adicionadas extensões para configurar OpenAPI com título e versão informados pela aplicação e mapear o documento OpenAPI e o Scalar UI, com exposição automática apenas em desenvolvimento.</PackageReleaseNotes>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
-    <PackageVersion>0.12.0</PackageVersion>
+    <PackageVersion>0.13.0</PackageVersion>
     <Authors>Jeann Andrade</Authors>
     <Company>Lumia Tech</Company>
     <Product>Lumia.Foundation</Product>
   </PropertyGroup>
 
     <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.11" />
+    <PackageReference Include="Scalar.AspNetCore" Version="2.17.2" />
     <PackageReference Include="Lumia.Foundation.Logger" Version="0.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.11" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="10.0.11" />
