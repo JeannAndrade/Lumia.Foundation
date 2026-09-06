@@ -14,7 +14,7 @@ public class DomainExceptionHandler(ILoggerManager logger) : IExceptionHandler
 
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
     {
-        if (exception is not DomainBaseException domainException)
+        if (exception is not HttpBaseException domainException)
         {
             return false;
         }
@@ -25,7 +25,7 @@ public class DomainExceptionHandler(ILoggerManager logger) : IExceptionHandler
         return true;
     }
 
-    private static async Task HandleExceptionAsync(HttpContext context, ILoggerManager logger, DomainBaseException exception, CancellationToken cancellationToken)
+    private static async Task HandleExceptionAsync(HttpContext context, ILoggerManager logger, HttpBaseException exception, CancellationToken cancellationToken)
     {
         LogDomainException(logger, exception);
         var errorDetails = CreateErrorDetails(exception);
@@ -33,14 +33,14 @@ public class DomainExceptionHandler(ILoggerManager logger) : IExceptionHandler
         await context.Response.WriteAsync(errorDetails.ToString(), cancellationToken);
     }
 
-    private static ErrorDetails CreateErrorDetails(DomainBaseException exception) => new()
+    private static ErrorDetails CreateErrorDetails(HttpBaseException exception) => new()
     {
         StatusCode = exception.StatusCode,
         Message = exception.Message,
         ExceptionType = exception.GetType().Name
     };
 
-    private static void LogDomainException(ILoggerManager logger, DomainBaseException exception)
+    private static void LogDomainException(ILoggerManager logger, HttpBaseException exception)
     {
         switch (exception.StatusCode)
         {

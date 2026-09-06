@@ -36,7 +36,7 @@ public static class ExceptionMiddlewareExtensions
 
     private static ErrorDetails CreateErrorDetails(Exception exception) => exception switch
     {
-        DomainBaseException domainException => new ErrorDetails
+        HttpBaseException domainException => new ErrorDetails
         {
             StatusCode = domainException.StatusCode,
             Message = domainException.Message,
@@ -52,7 +52,7 @@ public static class ExceptionMiddlewareExtensions
 
     private static void LogException(ILoggerManager logger, Exception exception)
     {
-        if (exception is DomainBaseException domainException)
+        if (exception is HttpBaseException domainException)
         {
             LogDomainException(logger, domainException);
             return;
@@ -61,7 +61,7 @@ public static class ExceptionMiddlewareExtensions
         logger.LogError(exception, $"Ocorreu um erro desconhecido: {exception}");
     }
 
-    private static void LogDomainException(ILoggerManager logger, DomainBaseException exception)
+    private static void LogDomainException(ILoggerManager logger, HttpBaseException exception)
     {
         switch (exception.StatusCode)
         {

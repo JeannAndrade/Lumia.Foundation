@@ -10,7 +10,7 @@ Instale o pacote no projeto ASP.NET Core:
 dotnet add package Lumia.Foundation.AspNetCore
 ```
 
-O pacote depende de `Lumia.Foundation.Logger` e utiliza ASP.NET Core, Entity Framework Core 10, Identity, JWT e MariaDB.
+O pacote depende de `Lumia.Foundation.Core` e `Lumia.Foundation.Logger`, e utiliza ASP.NET Core, Entity Framework Core 10, Identity, JWT e MariaDB.
 
 ## Registro automático de serviços
 
@@ -60,21 +60,31 @@ app.UseExceptionHandler();
 
 Os handlers retornam respostas JSON com `StatusCode`, `Message` e `ExceptionType`.
 
-Crie exceções de domínio herdando de `DomainBaseException` e defina o status HTTP em `StatusCodeValue`. Para casos específicos de validação de comando, o pacote também expõe a classe `CommandValidationException`, que já usa HTTP 422:
+Exceções de domínio devem herdar de `DomainBaseException`, disponibilizada pelo pacote `Lumia.Foundation.Core`. Essa classe não possui dependências de HTTP e pode ser usada em qualquer camada da aplicação.
+
+Quando uma exceção precisar representar uma resposta HTTP, herde de `HttpBaseException`, específica deste pacote, e defina o status HTTP em `StatusCodeValue`:
 
 ```csharp
+using LumiaFoundation.Core.Domain.Exceptions;
 using LumiaFoundation.AspNetCore.Commons.Exceptions;
 using Microsoft.AspNetCore.Http;
 
-public sealed class UserNotFoundException : DomainBaseException
+public sealed class UserNotFoundException : HttpBaseException
 {
  public UserNotFoundException()
-  : base("User not found.")
+    : base(StatusCodes.Status404NotFound, "User not found.")
  {
  }
-
- protected override int StatusCodeValue => StatusCodes.Status404NotFound;
 }
+```
+
+Para validação de comandos, use `CommandValidator` e `CommandValidationException` do `Lumia.Foundation.Core`:
+
+```csharp
+using LumiaFoundation.Core.Domain.Exceptions;
+using LumiaFoundation.Core.Validators;
+
+CommandValidator.Validate(command);
 
 public sealed class InvalidUserCommandException : CommandValidationException
 {
@@ -84,7 +94,21 @@ public sealed class InvalidUserCommandException : CommandValidationException
 }
 ```
 
-O código HTTP não é passado pelo construtor da classe base. Exceções com status entre 400 e 499 são registradas como aviso; status entre 500 e 599 são registrados como erro.
+O código HTTP não é passado pelo construtor da classe base. O `DomainExceptionHandler` trata `HttpBaseException`; exceções de domínio sem representação HTTP são encaminhadas para o tratamento genérico. Exceções com status entre 400 e 499 são registradas como aviso; status entre 500 e 599 são registrados como erro.
+
+### Controller base
+
+`BaseApiController` pode ser usado como filtro de ação para converter exceções de domínio do `Lumia.Foundation.Core` em `HttpBaseException`:
+
+```csharp
+using LumiaFoundation.AspNetCore.Commons.BaseControllers;
+
+public class OrdersController : BaseApiController
+{
+}
+```
+
+O mapeamento padrão retorna HTTP 404 para `EntityNotFoundException`, HTTP 422 para `CommandValidationException` e HTTP 500 para outras exceções de domínio ou exceções não tratadas. Exceções que já são `HttpBaseException` são preservadas.
 
 ### Middleware legado
 
@@ -224,6 +248,21 @@ As extensões `MapOpenApiDocuments` e `MapScalarUi` também podem ser usadas sep
 O pacote inclui `UserForRegistrationDto`, `UserForAuthenticationDto`, `TokenDto` e `User`. O modelo `User` estende `IdentityUser` com nome, sobrenome e dados de refresh token.
 
 ## Histórico de versões
+
+### 0.15.0
+
+- Adicionado `BaseApiController` para converter exceções de domínio em respostas HTTP.
+- Centralizado o mapeamento de exceções usando `switch`, com suporte a `EntityNotFoundException` (404), `CommandValidationException` (422) e fallback para HTTP 500.
+- Preservadas as exceções que já são `HttpBaseException`.
+- Atualizada a dependência de `Lumia.Foundation.Core` para a versão `0.8.0`.
+
+### 0.14.0
+
+- Movida `DomainBaseException` para o pacote `Lumia.Foundation.Core`, removendo a dependência de HTTP das exceções de domínio.
+- Movida `CommandValidationException` e `CommandValidator` para o pacote `Lumia.Foundation.Core`.
+- Adicionada `HttpBaseException` como base para exceções que representam respostas HTTP.
+- Atualizados os handlers para tratar `HttpBaseException` e manter o tratamento genérico para as demais exceções.
+- Adicionada a dependência do pacote `Lumia.Foundation.Core` na versão `0.7.0`.
 
 ### 0.13.0
 

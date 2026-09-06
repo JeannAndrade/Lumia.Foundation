@@ -1,4 +1,4 @@
-namespace LumiaFoundation.Core.Domain;
+namespace LumiaFoundation.Core.Domain.ValueObjects;
 
 public class GenericSingleValueObject<T> : ValueObject
 {

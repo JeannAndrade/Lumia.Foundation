@@ -14,7 +14,7 @@ public class UnhandledExceptionHandler(ILoggerManager logger) : IExceptionHandle
 
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
     {
-        if (exception is DomainBaseException)
+        if (exception is HttpBaseException)
         {
             return false;
         }

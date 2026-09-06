@@ -17,9 +17,15 @@ dotnet add package Lumia.Foundation.Core
 * `UtcDateTimeProvider`: implementação baseada em `DateTime.UtcNow`.
 * `EnumExtensions.GetDescription()`: retorna o valor de `DescriptionAttribute` de um enum, quando existir.
 * `ParseHelper.ToIntOrDefault()`: converte uma string para `int` e retorna um valor padrão quando a conversão falha.
+* `DomainBaseException`: classe base para exceções específicas do domínio, sem dependência de HTTP.
+* `CommandValidationException`: exceção lançada quando um comando falha nas validações.
+* `CommandValidator.Validate()`: valida objetos usando `DataAnnotations`.
 
 ## Alterações recentes
 
+* Adicionadas `DomainBaseException` e `CommandValidationException` ao projeto Core.
+* Adicionado `CommandValidator` para validação de comandos usando DataAnnotations.
+* Removida a dependência de conceitos HTTP das exceções de domínio.
 * Adicionada a classe utilitária `ParseHelper` para conversão segura de valores string para inteiros.
 
 ## Histórico de versões

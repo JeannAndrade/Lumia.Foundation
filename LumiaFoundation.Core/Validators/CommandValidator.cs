@@ -1,8 +1,7 @@
-
 using System.ComponentModel.DataAnnotations;
-using LumiaFoundation.AspNetCore.Commons.Exceptions;
+using LumiaFoundation.Core.Domain.Exceptions;
 
-namespace LumiaFoundation.AspNetCore.Commons.Validators;
+namespace LumiaFoundation.Core.Validators;
 
 public static class CommandValidator
 {
