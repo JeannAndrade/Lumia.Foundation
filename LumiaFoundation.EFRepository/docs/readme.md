@@ -133,9 +133,16 @@ await repositoryManager.SaveAsync();
 | `BaseRepositoryManager` | Persistência das alterações com `SaveAsync()`. |
 | `DbConnectionHelper` | Dados da conexão e versão do servidor para configurar o provedor. |
 | `ConfigureMySqlDbDatabase<T>()` | Registro do contexto usando o provedor MySQL. |
+| `ConfigureMariaDbDatabase<T>()` | Registro do contexto usando o provedor MariaDB. |
 | `ConfigurePostgreSqlDatabase<T>()` | Registro do contexto usando o provedor PostgreSQL. |
 
 ## Histórico de versões
+
+### 0.8.1
+
+- Adicionado suporte ao provedor Oracle MySQL com `MySql.EntityFrameworkCore` (10.0.9).
+- Atualizado o provedor MariaDB `Microting.EntityFrameworkCore.MySql` para a versão 10.0.11.
+- Removida a obsolescência do método `ConfigureMariaDbDatabase<T>()`.
 
 ### 0.8.0
 

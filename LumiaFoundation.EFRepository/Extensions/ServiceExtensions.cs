@@ -7,7 +7,6 @@ namespace LumiaFoundation.EFRepository.Extensions
 {
     public static class ServiceExtensions
     {
-        [Obsolete("Use ConfigurePomeloMariaDbDatabase instead.")]
         public static void ConfigureMariaDbDatabase<T>(this IServiceCollection services, DbConnectionHelper dbConfig, string migrationsAssembly) where T : DbContext
         {
             var serverVersion = new MariaDbServerVersion(new Version(dbConfig.MajorVersion, dbConfig.MinorVersion, dbConfig.BuildVersion));

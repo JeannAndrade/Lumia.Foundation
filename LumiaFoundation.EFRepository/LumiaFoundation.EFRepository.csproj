@@ -10,9 +10,9 @@
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <RepositoryType>git</RepositoryType>
     <PackageTags>Repository</PackageTags>
-    <PackageReleaseNotes>Suporte ao PostgreSQL com Npgsql.EntityFrameworkCore.PostgreSQL</PackageReleaseNotes>
+    <PackageReleaseNotes>Adicionado suporte ao provedor Oracle MySQL, atualizado o provedor MariaDB e removida a obsolescência de ConfigureMariaDbDatabase.</PackageReleaseNotes>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
-    <PackageVersion>0.8.0</PackageVersion>
+    <PackageVersion>0.8.1</PackageVersion>
     <Authors>Jeann Andrade</Authors>
     <Company>Lumia Tech</Company>
     <Product>Lumia.Foundation</Product>
@@ -25,8 +25,11 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <!-- MariaDB -->
     <PackageReference Include="Microting.EntityFrameworkCore.MySql" Version="10.0.11" />
+    <!-- Oracle MySQL -->
     <PackageReference Include="MySql.EntityFrameworkCore" Version="10.0.9" />
+    <!-- PostgreSQL -->
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.3" />
   </ItemGroup>
 
