@@ -6,29 +6,21 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace LumiaFoundation.AspNetCore.Commons.BaseControllers;
 
-public abstract class BaseApiController : ControllerBase, IAsyncActionFilter
+public abstract class BaseApiController : ControllerBase, IAsyncExceptionFilter
 {
     [NonAction]
-    public async Task OnActionExecutionAsync(
-        ActionExecutingContext context,
-        ActionExecutionDelegate next)
+    public Task OnExceptionAsync(ExceptionContext context)
     {
-        try
+        context.Exception = context.Exception switch
         {
-            await next(); // dispara o restante da pipeline: outros filters + a Action em si
-        }
-        catch (HttpBaseException)
-        {
-            throw;
-        }
-        catch (DomainBaseException ex)
-        {
-            throw new HttpBaseException(GetStatusCode(ex), ex.Message, ex);
-        }
-        catch (Exception ex)
-        {
-            throw new HttpBaseException(StatusCodes.Status500InternalServerError, ex.Message, ex);
-        }
+            HttpBaseException => context.Exception,
+            DomainBaseException domainEx => new HttpBaseException(
+                GetStatusCode(domainEx), domainEx.Message, domainEx),
+            var ex => new HttpBaseException(
+                StatusCodes.Status500InternalServerError, ex.Message, ex)
+        };
+
+        return Task.CompletedTask;
     }
 
     private static int GetStatusCode(DomainBaseException exception) => exception switch

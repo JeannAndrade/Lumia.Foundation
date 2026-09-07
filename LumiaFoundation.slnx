@@ -1,6 +1,10 @@
 <Solution>
+  <Project Path="LumiaFoundation.AspNetCore.Test/LumiaFoundation.AspNetCore.Test.csproj" />
   <Project Path="LumiaFoundation.AspNetCore/LumiaFoundation.AspNetCore.csproj" />
+  <Project Path="LumiaFoundation.EFRepository.Test/LumiaFoundation.EFRepository.Test.csproj" />
   <Project Path="LumiaFoundation.EFRepository/LumiaFoundation.EFRepository.csproj" />
+  <Project Path="LumiaFoundation.Logger.Test/LumiaFoundation.Logger.Test.csproj" />
   <Project Path="LumiaFoundation.Logger/LumiaFoundation.Logger.csproj" />
+  <Project Path="LumiaFoundation.Core.Test/LumiaFoundation.Core.Test.csproj" />
   <Project Path="LumiaFoundation.Core/LumiaFoundation.Core.csproj" />
 </Solution>

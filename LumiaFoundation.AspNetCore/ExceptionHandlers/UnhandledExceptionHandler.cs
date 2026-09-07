@@ -37,7 +37,7 @@ public class UnhandledExceptionHandler(ILoggerManager logger) : IExceptionHandle
     {
         StatusCode = StatusCodes.Status500InternalServerError,
         Message = "Internal Server Error.",
-        ExceptionType = nameof(exception)
+        ExceptionType = exception.GetType().Name
     };
 
     private static void LogException(ILoggerManager logger, Exception exception)
