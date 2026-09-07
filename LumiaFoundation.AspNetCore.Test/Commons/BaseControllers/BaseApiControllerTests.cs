@@ -1,5 +1,5 @@
-using LumiaFoundation.AspNetCore.Commons.BaseControllers;
 using LumiaFoundation.AspNetCore.Commons.Exceptions;
+using LumiaFoundation.AspNetCore.ServiceFilters;
 using LumiaFoundation.Core.Domain.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Abstractions;
@@ -11,14 +11,14 @@ namespace LumiaFoundation.AspNetCore.Test.Commons.BaseControllers;
 public class BaseApiControllerTests
 {
     [Fact]
-    public async Task OnExceptionAsync_WhenExceptionIsDomainException_WrapsItInHttpBaseException()
+    public void OnException_WhenExceptionIsDomainException_WrapsItInHttpBaseException()
     {
         // Arrange
-        var controller = new TestController();
+        var filter = new DomainExceptionMappingFilter();
         var exceptionContext = CreateExceptionContext(new EntityNotFoundException("missing"));
 
         // Act
-        await controller.OnExceptionAsync(exceptionContext);
+        filter.OnException(exceptionContext);
 
         // Assert
         var exception = Assert.IsType<HttpBaseException>(exceptionContext.Exception);
@@ -28,29 +28,29 @@ public class BaseApiControllerTests
     }
 
     [Fact]
-    public async Task OnExceptionAsync_WhenExceptionIsAlreadyHttpBaseException_KeepsOriginalException()
+    public void OnException_WhenExceptionIsAlreadyHttpBaseException_KeepsOriginalException()
     {
         // Arrange
-        var controller = new TestController();
+        var filter = new DomainExceptionMappingFilter();
         var original = new TestHttpBaseException(400, "bad");
         var exceptionContext = CreateExceptionContext(original);
 
         // Act
-        await controller.OnExceptionAsync(exceptionContext);
+        filter.OnException(exceptionContext);
 
         // Assert
         Assert.Same(original, exceptionContext.Exception);
     }
 
     [Fact]
-    public async Task OnExceptionAsync_WhenExceptionIsUnexpected_WrapsItIn500HttpBaseException()
+    public void OnException_WhenExceptionIsUnexpected_WrapsItIn500HttpBaseException()
     {
         // Arrange
-        var controller = new TestController();
+        var filter = new DomainExceptionMappingFilter();
         var exceptionContext = CreateExceptionContext(new InvalidOperationException("boom"));
 
         // Act
-        await controller.OnExceptionAsync(exceptionContext);
+        filter.OnException(exceptionContext);
 
         // Assert
         var exception = Assert.IsType<HttpBaseException>(exceptionContext.Exception);
@@ -64,10 +64,6 @@ public class BaseApiControllerTests
         var httpContext = new DefaultHttpContext();
         var actionContext = new Microsoft.AspNetCore.Mvc.ActionContext(httpContext, new RouteData(), new ActionDescriptor());
         return new ExceptionContext(actionContext, new List<IFilterMetadata>()) { Exception = exception };
-    }
-
-    private sealed class TestController : BaseApiController
-    {
     }
 
     private sealed class TestHttpBaseException(int statusCode, string message) : HttpBaseException(statusCode, message)

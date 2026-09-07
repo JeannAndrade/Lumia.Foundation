@@ -249,6 +249,10 @@ O pacote inclui `UserForRegistrationDto`, `UserForAuthenticationDto`, `TokenDto`
 
 ## Histórico de versões
 
+### 0.15.4
+
+- Adicionada a extensão `AddDomainExceptionMappingFilter` para registrar `DomainExceptionMappingFilter` com tempo de vida `Scoped`.
+
 ### 0.15.0
 
 - Adicionado `BaseApiController` para converter exceções de domínio em respostas HTTP.
