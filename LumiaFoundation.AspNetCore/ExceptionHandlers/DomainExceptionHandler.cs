@@ -1,5 +1,3 @@
-using System;
-using System.Threading.Tasks;
 using LumiaFoundation.AspNetCore.Commons.Exceptions;
 using LumiaFoundation.AspNetCore.ExceptionHandlers.ErrorModel;
 using LumiaFoundation.Logger.Contracts;
