@@ -1,6 +1,6 @@
 using System.Text.Json;
 
-namespace LumiaFoundation.AspNetCore.ExceptionHandlers.ErrorModel;
+namespace LumiaFoundation.Abstractions.ErrorModel;
 
 public class ErrorDetails
 {

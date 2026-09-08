@@ -43,6 +43,7 @@
   <ItemGroup>
     <ProjectReference Include="..\LumiaFoundation.Core\LumiaFoundation.Core.csproj" />
     <ProjectReference Include="..\LumiaFoundation.Logger\LumiaFoundation.Logger.csproj" />
+    <ProjectReference Include="..\LumiaFoundation.Abstractions\LumiaFoundation.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>

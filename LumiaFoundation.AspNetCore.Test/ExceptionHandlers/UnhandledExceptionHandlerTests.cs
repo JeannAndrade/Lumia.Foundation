@@ -1,6 +1,6 @@
 using System.Text.Json;
 using LumiaFoundation.AspNetCore.ExceptionHandlers;
-using LumiaFoundation.AspNetCore.ExceptionHandlers.ErrorModel;
+using LumiaFoundation.Abstractions.ErrorModel;
 using LumiaFoundation.AspNetCore.Test.TestDoubles;
 using Microsoft.AspNetCore.Http;
 

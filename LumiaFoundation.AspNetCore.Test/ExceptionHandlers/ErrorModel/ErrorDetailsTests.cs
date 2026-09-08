@@ -1,5 +1,5 @@
 using System.Text.Json;
-using LumiaFoundation.AspNetCore.ExceptionHandlers.ErrorModel;
+using LumiaFoundation.Abstractions.ErrorModel;
 
 namespace LumiaFoundation.AspNetCore.Test.ExceptionHandlers.ErrorModel;
 

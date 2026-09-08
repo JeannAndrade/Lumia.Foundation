@@ -1,5 +1,5 @@
+using LumiaFoundation.Abstractions.ErrorModel;
 using LumiaFoundation.AspNetCore.Commons.Exceptions;
-using LumiaFoundation.AspNetCore.ExceptionHandlers.ErrorModel;
 using LumiaFoundation.Logger.Contracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
