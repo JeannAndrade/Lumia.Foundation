@@ -4,6 +4,22 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <PackageId>Lumia.Foundation.Abstractions</PackageId>
+    <Description>Abstrações para funcionalidades da Lumia Foundation</Description>
+    <RepositoryUrl>https://github.com/JeannAndrade/Lumia.Foundation</RepositoryUrl>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>ErrorDetails ErrorModel HTTP Exceptions Contracts</PackageTags>
+    <PackageReleaseNotes>Adicionado o modelo ErrorDetails para padronizar respostas de erro.</PackageReleaseNotes>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
+    <PackageVersion>0.1.0</PackageVersion>
+    <Authors>Jeann Andrade</Authors>
+    <Company>Lumia Tech</Company>
+    <Product>Lumia.Foundation</Product>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="docs\readme.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
 
 </Project>
