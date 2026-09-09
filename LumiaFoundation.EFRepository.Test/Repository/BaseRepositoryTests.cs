@@ -1,3 +1,4 @@
+using LumiaFoundation.Core.Test.Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace LumiaFoundation.EFRepository.Test.Repository;

@@ -11,13 +11,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LumiaFoundation.AspNetCore.Auth.Persistence;
 
-public class IdentityContext : IdentityDbContext<User>
+public class IdentityContext(DbContextOptions options) : IdentityDbContext<User>(options)
 
 {
-    public IdentityContext(DbContextOptions options) : base(options)
-    {
-    }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -25,7 +21,7 @@ public class IdentityContext : IdentityDbContext<User>
         modelBuilder.ApplyConfiguration(new RoleConfiguration());
     }
 
-    public void InitializeDatabase()
+    /* public void InitializeDatabase()
     {
         try
         {
@@ -44,5 +40,5 @@ public class IdentityContext : IdentityDbContext<User>
 
             throw;
         }
-    }
+    } */
 }

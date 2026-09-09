@@ -74,10 +74,10 @@ Para MariaDB, a versão `0.7.0` ainda disponibiliza `ConfigureMariaDbDatabase<T>
 
 ### 3. Crie as entidades e os repositórios
 
-As entidades usadas com `BaseRepository<T>` devem herdar de `Entity`:
+As entidades usadas com `BaseRepository<T>` devem herdar de `Entity` do pacote `LumiaFoundation.Core`:
 
 ```csharp
-using LumiaFoundation.EFRepository.Domain;
+using LumiaFoundation.Core.Domain;
 
 public class Order : Entity
 {
@@ -137,6 +137,12 @@ await repositoryManager.SaveAsync();
 | `ConfigurePostgreSqlDatabase<T>()` | Registro do contexto usando o provedor PostgreSQL. |
 
 ## Histórico de versões
+
+### 0.9.0
+
+- Removida a classe `Entity` do namespace `LumiaFoundation.EFRepository.Domain`. Agora é necessário usar `Entity` de `LumiaFoundation.Core.Domain`.
+- Atualizado o exemplo de código para importar `Entity` de `LumiaFoundation.Core.Domain`.
+- A dependência em `LumiaFoundation.Core` agora traz a classe base `Entity` necessária para o repositório.
 
 ### 0.8.1
 

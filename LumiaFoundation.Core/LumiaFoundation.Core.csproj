@@ -10,16 +10,18 @@
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <RepositoryType>git</RepositoryType>
     <PackageTags>DateTime Entity ValueObject</PackageTags>
-    <PackageReleaseNotes>Adicionada a exception de domínio EntityNotFoundException</PackageReleaseNotes>
+    <PackageReleaseNotes>**v0.9.0**: Moved Entity class to LumiaFoundation.Core.Domain. Entity is
+      now the core abstraction for domain entities in the foundation library, providing a base
+      implementation with Id tracking and equality comparison based on entity identity.</PackageReleaseNotes>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
-    <PackageVersion>0.8.0</PackageVersion>
+    <PackageVersion>0.9.0</PackageVersion>
     <Authors>Jeann Andrade</Authors>
     <Company>Lumia Tech</Company>
     <Product>Lumia.Foundation.Core</Product>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="docs\readme.md" Pack="true" PackagePath="\"/>
+    <None Include="docs\readme.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
 </Project>

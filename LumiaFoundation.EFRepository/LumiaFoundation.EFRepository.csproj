@@ -10,9 +10,12 @@
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <RepositoryType>git</RepositoryType>
     <PackageTags>Repository</PackageTags>
-    <PackageReleaseNotes>Adicionado suporte ao provedor Oracle MySQL, atualizado o provedor MariaDB e removida a obsolescência de ConfigureMariaDbDatabase.</PackageReleaseNotes>
+    <PackageReleaseNotes>**v0.9.0**: Entity class moved to LumiaFoundation.Core.Domain. Update your
+      using statements from 'using LumiaFoundation.EFRepository.Domain' to 'using
+      LumiaFoundation.Core.Domain'. BaseRepository and BaseRepositoryManager now depend on Entity
+      from the Core package.</PackageReleaseNotes>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
-    <PackageVersion>0.8.1</PackageVersion>
+    <PackageVersion>0.9.0</PackageVersion>
     <Authors>Jeann Andrade</Authors>
     <Company>Lumia Tech</Company>
     <Product>Lumia.Foundation</Product>
@@ -35,6 +38,10 @@
 
   <ItemGroup>
     <None Include="docs\readme.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LumiaFoundation.Core\LumiaFoundation.Core.csproj" />
   </ItemGroup>
 
 </Project>

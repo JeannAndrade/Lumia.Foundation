@@ -14,7 +14,13 @@ public class DbConnectionHelper(string host, string port, string user, string pa
     public string GetConectionString()
     {
         var connectionString = $"server={_server};port={_port};user={_user};password={_password};database={_database}";
-        Console.WriteLine(connectionString);
+
+        var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production";
+        if (environment.Equals("Development", StringComparison.OrdinalIgnoreCase))
+        {
+            Console.WriteLine(connectionString);
+        }
+
         return connectionString;
     }
 

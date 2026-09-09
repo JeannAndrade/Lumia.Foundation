@@ -29,4 +29,8 @@
     <ProjectReference Include="..\LumiaFoundation.EFRepository\LumiaFoundation.EFRepository.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\LumiaFoundation.Core.Test\LumiaFoundation.Core.Test.csproj" />
+  </ItemGroup>
+
 </Project>

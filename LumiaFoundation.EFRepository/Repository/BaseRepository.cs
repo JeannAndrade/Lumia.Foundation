@@ -1,10 +1,10 @@
 using System.Linq.Expressions;
-using LumiaFoundation.EFRepository.Domain;
+using LumiaFoundation.Core.Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace LumiaFoundation.EFRepository.Repository;
 
-public abstract class BaseRepository<T>(RepositoryContext repositoryContext) : IIdentityBaseRepository<T> where T : Entity
+public abstract class BaseRepository<T>(RepositoryContext repositoryContext) : IBaseRepository<T> where T : Entity
 {
     protected RepositoryContext RepositoryContext = repositoryContext;
 

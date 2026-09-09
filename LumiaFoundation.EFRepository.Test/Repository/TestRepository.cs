@@ -1,4 +1,5 @@
 using LumiaFoundation.EFRepository.Repository;
+using LumiaFoundation.Core.Test.Domain;
 
 namespace LumiaFoundation.EFRepository.Test.Repository;
 
