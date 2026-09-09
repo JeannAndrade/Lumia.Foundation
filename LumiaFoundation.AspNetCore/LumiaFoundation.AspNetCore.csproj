@@ -10,17 +10,18 @@
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <RepositoryType>git</RepositoryType>
     <PackageTags>ActionFilters Auth GLobalExceptionMiddleware</PackageTags>
-    <PackageReleaseNotes>Reorganização de classes dentro dos pacotes</PackageReleaseNotes>
+    <PackageReleaseNotes>Atualização de packages internas</PackageReleaseNotes>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
-    <PackageVersion>0.17.0</PackageVersion>
+    <PackageVersion>0.17.2</PackageVersion>
     <Authors>Jeann Andrade</Authors>
     <Company>Lumia Tech</Company>
     <Product>Lumia.Foundation</Product>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.11" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.12" />
     <PackageReference Include="Scalar.AspNetCore" Version="2.17.3" />
+    <PackageReference Include="Lumia.Foundation.Abstractions" Version="0.1.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,7 +35,6 @@
   <ItemGroup>
     <ProjectReference Include="..\LumiaFoundation.Core\LumiaFoundation.Core.csproj" />
     <ProjectReference Include="..\LumiaFoundation.Logger\LumiaFoundation.Logger.csproj" />
-    <ProjectReference Include="..\LumiaFoundation.Abstractions\LumiaFoundation.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>
