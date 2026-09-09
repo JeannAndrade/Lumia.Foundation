@@ -1,6 +1,6 @@
 # Lumia.Foundation.AspNetCore
 
-Biblioteca com classes utilitárias para aplicações ASP.NET Core, incluindo tratamento global de exceções, filtros de ação, registro automático de serviços e componentes de autenticação com ASP.NET Core Identity e JWT.
+Biblioteca com classes utilitárias para aplicações ASP.NET Core, incluindo tratamento global de exceções, filtros de ação, registro automático de serviços e documentação com OpenAPI e Scalar.
 
 ## Instalação
 
@@ -10,7 +10,7 @@ Instale o pacote no projeto ASP.NET Core:
 dotnet add package Lumia.Foundation.AspNetCore
 ```
 
-O pacote depende de `Lumia.Foundation.Core` e `Lumia.Foundation.Logger`, e utiliza ASP.NET Core, Entity Framework Core 10, Identity, JWT e MariaDB.
+O pacote depende de `Lumia.Foundation.Core` e `Lumia.Foundation.Logger`, e utiliza ASP.NET Core 10 com Microsoft.AspNetCore.OpenApi e Scalar.AspNetCore.
 
 ## Registro automático de serviços
 
@@ -145,75 +145,6 @@ Registre o filtro na injeção de dependência quando usar `ServiceFilter`:
 builder.Services.AddScoped<DtoNotEmptyValidationAttribute>();
 ```
 
-### ID do usuário a partir do JWT
-
-`RetrieveUserIdFromTokenAttribute` lê o token do cabeçalho `Authorization`, extrai o ID do usuário e o disponibiliza em `HttpContext.Items["UserId"]`:
-
-```csharp
-using LumiaFoundation.AspNetCore.ActionFilters;
-
-[ServiceFilter(typeof(RetrieveUserIdFromTokenAttribute))]
-public IActionResult GetCurrentUser()
-{
- var userId = HttpContext.Items["UserId"]?.ToString();
- return Ok(userId);
-}
-```
-
-O filtro depende de `IJwtTokenService` e `ILoggerManager` registrados na aplicação.
-
-## Identity e JWT
-
-### Configuração do Identity
-
-`ConfigureIdentity` configura `User` e `IdentityRole`, usa `IdentityContext` como store e habilita os provedores padrão de token:
-
-```csharp
-using LumiaFoundation.AspNetCore.Auth.Extensions;
-
-builder.Services.ConfigureIdentity();
-```
-
-As regras padrão de senha exigem no mínimo 10 caracteres, dígito, letra maiúscula, letra minúscula e caractere não alfanumérico. O e-mail deve ser único.
-
-Configure o banco do Identity com `ConfigureIdentityMariaDbDatabase<T>()`, informando o contexto e o assembly das migrations:
-
-```csharp
-using LumiaFoundation.AspNetCore.Auth.Extensions;
-using LumiaFoundation.AspNetCore.Auth.Utils;
-
-var dbConfig = new MariaDbConnectionHelper(
- host: "localhost",
- port: "3306",
- user: "app_user",
- password: "app_password",
- database: "my_app",
- majorVersion: 10,
- minorVersion: 11,
- buildVersion: 0);
-
-builder.Services.ConfigureIdentityMariaDbDatabase<IdentityContext>(
- dbConfig,
- migrationAssembly: typeof(IdentityContext).Assembly.GetName().Name!);
-```
-
-### Configuração do JWT
-
-Registre `AppConfigurationParameter` como `IAppConfigurationParameter` e configure o JWT com uma instância obtida da configuração da aplicação:
-
-```csharp
-using LumiaFoundation.AspNetCore.Auth.Extensions;
-using LumiaFoundation.AspNetCore.Commons.Config;
-
-var configuration = new AppConfigurationParameter(builder.Configuration);
-builder.Services.AddSingleton<IAppConfigurationParameter>(configuration);
-builder.Services.ConfigureJWT(configuration);
-```
-
-As configurações são lidas de `JwtSettings:validIssuer`, `JwtSettings:validAudience`, `JwtSettings:expires` e `JWTSECRET`. Em produção, armazene o segredo em variáveis de ambiente ou em um gerenciador de segredos.
-
-O serviço de autenticação disponibiliza registro de usuário, validação de credenciais, criação de token e atualização de refresh token por meio de `IAuthenticationService`.
-
 ## OpenAPI e Scalar
 
 Configure o documento OpenAPI informando o título e a versão da API:
@@ -243,11 +174,19 @@ app.MapOpenApiDevTools(_ => true);
 
 As extensões `MapOpenApiDocuments` e `MapScalarUi` também podem ser usadas separadamente quando a aplicação precisar mapear esses endpoints de forma independente.
 
-## DTOs e modelo de usuário
-
-O pacote inclui `UserForRegistrationDto`, `UserForAuthenticationDto`, `TokenDto` e `User`. O modelo `User` estende `IdentityUser` com nome, sobrenome e dados de refresh token.
-
 ## Histórico de versões
+
+### 0.17.0
+
+- Movidas funcionalidades de autenticação para o novo pacote `Lumia.Foundation.Auth`
+- Removidas classes: `RetrieveUserIdFromTokenAttribute`, `AppConfigurationParameter`, `IAppConfigurationParameter`
+- Removidas extensões: `ConfigureIdentity`, `ConfigureJWT`, `ConfigureIdentityMariaDbDatabase`
+- Removidos DTOs e modelos: `UserForRegistrationDto`, `UserForAuthenticationDto`, `TokenDto`, `User`, `IdentityContext`, `AuthenticationService`, `JwtTokenService`
+- Recomenda-se usar o pacote `Lumia.Foundation.Auth` para funcionalidades de autenticação
+
+### 0.16.0
+
+- Reorganização de classes dentro dos pacotes
 
 ### 0.15.4
 
