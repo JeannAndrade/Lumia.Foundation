@@ -4,9 +4,11 @@
   <Project Path="LumiaFoundation.AspNetCore/LumiaFoundation.AspNetCore.csproj" />
   <Project Path="LumiaFoundation.EFRepository.Test/LumiaFoundation.EFRepository.Test.csproj" />
   <Project Path="LumiaFoundation.EFRepository/LumiaFoundation.EFRepository.csproj" />
+  <Project Path="LumiaFoundation.Http.Client.Test/LumiaFoundation.Http.Client.Test.csproj" />
   <Project Path="LumiaFoundation.Http.Client/LumiaFoundation.Http.Client.csproj" />
   <Project Path="LumiaFoundation.Logger.Test/LumiaFoundation.Logger.Test.csproj" />
   <Project Path="LumiaFoundation.Logger/LumiaFoundation.Logger.csproj" />
+  <Project Path="LumiaFoundation.Auth.Test/LumiaFoundation.Auth.Test.csproj" />
   <Project Path="LumiaFoundation.Auth/LumiaFoundation.Auth.csproj" />
   <Project Path="LumiaFoundation.Core.Test/LumiaFoundation.Core.Test.csproj" />
   <Project Path="LumiaFoundation.Core/LumiaFoundation.Core.csproj" />

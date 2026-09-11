@@ -14,7 +14,7 @@ public sealed class ApiConnection(HttpClient httpClient) : IApiConnection
     {
         using var response = await SendCoreAsync(method, requestUri, body, cancellationToken);
 
-        if (response.Content.Headers.ContentLength is 0 or null)
+        if (response.Content.Headers.ContentLength is 0)
             return default;
 
         return await response.Content.ReadFromJsonAsync<T>(JsonOptions, cancellationToken);
