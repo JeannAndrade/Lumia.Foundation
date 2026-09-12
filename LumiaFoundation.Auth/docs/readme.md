@@ -98,6 +98,12 @@ var serviceManager = app.Services.GetRequiredService<IServiceManager>();
 
 ### UserForRegistrationDto
 
+## Changelog
+
+### v0.1.2
+
+- **Atualização de packages internas**: Atualização das dependências internas do projeto para garantir compatibilidade e segurança
+
 Dados necessários para registrar um novo usuário:
 
 ```csharp

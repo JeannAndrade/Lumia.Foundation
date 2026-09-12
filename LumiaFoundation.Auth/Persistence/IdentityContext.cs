@@ -4,10 +4,12 @@ using Microsoft.EntityFrameworkCore;
 
 /*
 - Esta classe precisa ser herdada no projeto que usar a lib
-- Os DbSets precisam ser declarados nesta nova classe
-- O método OnModelCreating deve ser sobre escrito para configurar as entidades do projeto
+- O método OnModelCreating precisa ser sobrescrito e chamar o método base.OnModelCreating(modelBuilder)
+- Aproveite o método OnModelCreating para configurar as entidades do Identity, como a configuração de roles, usuários e claims.
+Ex:
+base.OnModelCreating(modelBuilder);
+modelBuilder.ApplyConfiguration(new RoleConfiguration());
 */
-
 
 namespace LumiaFoundation.Auth.Persistence;
 
@@ -17,28 +19,5 @@ public class IdentityContext(DbContextOptions options) : IdentityDbContext<User>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-
-        modelBuilder.ApplyConfiguration(new RoleConfiguration());
     }
-
-    /* public void InitializeDatabase()
-    {
-        try
-        {
-            Console.WriteLine($"Vai executar o Migrate() para o contexto {nameof(IdentityContext)} com a string de conexão: {Database.GetConnectionString()}");
-
-            Database.Migrate();
-
-            Console.WriteLine("Migrate...Ok");
-        }
-        catch (Exception ex)
-        {
-            string InnerExceptionMessage = ex.InnerException != null ? ex.InnerException.Message : "";
-            Console.WriteLine($"Exception message: {ex.Message}");
-            Console.WriteLine($"InnerException message: {InnerExceptionMessage}");
-            Console.WriteLine($"StackTrace message: {ex.StackTrace}");
-
-            throw;
-        }
-    } */
 }
