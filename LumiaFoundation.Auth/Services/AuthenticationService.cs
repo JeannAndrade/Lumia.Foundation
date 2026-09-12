@@ -12,9 +12,14 @@ using LumiaFoundation.Auth.Config;
 
 namespace LumiaFoundation.Auth.Services;
 
-internal sealed class AuthenticationService(UserManager<User> userManager, IAppConfigurationParameter configuration, ILoggerManager logger) : IAuthenticationService
+internal sealed class AuthenticationService(
+    UserManager<User> userManager,
+    RoleManager<IdentityRole> roleManager,
+    IAppConfigurationParameter configuration,
+    ILoggerManager logger) : IAuthenticationService
 {
     private readonly UserManager<User> _userManager = userManager;
+    private readonly RoleManager<IdentityRole> _roleManager = roleManager;
     private readonly IAppConfigurationParameter _configuration = configuration;
     private readonly ILoggerManager _logger = logger;
     private User? _user;
@@ -24,8 +29,14 @@ internal sealed class AuthenticationService(UserManager<User> userManager, IAppC
         var user = userForRegistration.ConvertToUser();
         var result = await _userManager.CreateAsync(user, userForRegistration.Password);
 
-        if (result.Succeeded)
-            await _userManager.AddToRolesAsync(user, userForRegistration.Roles);
+        if (result.Succeeded &&
+            userForRegistration.Roles != null &&
+            userForRegistration.Roles.Count > 0)
+        {
+            var validRoles = await ValidateRoles(userForRegistration.Roles);
+            if (validRoles.Count > 0)
+                await _userManager.AddToRolesAsync(user, validRoles);
+        }
 
         return result;
     }
@@ -135,5 +146,18 @@ internal sealed class AuthenticationService(UserManager<User> userManager, IAppC
         }
 
         return principal;
+    }
+
+    private async Task<List<string>> ValidateRoles(IEnumerable<string> roles)
+    {
+        var validRoles = new List<string>();
+        foreach (var role in roles)
+        {
+            if (await _roleManager.RoleExistsAsync(role))
+                validRoles.Add(role);
+            else
+                _logger.LogWarn($"{nameof(ValidateRoles)}: Role '{role}' does not exist in the database.");
+        }
+        return validRoles;
     }
 }

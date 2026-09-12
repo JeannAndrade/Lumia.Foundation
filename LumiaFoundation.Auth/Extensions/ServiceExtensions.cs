@@ -4,6 +4,7 @@ using LumiaFoundation.Auth.Identity.Model;
 using LumiaFoundation.Auth.Persistence;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
@@ -11,6 +12,12 @@ namespace LumiaFoundation.Auth.Extensions;
 
 public static class ServiceExtensions
 {
+
+    public static void ConfigureIdentityServiceManager(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddSingleton<IAppConfigurationParameter>(new AppConfigurationParameter(configuration));
+        services.AddScoped<IServiceManager, ServiceManager>();
+    }
 
     public static void ConfigureIdentity(this IServiceCollection services)
     {
