@@ -92,7 +92,11 @@ internal sealed class AuthenticationService(
 
     private async Task<List<Claim>> GetClaims()
     {
-        var claims = new List<Claim> { new(ClaimTypes.Name, _user.UserName), new(ClaimTypes.NameIdentifier, _user.Id) };
+        var claims = new List<Claim>
+        {
+            new(ClaimTypes.Name, _user.UserName),
+            new(ClaimTypes.NameIdentifier, _user.Id)
+        };
         var roles = await _userManager.GetRolesAsync(_user);
         foreach (var role in roles)
         {
@@ -131,7 +135,7 @@ internal sealed class AuthenticationService(
             ValidateIssuer = true,
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.JwtParameter.JwtSecret)),
-            ValidateLifetime = false,
+            ValidateLifetime = true,
             ValidIssuer = _configuration.JwtParameter.JwtValidIssuer,
             ValidAudience = _configuration.JwtParameter.JwtValidAudience,
         };
