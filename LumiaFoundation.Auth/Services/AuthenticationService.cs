@@ -75,11 +75,15 @@ internal sealed class AuthenticationService(
     {
         var principal = GetPrincipalFromExpiredToken(tokenDto.AccessToken);
 
+        if (principal == null || principal.Identity == null || string.IsNullOrEmpty(principal.Identity.Name))
+            throw new RefreshTokenBadRequest();
+
         var user = await _userManager.FindByNameAsync(principal.Identity.Name);
         if (user == null || user.RefreshToken != tokenDto.RefreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
             throw new RefreshTokenBadRequest();
 
         _user = user;
+
         return await CreateToken(populateExp: false);
     }
 

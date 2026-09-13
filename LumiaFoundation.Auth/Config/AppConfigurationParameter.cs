@@ -23,7 +23,7 @@ namespace LumiaFoundation.Auth.Config
                 _JwtValidIssuer = jwtSettings["validIssuer"] ?? "LumiaSoftwareAPI";
                 _JwtValidAudience = jwtSettings["validAudience"] ?? "https://localhost:5001";
                 _JwtExpiresMin = Convert.ToDouble(jwtSettings["expires"]);
-                _JwtSecret = configuration["JWTSECRET"] ?? "LumiaSoftwareSecretKey113211162023!!!!";
+                _JwtSecret = configuration["JWT_SECRET"] ?? "LumiaSoftwareSecretKey113211162023!!!!";
             }
 
             public string JwtValidIssuer => _JwtValidIssuer;
