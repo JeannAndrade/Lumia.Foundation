@@ -63,7 +63,7 @@ internal sealed class AuthenticationService(
         _user.RefreshToken = refreshToken;
 
         if (populateExp)
-            _user.RefreshTokenExpiryTime = DateTime.Now.AddDays(7);
+            _user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
 
         await _userManager.UpdateAsync(_user);
         var accessToken = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
@@ -79,7 +79,7 @@ internal sealed class AuthenticationService(
             throw new RefreshTokenBadRequest();
 
         var user = await _userManager.FindByNameAsync(principal.Identity.Name);
-        if (user == null || user.RefreshToken != tokenDto.RefreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
+        if (user == null || user.RefreshToken != tokenDto.RefreshToken || user.RefreshTokenExpiryTime <= DateTime.UtcNow)
             throw new RefreshTokenBadRequest();
 
         _user = user;
@@ -116,7 +116,7 @@ internal sealed class AuthenticationService(
             issuer: _configuration.JwtParameter.JwtValidIssuer,
             audience: _configuration.JwtParameter.JwtValidAudience,
             claims: claims,
-            expires: DateTime.Now.AddMinutes(_configuration.JwtParameter.JwtExpiresMin),
+            expires: DateTime.UtcNow.AddMinutes(_configuration.JwtParameter.JwtExpiresMin),
             signingCredentials: signingCredentials);
 
         return tokenOptions;
@@ -139,7 +139,10 @@ internal sealed class AuthenticationService(
             ValidateIssuer = true,
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.JwtParameter.JwtSecret)),
-            ValidateLifetime = true,
+            // O access token pode estar expirado neste fluxo. Assinatura, issuer e
+            // audience continuam obrigatórios; a validade do refresh token é verificada
+            // separadamente contra o valor persistido do usuário.
+            ValidateLifetime = false,
             ValidIssuer = _configuration.JwtParameter.JwtValidIssuer,
             ValidAudience = _configuration.JwtParameter.JwtValidAudience,
         };

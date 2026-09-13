@@ -1,6 +1,5 @@
 using System.Net.Http.Json;
 using System.Text.Json;
-using LumiaFoundation.Abstractions.ErrorModel;
 using LumiaFoundation.Http.Client.Exceptions;
 
 namespace LumiaFoundation.Http.Client;
@@ -53,20 +52,6 @@ public sealed class ApiConnection(HttpClient httpClient) : IApiConnection
     // agora sempre instancia ApiException, variando só StatusCode e Message.
     private static async Task ThrowApiExceptionAsync(HttpResponseMessage response, CancellationToken cancellationToken)
     {
-        ErrorDetails? errorDetails = null;
-
-        try
-        {
-            errorDetails = await response.Content.ReadFromJsonAsync<ErrorDetails>(JsonOptions, cancellationToken);
-        }
-        catch (JsonException)
-        {
-            // corpo não veio no formato esperado (ex: proxy devolvendo HTML em vez de JSON)
-        }
-
-        var message = errorDetails?.Message
-            ?? $"A API retornou {(int)response.StatusCode} sem corpo de erro reconhecível.";
-
-        throw new ApiException(response.StatusCode, message);
+        throw new ApiException(response.StatusCode, await ApiError.ReadMessageAsync(response, cancellationToken));
     }
 }

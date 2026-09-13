@@ -124,7 +124,7 @@ Interface para operações de autenticação:
 | `RegisterUser(UserForRegistrationDto)` | Registra um novo usuário. Valida as roles informadas contra as existentes no banco e as associa ao usuário. |
 | `ValidateUser(UserForAuthenticationDto)` | Valida credenciais (usuário + senha). |
 | `CreateToken(bool populateExp)` | Gera access token + refresh token. Quando `populateExp = true`, define expiração do refresh token para **7 dias**. |
-| `RefreshToken(TokenDto)` | Renova um access token expirado usando o refresh token. Valida assinatura, expiração e correspondência do refresh token armazenado. |
+| `RefreshToken(TokenDto)` | Renova um access token expirado usando o refresh token. Valida assinatura, issuer, audience e correspondência do refresh token armazenado. A expiração do access token é ignorada exclusivamente nesta validação; a validade do refresh token persistido continua obrigatória. |
 
 ### IJwtTokenService / JwtTokenService
 
@@ -223,6 +223,8 @@ public IActionResult GetCurrentUser()
 ```
 
 > O filtro espera o header no formato `Authorization: Bearer <token>`. Também registra o `userId` via `ILoggerManager`.
+
+`ConfigureIdentityServiceManager` também registra `IJwtTokenService` e o filtro no DI.
 
 ---
 

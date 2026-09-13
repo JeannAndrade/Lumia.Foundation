@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using LumiaFoundation.Http.Client.Authentication;
 
 namespace LumiaFoundation.Http.Client.Test;
 
@@ -26,6 +27,24 @@ public class ServiceCollectionExtensionsTests
     }
 
     [Fact]
+    public void AddLumiaApiClient_WithoutConfigureActions_RegistersServices()
+    {
+        // Arrange
+        var services = new ServiceCollection();
+
+        // Act
+        var builder = services.AddLumiaApiClient("https://api.lumia.test/v1/");
+        using var provider = services.BuildServiceProvider();
+        var client = provider.GetRequiredService<IApiConnection>();
+        var authApi = provider.GetRequiredService<IAuthenticationApi>();
+
+        // Assert
+        Assert.NotNull(builder);
+        Assert.IsType<ApiConnection>(client);
+        Assert.IsType<AuthenticationApi>(authApi);
+    }
+
+    [Fact]
     public void AddApiResourceClient_RegistersTransientImplementation()
     {
         // Arrange
@@ -46,3 +65,4 @@ public class ServiceCollectionExtensionsTests
     private interface IWeatherResource;
     private sealed class WeatherResource : IWeatherResource;
 }
+
