@@ -1,6 +1,7 @@
 using System.Net;
 using System.Net.Http.Json;
 using LumiaFoundation.Http.Client.Exceptions;
+using LumiaFoundation.Http.Client.Services;
 using LumiaFoundation.Http.Client.Test.TestDoubles;
 
 namespace LumiaFoundation.Http.Client.Test;

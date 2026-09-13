@@ -1,4 +1,4 @@
-﻿namespace LumiaFoundation.Http.Client;
+﻿namespace LumiaFoundation.Http.Client.Services;
 
 public interface IApiConnection
 {

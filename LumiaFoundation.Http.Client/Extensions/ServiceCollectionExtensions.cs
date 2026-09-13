@@ -1,7 +1,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using LumiaFoundation.Http.Client.Authentication;
+using LumiaFoundation.Http.Client.Services;
 
-namespace LumiaFoundation.Http.Client;
+namespace LumiaFoundation.Http.Client.Extensions;
 
 public static class ServiceCollectionExtensions
 {

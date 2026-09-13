@@ -2,7 +2,7 @@ using System.Net.Http.Json;
 using System.Text.Json;
 using LumiaFoundation.Http.Client.Exceptions;
 
-namespace LumiaFoundation.Http.Client;
+namespace LumiaFoundation.Http.Client.Services;
 
 public sealed class ApiConnection(HttpClient httpClient) : IApiConnection
 {
