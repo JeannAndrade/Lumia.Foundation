@@ -130,10 +130,10 @@ Interface para operações de autenticação:
 
 Serviço utilitário para validação de tokens em filtros e middlewares:
 
-| Método | Descrição |
-|--------|-----------|
-| `ValidateAndDecodeToken(string jwtToken)` | Valida assinatura, issuer, audience e lifetime, retornando o `ClaimsPrincipal`. |
-| `GetUserIdFromToken(string jwtToken)` | Retorna o `NameIdentifier` (ID do usuário) do token. Lança `ArgumentException` se não encontrar. |
+| Método                                     | Descrição                                                                                          |
+| ------------------------------------------ | -------------------------------------------------------------------------------------------------- |
+| `ValidateAndDecodeToken(string jwtToken)`  | Valida assinatura, issuer, audience e lifetime, retornando o `ClaimsPrincipal`.                    |
+| `GetUserIdFromToken(string jwtToken)`      | Retorna o `NameIdentifier` (ID do usuário) do token. Lança `ArgumentException` se não encontrar.   |
 
 ### IServiceManager / ServiceManager
 
