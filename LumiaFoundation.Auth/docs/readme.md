@@ -294,15 +294,15 @@ Aplique-a no `OnModelCreating` do seu contexto derivado de `IdentityContext`.
 // Program.cs
 var appConfig = new AppConfigurationParameter(builder.Configuration);
 
-builder.Services.AddDbContext<IdentityContext>(opt =>
-    opt.UseNpgsql(builder.Configuration.GetConnectionString("Default")));
+#region Authentication and Authorization
 builder.Services.ConfigureIdentity();
-builder.Services.ConfigureAppSettingsReader(appConfig);
-builder.Services.ConfigureJWT(appConfig);
+builder.Services.ConfigureIdentityDatabase(configuration);
 builder.Services.ConfigureIdentityServiceManager();
-builder.Services.AddScoped<RetrieveUserIdFromTokenAttribute>();
-builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
+var appConfigurationParameter = new AppConfigurationParameter(configuration);
+builder.Services.ConfigureAppSettingsReader(appConfigurationParameter);
+builder.Services.ConfigureJWT(appConfigurationParameter);
 builder.Services.AddAuthentication();
+#endregion
 
 var app = builder.Build();
 app.UseAuthentication();
