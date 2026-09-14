@@ -126,7 +126,7 @@ public sealed class SessionService(
 }
 ```
 
-As rotas padrão são `/api/authentication` e `/api/authentication/refresh`, compatíveis com o exemplo CodeMaze. Elas podem ser alteradas no registro:
+As rotas padrão são `/api/authentication/login` e `/api/authentication/refresh`, compatíveis com o exemplo CodeMaze. Elas podem ser alteradas no registro:
 
 ```csharp
 builder.Services.AddLumiaApiClient(
@@ -226,6 +226,10 @@ builder.Services.AddApiResourceClient<IOrderApi, OrderApi>();
 | `BearerTokenHandler` | `DelegatingHandler` que anexa o token e renova em um único `401`. |
 
 ## Histórico de versões
+
+### 0.2.1
+
+- Corrigida a rota padrão de autenticação para `/api/authentication/login`.
 
 ### 0.2.0
 
