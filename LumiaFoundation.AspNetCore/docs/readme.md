@@ -176,6 +176,10 @@ As extensões `MapOpenApiDocuments` e `MapScalarUi` também podem ser usadas sep
 
 ## Histórico de versões
 
+### 0.19.0
+
+- `AddValidationFilters` mudou para o namespace `LumiaFoundation.AspNetCore.Commons.Extensions`
+
 ### 0.17.0
 
 - Movidas funcionalidades de autenticação para o novo pacote `Lumia.Foundation.Auth`

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using LumiaFoundation.AspNetCore.ActionFilters;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace LumiaFoundation.AspNetCore.Commons.Extensions;
@@ -32,5 +33,10 @@ public static class ServiceCollectionExtensions
         }
 
         return services;
+    }
+
+    public static void AddValidationFilters(this IServiceCollection services)
+    {
+        services.AddScoped<DtoNotEmptyValidationAttribute>();
     }
 }
