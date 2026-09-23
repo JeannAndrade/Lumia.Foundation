@@ -11,8 +11,6 @@ dotnet add package Lumia.Foundation.Core
 ## Recursos
 
 * `Entity`: classe base para entidades de domínio com rastreamento de identidade e comparação por identidade de entidade.
-* `ValueObject`: classe base para objetos de valor com comparação por componentes.
-* `GenericSingleValueObject<T>`: implementação genérica para value objects compostos por um único valor.
 * `IDateTimeProvider`: abstração para obter data e hora.
 * `LocalDateTimeProvider`: implementação baseada em `DateTime.Now`.
 * `UtcDateTimeProvider`: implementação baseada em `DateTime.UtcNow`.
@@ -32,6 +30,7 @@ dotnet add package Lumia.Foundation.Core
 
 ## Histórico de versões
 
+* 0.10.0 -Removido os namespaces de ValueObject, pois a validação de entrada é feita via annotations.
 * 0.9.0 - Movida classe `Entity` para LumiaFoundation.Core.Domain como abstração central para entidades de domínio.
 * 0.5.0 - Migração para .NET 10.0.
 * 0.2.0 - Adicionado `GenericSingleValueObject`, uma classe genérica para ser base de value objects primitivos.
