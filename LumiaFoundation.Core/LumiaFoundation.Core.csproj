@@ -10,9 +10,9 @@
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <RepositoryType>git</RepositoryType>
     <PackageTags>DateTime Entity ValueObject</PackageTags>
-    <PackageReleaseNotes>**v0.10.0**: Removido os namespaces de ValueObject, pois a validação de entrada é feita via annotations.</PackageReleaseNotes>
+    <PackageReleaseNotes>**v0.11.0**: Adição da classe de validação NotEmptyGuidAttribute.</PackageReleaseNotes>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
-    <PackageVersion>0.10.0</PackageVersion>
+    <PackageVersion>0.11.0</PackageVersion>
     <Authors>Jeann Andrade</Authors>
     <Company>Lumia Tech</Company>
     <Product>Lumia.Foundation.Core</Product>

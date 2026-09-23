@@ -30,7 +30,8 @@ dotnet add package Lumia.Foundation.Core
 
 ## Histórico de versões
 
-* 0.10.0 -Removido os namespaces de ValueObject, pois a validação de entrada é feita via annotations.
+* 0.11.0 - Adição da classe de validação NotEmptyGuidAttribute.
+* 0.10.0 - Removido os namespaces de ValueObject, pois a validação de entrada é feita via annotations.
 * 0.9.0 - Movida classe `Entity` para LumiaFoundation.Core.Domain como abstração central para entidades de domínio.
 * 0.5.0 - Migração para .NET 10.0.
 * 0.2.0 - Adicionado `GenericSingleValueObject`, uma classe genérica para ser base de value objects primitivos.
