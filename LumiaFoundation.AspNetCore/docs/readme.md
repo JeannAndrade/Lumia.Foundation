@@ -176,6 +176,10 @@ As extensões `MapOpenApiDocuments` e `MapScalarUi` também podem ser usadas sep
 
 ## Histórico de versões
 
+### 0.29.0
+
+- Adicionada implementação do método GetCurrentUserId a classe BaseApiController
+
 ### 0.19.0
 
 - `AddValidationFilters` mudou para o namespace `LumiaFoundation.AspNetCore.Commons.Extensions`
