@@ -17,6 +17,7 @@ dotnet add package Lumia.Foundation.Core
 * `EnumExtensions.GetDescription()`: retorna o valor de `DescriptionAttribute` de um enum, quando existir.
 * `ParseHelper.ToIntOrDefault()`: converte uma string para `int` e retorna um valor padrão quando a conversão falha.
 * `DomainBaseException`: classe base para exceções específicas do domínio, sem dependência de HTTP.
+* `EntityInUseException`: exceção de domínio para quando uma ação é impedida por a entidade estar em uso/referenciada.
 * `CommandValidationException`: exceção lançada quando um comando falha nas validações.
 * `CommandValidator.Validate()`: valida objetos usando `DataAnnotations`.
 
@@ -30,6 +31,7 @@ dotnet add package Lumia.Foundation.Core
 
 ## Histórico de versões
 
+* 0.12.0 - Adicionada a exceção `EntityInUseException`, para regras de domínio que impedem uma ação porque a entidade está referenciada por outra.
 * 0.11.0 - Adição da classe de validação NotEmptyGuidAttribute.
 * 0.10.0 - Removido os namespaces de ValueObject, pois a validação de entrada é feita via annotations.
 * 0.9.0 - Movida classe `Entity` para LumiaFoundation.Core.Domain como abstração central para entidades de domínio.
