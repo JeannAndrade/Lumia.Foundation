@@ -59,6 +59,23 @@ public class BaseApiControllerTests
         Assert.IsType<InvalidOperationException>(exception.InnerException);
     }
 
+    [Fact]
+    public void OnException_WhenExceptionIsEntityInUseException_WrapsItIn422HttpBaseException()
+    {
+        // Arrange
+        var filter = new DomainExceptionMappingFilter();
+        var exceptionContext = CreateExceptionContext(new EntityInUseException("Objetivo possui Movimentos associados"));
+
+        // Act
+        filter.OnException(exceptionContext);
+
+        // Assert
+        var exception = Assert.IsType<HttpBaseException>(exceptionContext.Exception);
+        Assert.Equal(StatusCodes.Status422UnprocessableEntity, exception.StatusCode);
+        Assert.Equal("Objetivo possui Movimentos associados", exception.Message);
+        Assert.IsType<EntityInUseException>(exception.InnerException);
+    }
+
     private static ExceptionContext CreateExceptionContext(Exception exception)
     {
         var httpContext = new DefaultHttpContext();

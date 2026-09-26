@@ -176,7 +176,12 @@ As extensões `MapOpenApiDocuments` e `MapScalarUi` também podem ser usadas sep
 
 ## Histórico de versões
 
-### 0.29.0
+### 0.21.0
+
+- `DomainExceptionMappingFilter` passa a mapear `EntityInUseException` (de `Lumia.Foundation.Core`) para HTTP 422 — para regras de domínio que impedem uma ação por existirem entidades dependentes.
+- Atualizada a dependência de `Lumia.Foundation.Core` para a versão `0.12.0`.
+
+### 0.20.0
 
 - Adicionada implementação do método GetCurrentUserId a classe BaseApiController
 

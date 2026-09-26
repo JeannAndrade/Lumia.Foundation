@@ -23,6 +23,7 @@ public sealed class DomainExceptionMappingFilter : IExceptionFilter
     private static int GetStatusCode(DomainBaseException exception) => exception switch
     {
         EntityNotFoundException => StatusCodes.Status404NotFound,
+        EntityInUseException => StatusCodes.Status422UnprocessableEntity,
         CommandValidationException => StatusCodes.Status422UnprocessableEntity,
         _ => StatusCodes.Status500InternalServerError
     };
