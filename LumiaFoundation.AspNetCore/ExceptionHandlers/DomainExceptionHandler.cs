@@ -1,5 +1,6 @@
 using LumiaFoundation.AspNetCore.Commons.Exceptions;
 using LumiaFoundation.Abstractions.ErrorModel;
+using LumiaFoundation.Core.Domain.Exceptions;
 using LumiaFoundation.Logger.Contracts;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
@@ -12,16 +13,29 @@ public class DomainExceptionHandler(ILoggerManager logger) : IExceptionHandler
 
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
     {
-        if (exception is not HttpBaseException domainException)
+        var httpException = ToHttpBaseException(exception);
+        if (httpException is null)
         {
             return false;
         }
 
         httpContext.Response.ContentType = "application/json";
-        await HandleExceptionAsync(httpContext, _logger, domainException, cancellationToken);
+        await HandleExceptionAsync(httpContext, _logger, httpException, cancellationToken);
 
         return true;
     }
+
+    // Único lugar do LumiaFoundation onde uma exceção de domínio (sem noção de HTTP)
+    // vira uma resposta HTTP concreta. Se um dia surgir uma nova exceção de domínio
+    // que precise de status próprio, o case entra aqui.
+    private static HttpBaseException? ToHttpBaseException(Exception exception) => exception switch
+    {
+        HttpBaseException httpException => httpException,
+        EntityNotFoundException => new HttpBaseException(StatusCodes.Status404NotFound, exception.Message, exception),
+        EntityInUseException => new HttpBaseException(StatusCodes.Status422UnprocessableEntity, exception.Message, exception),
+        CommandValidationException => new HttpBaseException(StatusCodes.Status422UnprocessableEntity, exception.Message, exception),
+        _ => null
+    };
 
     private static async Task HandleExceptionAsync(HttpContext context, ILoggerManager logger, HttpBaseException exception, CancellationToken cancellationToken)
     {
@@ -35,7 +49,7 @@ public class DomainExceptionHandler(ILoggerManager logger) : IExceptionHandler
     {
         StatusCode = exception.StatusCode,
         Message = exception.Message,
-        ExceptionType = exception.GetType().Name
+        ExceptionType = exception.ExceptionType
     };
 
     private static void LogDomainException(ILoggerManager logger, HttpBaseException exception)

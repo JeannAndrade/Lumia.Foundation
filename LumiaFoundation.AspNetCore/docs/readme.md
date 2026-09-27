@@ -110,20 +110,6 @@ public class OrdersController : BaseApiController
 
 O mapeamento padrão retorna HTTP 404 para `EntityNotFoundException`, HTTP 422 para `CommandValidationException` e HTTP 500 para outras exceções de domínio ou exceções não tratadas. Exceções que já são `HttpBaseException` são preservadas.
 
-### Middleware legado
-
-Como alternativa, use o middleware `ConfigureExceptionHandler`:
-
-```csharp
-using LumiaFoundation.AspNetCore.Commons.Extensions;
-using LumiaFoundation.Logger.Contracts;
-
-var logger = app.Services.GetRequiredService<ILoggerManager>();
-app.ConfigureExceptionHandler(logger);
-```
-
-Configure apenas uma das abordagens no pipeline.
-
 ## Filtros de ação
 
 ### Validação de DTO
@@ -175,6 +161,13 @@ app.MapOpenApiDevTools(_ => true);
 As extensões `MapOpenApiDocuments` e `MapScalarUi` também podem ser usadas separadamente quando a aplicação precisar mapear esses endpoints de forma independente.
 
 ## Histórico de versões
+
+### 0.22.0 (breaking change)
+
+- Consolidada uma única estratégia de tratamento de exceções: `DomainExceptionHandler` reconhece diretamente `EntityNotFoundException`, `EntityInUseException` e `CommandValidationException`, sem depender de um filtro de MVC pra traduzi-las antes.
+- **Removidos** `DomainExceptionMappingFilter`, `AddDomainExceptionMappingFilter` (`Commons/Extensions/DomainExceptionMappingFilterExtensions`) e o middleware legado `ConfigureExceptionHandler` (`Commons/Extensions/ExceptionMiddlewareExtensions`). Migre para `AddExceptionHandler<DomainExceptionHandler>()` + `AddExceptionHandler<UnhandledExceptionHandler>()` + `app.UseExceptionHandler()`.
+- `BaseApiController` não aplica mais nenhum filtro de exceção — segue existindo só por `GetCurrentUserId()`.
+- Nova propriedade `HttpBaseException.ExceptionType`: expõe o tipo real da exceção (o da `InnerException`, quando existir). `ErrorDetails.ExceptionType` agora mostra `EntityNotFoundException`/`EntityInUseException`/etc. em vez de sempre `"HttpBaseException"`.
 
 ### 0.21.0
 

@@ -32,6 +32,29 @@ public class HttpBaseExceptionTests
         Assert.Same(inner, exception.InnerException);
     }
 
+    [Fact]
+    public void ExceptionType_WhenInnerExceptionIsSet_ReturnsInnerExceptionTypeName()
+    {
+        // Arrange
+        var inner = new InvalidOperationException("inner");
+
+        // Act
+        var exception = new TestHttpBaseException(500, "message", inner);
+
+        // Assert
+        Assert.Equal(nameof(InvalidOperationException), exception.ExceptionType);
+    }
+
+    [Fact]
+    public void ExceptionType_WhenInnerExceptionIsNotSet_ReturnsOwnTypeName()
+    {
+        // Arrange
+        var exception = new TestHttpBaseException(422, "Validation failed");
+
+        // Act & Assert
+        Assert.Equal(nameof(TestHttpBaseException), exception.ExceptionType);
+    }
+
     private sealed class TestHttpBaseException : HttpBaseException
     {
         public TestHttpBaseException(int statusCode, string message) : base(statusCode, message)

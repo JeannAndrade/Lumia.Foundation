@@ -3,6 +3,7 @@ using LumiaFoundation.AspNetCore.Commons.Exceptions;
 using LumiaFoundation.AspNetCore.ExceptionHandlers;
 using LumiaFoundation.Abstractions.ErrorModel;
 using LumiaFoundation.AspNetCore.Test.TestDoubles;
+using LumiaFoundation.Core.Domain.Exceptions;
 using Microsoft.AspNetCore.Http;
 
 namespace LumiaFoundation.AspNetCore.Test.ExceptionHandlers;
@@ -10,7 +11,7 @@ namespace LumiaFoundation.AspNetCore.Test.ExceptionHandlers;
 public class DomainExceptionHandlerTests
 {
     [Fact]
-    public async Task TryHandleAsync_WhenExceptionIsNotHttpBaseException_ReturnsFalse()
+    public async Task TryHandleAsync_WhenExceptionIsNotRecognized_ReturnsFalse()
     {
         // Arrange
         var logger = new FakeLoggerManager();
@@ -39,15 +40,11 @@ public class DomainExceptionHandlerTests
         var handled = await handler.TryHandleAsync(context, new TestHttpBaseException(404, "Missing"), CancellationToken.None);
 
         // Assert
-        context.Response.Body.Position = 0;
-        var body = await new StreamReader(context.Response.Body).ReadToEndAsync();
-        var error = JsonSerializer.Deserialize<ErrorDetails>(body);
+        var error = await ReadErrorDetailsAsync(context);
 
         Assert.True(handled);
         Assert.Equal("application/json", context.Response.ContentType);
         Assert.Equal(404, context.Response.StatusCode);
-        Assert.NotNull(error);
-        Assert.Equal(404, error.StatusCode);
         Assert.Equal("Missing", error.Message);
         Assert.Equal(nameof(TestHttpBaseException), error.ExceptionType);
         Assert.Single(logger.WarnMessages);
@@ -67,17 +64,85 @@ public class DomainExceptionHandlerTests
         var handled = await handler.TryHandleAsync(context, new TestHttpBaseException(500, "Boom"), CancellationToken.None);
 
         // Assert
-        context.Response.Body.Position = 0;
-        var body = await new StreamReader(context.Response.Body).ReadToEndAsync();
-        var error = JsonSerializer.Deserialize<ErrorDetails>(body);
+        var error = await ReadErrorDetailsAsync(context);
 
         Assert.True(handled);
         Assert.Equal(500, context.Response.StatusCode);
-        Assert.NotNull(error);
-        Assert.Equal(500, error.StatusCode);
         Assert.Equal("Boom", error.Message);
         Assert.Single(logger.ErrorMessages);
         Assert.Empty(logger.WarnMessages);
+    }
+
+    [Fact]
+    public async Task TryHandleAsync_WhenExceptionIsEntityNotFoundException_WritesErrorDetailsWith404AndRealExceptionType()
+    {
+        // Arrange
+        var logger = new FakeLoggerManager();
+        var handler = new DomainExceptionHandler(logger);
+        var context = new DefaultHttpContext();
+        context.Response.Body = new MemoryStream();
+
+        // Act
+        var handled = await handler.TryHandleAsync(context, new EntityNotFoundException("Objetivo not found"), CancellationToken.None);
+
+        // Assert
+        var error = await ReadErrorDetailsAsync(context);
+
+        Assert.True(handled);
+        Assert.Equal(404, context.Response.StatusCode);
+        Assert.Equal("Objetivo not found", error.Message);
+        Assert.Equal(nameof(EntityNotFoundException), error.ExceptionType);
+        Assert.Single(logger.WarnMessages);
+    }
+
+    [Fact]
+    public async Task TryHandleAsync_WhenExceptionIsEntityInUseException_WritesErrorDetailsWith422AndRealExceptionType()
+    {
+        // Arrange
+        var logger = new FakeLoggerManager();
+        var handler = new DomainExceptionHandler(logger);
+        var context = new DefaultHttpContext();
+        context.Response.Body = new MemoryStream();
+
+        // Act
+        var handled = await handler.TryHandleAsync(context, new EntityInUseException("Objetivo possui Movimentos associados"), CancellationToken.None);
+
+        // Assert
+        var error = await ReadErrorDetailsAsync(context);
+
+        Assert.True(handled);
+        Assert.Equal(422, context.Response.StatusCode);
+        Assert.Equal("Objetivo possui Movimentos associados", error.Message);
+        Assert.Equal(nameof(EntityInUseException), error.ExceptionType);
+        Assert.Single(logger.WarnMessages);
+    }
+
+    [Fact]
+    public async Task TryHandleAsync_WhenExceptionIsCommandValidationException_WritesErrorDetailsWith422AndRealExceptionType()
+    {
+        // Arrange
+        var logger = new FakeLoggerManager();
+        var handler = new DomainExceptionHandler(logger);
+        var context = new DefaultHttpContext();
+        context.Response.Body = new MemoryStream();
+
+        // Act
+        var handled = await handler.TryHandleAsync(context, new CommandValidationException("Falha na validação: Nome"), CancellationToken.None);
+
+        // Assert
+        var error = await ReadErrorDetailsAsync(context);
+
+        Assert.True(handled);
+        Assert.Equal(422, context.Response.StatusCode);
+        Assert.Equal(nameof(CommandValidationException), error.ExceptionType);
+        Assert.Single(logger.WarnMessages);
+    }
+
+    private static async Task<ErrorDetails> ReadErrorDetailsAsync(DefaultHttpContext context)
+    {
+        context.Response.Body.Position = 0;
+        var body = await new StreamReader(context.Response.Body).ReadToEndAsync();
+        return JsonSerializer.Deserialize<ErrorDetails>(body)!;
     }
 
     private sealed class TestHttpBaseException(int statusCode, string message) : HttpBaseException(statusCode, message)
