@@ -12,6 +12,7 @@ public class ServiceCollectionExtensionsTests
     {
         // Arrange
         var services = new ServiceCollection();
+        services.AddSingleton<ITokenStore, InMemoryTokenStore>();
 
         // Act
         var builder = services.AddLumiaApiClient("https://api.lumia.test/v1/", client =>
@@ -33,6 +34,7 @@ public class ServiceCollectionExtensionsTests
     {
         // Arrange
         var services = new ServiceCollection();
+        services.AddSingleton<ITokenStore, InMemoryTokenStore>();
 
         // Act
         var builder = services.AddLumiaApiClient("https://api.lumia.test/v1/");
@@ -44,6 +46,21 @@ public class ServiceCollectionExtensionsTests
         Assert.NotNull(builder);
         Assert.IsType<ApiConnection>(client);
         Assert.IsType<AuthenticationApi>(authApi);
+    }
+
+    [Fact]
+    public void AddLumiaApiClient_WhenTokenStoreIsNotRegistered_ThrowsOnResolution()
+    {
+        // Arrange
+        var services = new ServiceCollection();
+        services.AddLumiaApiClient("https://api.lumia.test/v1/");
+        using var provider = services.BuildServiceProvider();
+
+        // Act
+        var exception = Record.Exception(() => provider.GetRequiredService<IApiConnection>());
+
+        // Assert
+        Assert.IsType<InvalidOperationException>(exception);
     }
 
     [Fact]
@@ -67,4 +84,3 @@ public class ServiceCollectionExtensionsTests
     private interface IWeatherResource;
     private sealed class WeatherResource : IWeatherResource;
 }
-

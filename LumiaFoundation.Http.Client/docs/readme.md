@@ -157,7 +157,16 @@ O corpo da requisição é clonado antes do envio original para permitir o repla
 
 ### Armazenamento de tokens
 
-`InMemoryTokenStore` serve a processos únicos (registrado como `Singleton`). Aplicações web, desktop ou móveis devem substituir `ITokenStore` por uma implementação adequada ao seu mecanismo seguro de sessão (cofre, keychain, storage criptografado etc.):
+`AddLumiaApiClient` **não registra** `ITokenStore` automaticamente — o consumidor é responsável por registrar sua própria implementação antes de resolver `IApiConnection` ou `IAuthenticationApi`. Sem esse registro, a resolução de dependências falha ao construir o `BearerTokenHandler`.
+
+Isso é proposital: o `ITokenStore` correto depende do tipo de host. `InMemoryTokenStore` (incluído no pacote) serve a processos únicos — scripts, CLIs, testes:
+
+```csharp
+services.AddSingleton<ITokenStore, InMemoryTokenStore>();
+services.AddLumiaApiClient("https://api.example.com");
+```
+
+Aplicações web, desktop ou móveis devem implementar `ITokenStore` de acordo com seu mecanismo de sessão (cofre, keychain, storage criptografado, sessão por usuário, etc.), normalmente com um lifetime `Scoped` em vez de `Singleton`, para isolar o token entre usuários/sessões simultâneas:
 
 ```csharp
 public sealed class KeychainTokenStore : ITokenStore
@@ -226,6 +235,10 @@ builder.Services.AddApiResourceClient<IOrderApi, OrderApi>();
 | `BearerTokenHandler` | `DelegatingHandler` que anexa o token e renova em um único `401`. |
 
 ## Histórico de versões
+
+### 0.3.0
+
+- **BREAKING**: `AddLumiaApiClient` não registra mais `ITokenStore` automaticamente. O consumidor deve registrar sua própria implementação (`InMemoryTokenStore` para processos únicos, ou uma implementação própria para hosts multiusuário) antes de resolver `IApiConnection`/`IAuthenticationApi`.
 
 ### 0.2.1
 
