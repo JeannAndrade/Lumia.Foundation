@@ -73,4 +73,42 @@ public class AuthenticationApiTests
 
         Assert.Contains("sem tokens", exception.Message);
     }
+
+    [Fact]
+    public async Task LoginAsync_WhenSuccessBodyIsWrappedInEnvelope_ThrowsApiException()
+    {
+        var handler = new StubHttpMessageHandler((_, _) => new HttpResponseMessage(HttpStatusCode.OK)
+        {
+            Content = JsonContent.Create(new { token = new { accessToken = "access", refreshToken = "refresh" } })
+        });
+        var api = new AuthenticationApi(
+            new HttpClient(handler) { BaseAddress = new Uri("https://api.lumia.test/") },
+            new AuthenticationClientOptions());
+
+        var exception = await Assert.ThrowsAsync<ApiException>(
+            () => api.LoginAsync(new UserCredentials("ana", "password")));
+
+        Assert.Contains("sem tokens", exception.Message);
+    }
+
+    [Theory]
+    [InlineData("", "refresh")]
+    [InlineData("access", "")]
+    [InlineData(" ", "refresh")]
+    [InlineData("access", " ")]
+    public async Task LoginAsync_WhenSuccessBodyHasBlankToken_ThrowsApiException(string accessToken, string refreshToken)
+    {
+        var handler = new StubHttpMessageHandler((_, _) => new HttpResponseMessage(HttpStatusCode.OK)
+        {
+            Content = JsonContent.Create(new AuthenticationToken(accessToken, refreshToken))
+        });
+        var api = new AuthenticationApi(
+            new HttpClient(handler) { BaseAddress = new Uri("https://api.lumia.test/") },
+            new AuthenticationClientOptions());
+
+        var exception = await Assert.ThrowsAsync<ApiException>(
+            () => api.LoginAsync(new UserCredentials("ana", "password")));
+
+        Assert.Contains("sem tokens", exception.Message);
+    }
 }

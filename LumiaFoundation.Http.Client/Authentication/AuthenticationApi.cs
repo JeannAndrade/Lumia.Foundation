@@ -6,6 +6,7 @@ namespace LumiaFoundation.Http.Client.Authentication;
 
 internal sealed class AuthenticationApi(HttpClient httpClient, AuthenticationClientOptions options) : IAuthenticationApi
 {
+    private const string MissingTokensMessage = "A API de autenticação retornou uma resposta sem tokens.";
     private static readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web);
 
     public Task<AuthenticationToken> LoginAsync(UserCredentials credentials, CancellationToken cancellationToken = default)
@@ -22,12 +23,18 @@ internal sealed class AuthenticationApi(HttpClient httpClient, AuthenticationCli
 
         try
         {
-            return await response.Content.ReadFromJsonAsync<AuthenticationToken>(JsonOptions, cancellationToken)
-                ?? throw new ApiException(response.StatusCode, "A API de autenticação retornou uma resposta sem tokens.");
+            var token = await response.Content.ReadFromJsonAsync<AuthenticationToken>(JsonOptions, cancellationToken);
+
+            if (token is null
+                || string.IsNullOrWhiteSpace(token.AccessToken)
+                || string.IsNullOrWhiteSpace(token.RefreshToken))
+                throw new ApiException(response.StatusCode, MissingTokensMessage);
+
+            return token;
         }
         catch (JsonException)
         {
-            throw new ApiException(response.StatusCode, "A API de autenticação retornou uma resposta sem tokens.");
+            throw new ApiException(response.StatusCode, MissingTokensMessage);
         }
     }
 }

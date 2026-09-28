@@ -166,7 +166,9 @@ services.AddSingleton<ITokenStore, InMemoryTokenStore>();
 services.AddLumiaApiClient("https://api.example.com");
 ```
 
-Aplicações web, desktop ou móveis devem implementar `ITokenStore` de acordo com seu mecanismo de sessão (cofre, keychain, storage criptografado, sessão por usuário, etc.), normalmente com um lifetime `Scoped` em vez de `Singleton`, para isolar o token entre usuários/sessões simultâneas:
+Aplicações web, desktop ou móveis devem implementar `ITokenStore` de acordo com seu mecanismo de sessão (cofre, keychain, storage criptografado, sessão por usuário, etc.).
+
+> **Atenção em hosts multiusuário:** o `HttpClientFactory` monta a cadeia de handlers (incluindo o `BearerTokenHandler` e o `ITokenStore` que ele recebe) em um escopo de DI próprio, separado do escopo da requisição, e a reutiliza por cerca de 2 minutos. Portanto, **não guarde o token em campos da instância** nem confie no lifetime do DI para isolar usuários. Busque o armazenamento do usuário atual a cada chamada (por exemplo, `IHttpContextAccessor` + `ISession` em uma aplicação ASP.NET Core). Por ser uma implementação sem estado, o registro como `Singleton` é o mais fiel ao que ela faz.
 
 ```csharp
 public sealed class KeychainTokenStore : ITokenStore
@@ -235,6 +237,11 @@ builder.Services.AddApiResourceClient<IOrderApi, OrderApi>();
 | `BearerTokenHandler` | `DelegatingHandler` que anexa o token e renova em um único `401`. |
 
 ## Histórico de versões
+
+### 0.3.1
+
+- `AuthenticationApi` passa a lançar `ApiException` quando a resposta de sucesso de login/refresh traz `AccessToken` ou `RefreshToken` vazios (por exemplo, quando a API devolve um formato diferente do esperado), em vez de devolver um `AuthenticationToken` com campos vazios.
+- Corrigida a orientação de lifetime do `ITokenStore` em hosts multiusuário na seção "Armazenamento de tokens".
 
 ### 0.3.0
 
