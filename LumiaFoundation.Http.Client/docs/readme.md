@@ -235,8 +235,16 @@ builder.Services.AddApiResourceClient<IOrderApi, OrderApi>();
 | `ITokenStore` | Armazena a sessão do consumidor (`GetAsync`, `SetAsync`, `ClearAsync`). |
 | `InMemoryTokenStore` | Implementação em memória, adequada para processos únicos. |
 | `BearerTokenHandler` | `DelegatingHandler` que anexa o token e renova em um único `401`. |
+| `UserRegistration` | `record` com `UserName` e `Password` e `Email`. |
+| `RegisterAsync` | |
+
 
 ## Histórico de versões
+
+### 0.4.0
+
+- Adicionado `IAuthenticationApi.RegisterAsync` e o tipo `UserRegistration`, para autocadastro contra o endpoint de registro do `Lumia.Foundation.Auth`.
+- `AuthenticationClientOptions` ganhou `RegisterPath` (padrão `/api/authentication`).
 
 ### 0.3.1
 

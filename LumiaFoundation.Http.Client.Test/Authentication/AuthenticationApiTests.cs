@@ -111,4 +111,53 @@ public class AuthenticationApiTests
 
         Assert.Contains("sem tokens", exception.Message);
     }
+
+    [Fact]
+    public async Task RegisterAsync_WhenApiReturnsCreated_CompletesSuccessfully()
+    {
+        var handler = new StubHttpMessageHandler((_, _) => new HttpResponseMessage(HttpStatusCode.Created));
+        var api = new AuthenticationApi(
+            new HttpClient(handler) { BaseAddress = new Uri("https://api.lumia.test/") },
+            new AuthenticationClientOptions());
+
+        await api.RegisterAsync(new UserRegistration("Ana", "Silva", "ana", "Senha@12345", "ana@exemplo.com"));
+
+        Assert.Equal("/api/authentication", handler.LastRequest!.RequestUri!.AbsolutePath);
+    }
+
+    [Fact]
+    public async Task RegisterAsync_WhenApiRejectsRegistration_ThrowsApiExceptionWithApiMessage()
+    {
+        var handler = new StubHttpMessageHandler((_, _) => new HttpResponseMessage(HttpStatusCode.UnprocessableEntity)
+        {
+            Content = JsonContent.Create(new
+            {
+                statusCode = (int)HttpStatusCode.UnprocessableEntity,
+                message = "Username 'ana' is already taken.",
+                exceptionType = "HttpBaseException"
+            })
+        });
+        var api = new AuthenticationApi(
+            new HttpClient(handler) { BaseAddress = new Uri("https://api.lumia.test/") },
+            new AuthenticationClientOptions());
+
+        var exception = await Assert.ThrowsAsync<ApiException>(
+            () => api.RegisterAsync(new UserRegistration("Ana", "Silva", "ana", "Senha@12345", "ana@exemplo.com")));
+
+        Assert.Equal(HttpStatusCode.UnprocessableEntity, exception.StatusCode);
+        Assert.Equal("Username 'ana' is already taken.", exception.Message);
+    }
+
+    [Fact]
+    public async Task RegisterAsync_UsesConfiguredRegisterPath()
+    {
+        var handler = new StubHttpMessageHandler((_, _) => new HttpResponseMessage(HttpStatusCode.Created));
+        var api = new AuthenticationApi(
+            new HttpClient(handler) { BaseAddress = new Uri("https://api.lumia.test/") },
+            new AuthenticationClientOptions { RegisterPath = "/auth/register" });
+
+        await api.RegisterAsync(new UserRegistration("Ana", "Silva", "ana", "Senha@12345", "ana@exemplo.com"));
+
+        Assert.Equal("/auth/register", handler.LastRequest!.RequestUri!.AbsolutePath);
+    }
 }

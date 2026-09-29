@@ -15,6 +15,9 @@ internal sealed class AuthenticationApi(HttpClient httpClient, AuthenticationCli
     public Task<AuthenticationToken> RefreshAsync(AuthenticationToken token, CancellationToken cancellationToken = default)
         => SendAsync(options.RefreshPath, token, cancellationToken);
 
+    public Task RegisterAsync(UserRegistration registration, CancellationToken cancellationToken = default)
+        => SendWithoutResponseBodyAsync(options.RegisterPath, registration, cancellationToken);
+
     private async Task<AuthenticationToken> SendAsync(string path, object body, CancellationToken cancellationToken)
     {
         using var response = await httpClient.PostAsJsonAsync(path, body, JsonOptions, cancellationToken);
@@ -36,5 +39,12 @@ internal sealed class AuthenticationApi(HttpClient httpClient, AuthenticationCli
         {
             throw new ApiException(response.StatusCode, MissingTokensMessage);
         }
+    }
+
+    private async Task SendWithoutResponseBodyAsync(string path, object body, CancellationToken cancellationToken)
+    {
+        using var response = await httpClient.PostAsJsonAsync(path, body, JsonOptions, cancellationToken);
+        if (!response.IsSuccessStatusCode)
+            throw new ApiException(response.StatusCode, await ApiError.ReadMessageAsync(response, cancellationToken));
     }
 }

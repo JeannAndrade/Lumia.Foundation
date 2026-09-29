@@ -191,7 +191,6 @@ builder.Services
     {
         options.LoginPath = "/Login";
         options.EventsType = typeof(ApiSessionCookieEvents);
-        options.ValidationInterval = TimeSpan.Zero; // valida a cada requisição
     });
 
 builder.Services.AddExceptionHandler<ApiUnauthorizedExceptionHandler>();
@@ -200,6 +199,10 @@ builder.Services.AddExceptionHandler<ApiUnauthorizedExceptionHandler>();
 > A ordem de middlewares importa: `app.UseSession()` precisa vir antes de `app.UseExceptionHandler(...)`, para que o handler ainda consiga limpar a sessão quando tratar uma exceção.
 
 ## Histórico de versões
+
+### 0.24.0
+
+- Adicionado IApiRegistrationService/ApiRegistrationService a ClientAuthentication
 
 ### 0.23.0
 
