@@ -160,7 +160,51 @@ app.MapOpenApiDevTools(_ => true);
 
 As extensões `MapOpenApiDocuments` e `MapScalarUi` também podem ser usadas separadamente quando a aplicação precisar mapear esses endpoints de forma independente.
 
+## Consumindo uma API protegida por Lumia.Auth (via Http.Client)
+
+Para hosts ASP.NET Core multiusuário (sites, futuros componentes Blazor) que consomem uma API protegida pelo `Lumia.Foundation.Auth` através do `Lumia.Foundation.Http.Client`, o namespace `LumiaFoundation.AspNetCore.ClientAuthentication` oferece:
+
+| Componente | Finalidade |
+| :--- | :--- |
+| `SessionTokenStore` | Implementação de `ITokenStore` que guarda o par de tokens na sessão (`ISession`) do usuário atual. Registre como `Singleton` — ela não guarda estado próprio. |
+| `SessionTokenStoreOptions` | Chave de sessão usada pelo `SessionTokenStore`. Configure uma chave distinta por API quando o host falar com mais de uma. |
+| `IApiSignInService` / `ApiSignInService` | Autentica na API, grava o token no `ITokenStore` e emite o sign-in local do host (cookie ou outro esquema configurado). |
+| `ApiUnauthorizedExceptionHandler` | `IExceptionHandler` que encerra a sessão do usuário e redireciona ao login quando a API responde 401 e o refresh falha. |
+| `ApiSessionCookieEvents` | Evento de cookie (`ValidatePrincipal`) que rejeita o cookie quando o `ITokenStore` não tem mais token — por exemplo, após o host reiniciar. |
+
+### Registro típico
+
+```csharp
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddDistributedMemoryCache(); // troque por AddStackExchangeRedisCache ao escalar para múltiplos pods
+builder.Services.AddSession();
+
+builder.Services.Configure<SessionTokenStoreOptions>(o => o.SessionKey = "MinhaApi.ApiToken");
+builder.Services.AddSingleton<ITokenStore, SessionTokenStore>();
+builder.Services.AddLumiaApiClient("https://minha-api/");
+builder.Services.AddScoped<IApiSignInService, ApiSignInService>();
+
+builder.Services.AddScoped<ApiSessionCookieEvents>();
+builder.Services
+    .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Login";
+        options.EventsType = typeof(ApiSessionCookieEvents);
+        options.ValidationInterval = TimeSpan.Zero; // valida a cada requisição
+    });
+
+builder.Services.AddExceptionHandler<ApiUnauthorizedExceptionHandler>();
+```
+
+> A ordem de middlewares importa: `app.UseSession()` precisa vir antes de `app.UseExceptionHandler(...)`, para que o handler ainda consiga limpar a sessão quando tratar uma exceção.
+
 ## Histórico de versões
+
+### 0.23.0
+
+- Adicionada a área `ClientAuthentication`: `SessionTokenStore`, `IApiSignInService`/`ApiSignInService`, `ApiUnauthorizedExceptionHandler` e `ApiSessionCookieEvents`, para hosts ASP.NET Core que consomem uma API protegida pelo `Lumia.Foundation.Auth` via `Lumia.Foundation.Http.Client`.
+- Nova dependência: `Lumia.Foundation.Http.Client`.
 
 ### 0.22.0 (breaking change)
 

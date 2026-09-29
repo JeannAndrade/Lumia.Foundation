@@ -10,9 +10,9 @@
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <RepositoryType>git</RepositoryType>
     <PackageTags>ActionFilters Auth GLobalExceptionMiddleware</PackageTags>
-    <PackageReleaseNotes>**v0.22.0 (breaking change)**: Tratamento de exceções consolidado em DomainExceptionHandler; removidos DomainExceptionMappingFilter, AddDomainExceptionMappingFilter e o middleware legado ConfigureExceptionHandler. HttpBaseException.ExceptionType agora expõe o tipo real da exceção de domínio.</PackageReleaseNotes>
+    <PackageReleaseNotes>Adicionada área ClientAuthentication: consumo de API protegida por Lumia.Auth via Http.Client em hosts ASP.NET Core</PackageReleaseNotes>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
-    <PackageVersion>0.22.0</PackageVersion>
+    <PackageVersion>0.23.0</PackageVersion>
     <Authors>Jeann Andrade</Authors>
     <Company>Lumia Tech</Company>
     <Product>Lumia.Foundation</Product>
@@ -35,6 +35,7 @@
   <ItemGroup>
     <ProjectReference Include="..\LumiaFoundation.Core\LumiaFoundation.Core.csproj" />
     <ProjectReference Include="..\LumiaFoundation.Logger\LumiaFoundation.Logger.csproj" />
+    <ProjectReference Include="..\LumiaFoundation.Http.Client\LumiaFoundation.Http.Client.csproj" />
   </ItemGroup>
 
 </Project>
