@@ -200,6 +200,10 @@ builder.Services.AddExceptionHandler<ApiUnauthorizedExceptionHandler>();
 
 ## Histórico de versões
 
+### 0.24.1
+
+- Atualização do package Scalar.AspNetCore 2.17.11
+
 ### 0.24.0
 
 - Adicionado IApiRegistrationService/ApiRegistrationService a ClientAuthentication
