@@ -277,6 +277,16 @@ public interface IAppConfigurationParameter
 
 ---
 
+## Observações de compatibilidade
+
+Em projetos `Microsoft.NET.Sdk.Web` (APIs ASP.NET Core), pode ocorrer `FileNotFoundException` ao resolver `System.IdentityModel.Tokens.Jwt` em tempo de execução, causado por conflito entre a versão referenciada pelo `Lumia.Foundation.Auth` e a versão que o *shared framework* do ASP.NET Core espera internamente para `Microsoft.AspNetCore.Authentication.JwtBearer`. Se isso acontecer, adicione a referência explicitamente no projeto executável, na mesma versão usada pelo `Auth`:
+
+```xml
+<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.23.0" />
+```
+
+---
+
 ## Roles Padrão
 
 A classe `RoleConfiguration` semeia duas roles no banco:

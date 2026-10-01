@@ -180,9 +180,9 @@ builder.Services.AddDistributedMemoryCache(); // troque por AddStackExchangeRedi
 builder.Services.AddSession();
 
 builder.Services.Configure<SessionTokenStoreOptions>(o => o.SessionKey = "MinhaApi.ApiToken");
-builder.Services.AddSingleton<ITokenStore, SessionTokenStore>();
 builder.Services.AddLumiaApiClient("https://minha-api/");
-builder.Services.AddScoped<IApiSignInService, ApiSignInService>();
+builder.Services.AddApiSignInService();
+builder.Services.AddApiRegistrationService();
 
 builder.Services.AddScoped<ApiSessionCookieEvents>();
 builder.Services
@@ -199,6 +199,10 @@ builder.Services.AddExceptionHandler<ApiUnauthorizedExceptionHandler>();
 > A ordem de middlewares importa: `app.UseSession()` precisa vir antes de `app.UseExceptionHandler(...)`, para que o handler ainda consiga limpar a sessão quando tratar uma exceção.
 
 ## Histórico de versões
+
+### 0.25.0
+
+- Inclusão de duas extensões de registro de serviços: AddApiSignInService e AddApiRegistrationService
 
 ### 0.24.1
 

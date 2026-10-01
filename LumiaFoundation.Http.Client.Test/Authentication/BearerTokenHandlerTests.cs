@@ -131,5 +131,10 @@ public class BearerTokenHandlerTests
                 ? Task.FromException<AuthenticationToken>(new InvalidOperationException("Refresh inválido."))
                 : Task.FromResult(refreshResult);
         }
+
+        public Task RegisterAsync(UserRegistration registration, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
