@@ -10,9 +10,9 @@
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <RepositoryType>git</RepositoryType>
     <PackageTags>Repository</PackageTags>
-    <PackageReleaseNotes>**v0.9.1**: Atualização de packages internas</PackageReleaseNotes>
+    <PackageReleaseNotes>**v0.10.0**: Adicionados DbContextHealthCheck e a extensão AddDbContextHealthCheck para health checks de banco de dados</PackageReleaseNotes>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
-    <PackageVersion>0.9.1</PackageVersion>
+    <PackageVersion>0.10.0</PackageVersion>
     <Authors>Jeann Andrade</Authors>
     <Company>Lumia Tech</Company>
     <Product>Lumia.Foundation</Product>
@@ -25,6 +25,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="10.0.12" />
     <!-- MariaDB -->
     <PackageReference Include="Microting.EntityFrameworkCore.MySql" Version="10.0.12" />
     <!-- Oracle MySQL -->
