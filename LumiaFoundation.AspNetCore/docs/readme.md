@@ -110,6 +110,33 @@ public class OrdersController : BaseApiController
 
 O mapeamento padrão retorna HTTP 404 para `EntityNotFoundException`, HTTP 422 para `CommandValidationException` e HTTP 500 para outras exceções de domínio ou exceções não tratadas. Exceções que já são `HttpBaseException` são preservadas.
 
+## Health checks
+
+`MapLumiaHealthChecks` mapeia dois endpoints anônimos que respondem apenas o status em texto puro (`Healthy`, `Degraded` ou `Unhealthy`):
+
+| Rota | Finalidade | Executa checks? |
+| :--- | :--- | :--- |
+| `/health/live` | Liveness: o processo está de pé e respondendo. | Não |
+| `/health/ready` | Readiness: a aplicação está apta a receber requisições. | Somente as com a tag `LumiaHealthCheckTags.Ready` |
+
+Status HTTP: `200` para `Healthy` e `Degraded`; `503` para `Unhealthy`.
+
+```csharp
+using LumiaFoundation.AspNetCore.Commons.Extensions;
+using LumiaFoundation.AspNetCore.HealthChecks;
+using LumiaFoundation.EFRepository.Extensions;
+
+builder.Services.AddHealthChecks()
+ .AddDbContextHealthCheck<AppDbContext>(tags: [LumiaHealthCheckTags.Ready]);
+
+var app = builder.Build();
+app.MapLumiaHealthChecks();
+```
+
+> Uma check registrada **sem** a tag `Ready` não participa do readiness. Se nenhuma check tiver a tag, `/health/ready` responde `Healthy` sempre.
+>
+> Os endpoints são anônimos e não devem ser publicados fora da rede interna sem necessidade.
+
 ## Filtros de ação
 
 ### Validação de DTO
@@ -199,6 +226,11 @@ builder.Services.AddExceptionHandler<ApiUnauthorizedExceptionHandler>();
 > A ordem de middlewares importa: `app.UseSession()` precisa vir antes de `app.UseExceptionHandler(...)`, para que o handler ainda consiga limpar a sessão quando tratar uma exceção.
 
 ## Histórico de versões
+
+### 0.26.0
+
+- Adicionado `MapLumiaHealthChecks()`, que mapeia `/health/live` e `/health/ready`.
+- Adicionadas as constantes `LumiaHealthCheckTags.Ready`, `LumiaHealthCheckPaths.Live` e `LumiaHealthCheckPaths.Ready`.
 
 ### 0.25.0
 

@@ -10,9 +10,9 @@
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <RepositoryType>git</RepositoryType>
     <PackageTags>ActionFilters Auth GLobalExceptionMiddleware</PackageTags>
-    <PackageReleaseNotes>Inclusão de duas extensões de registro de serviços: AddApiSignInService e AddApiRegistrationService</PackageReleaseNotes>
+    <PackageReleaseNotes>Adicionados MapLumiaHealthChecks e as constantes LumiaHealthCheckTags e LumiaHealthCheckPaths para endpoints de health check (live e ready)</PackageReleaseNotes>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
-    <PackageVersion>0.25.0</PackageVersion>
+    <PackageVersion>0.26.0</PackageVersion>
     <Authors>Jeann Andrade</Authors>
     <Company>Lumia Tech</Company>
     <Product>Lumia.Foundation</Product>
@@ -20,7 +20,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.12" />
-    <PackageReference Include="Scalar.AspNetCore" Version="2.17.11" />
+    <PackageReference Include="Scalar.AspNetCore" Version="2.17.13" />
     <PackageReference Include="Lumia.Foundation.Abstractions" Version="0.1.0" />
   </ItemGroup>
 
