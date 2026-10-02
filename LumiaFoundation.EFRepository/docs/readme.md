@@ -124,6 +124,19 @@ orderRepository.Create(order);
 await repositoryManager.SaveAsync();
 ```
 
+### 5. Verifique a saúde do banco (opcional)
+
+Para expor se o banco está apto a receber conexões (por exemplo, em um endpoint de readiness), registre a check do contexto. A lib não define tags: informe a tag que o seu endpoint de readiness utiliza.
+
+```csharp
+using LumiaFoundation.EFRepository.Extensions;
+
+builder.Services.AddHealthChecks()
+ .AddDbContextHealthCheck<AppDbContext>(tags: ["ready"]);
+```
+
+A check chama `Database.CanConnectAsync`, usa o nome `banco-de-dados` e um timeout de 5 segundos por padrão (ambos configuráveis). Quando o banco não responde, o resultado é `Unhealthy` com uma mensagem genérica; os detalhes da exceção não são expostos na descrição.
+
 ## Componentes disponíveis
 
 | Componente | Finalidade |
@@ -135,8 +148,15 @@ await repositoryManager.SaveAsync();
 | `ConfigureMySqlDbDatabase<T>()` | Registro do contexto usando o provedor MySQL. |
 | `ConfigureMariaDbDatabase<T>()` | Registro do contexto usando o provedor MariaDB. |
 | `ConfigurePostgreSqlDatabase<T>()` | Registro do contexto usando o provedor PostgreSQL. |
+| `DbContextHealthCheck<TContext>` | Verifica a conectividade do contexto com o banco de dados. |
+| `AddDbContextHealthCheck<T>()` | Registro da check de banco no `IHealthChecksBuilder`. |
 
 ## Histórico de versões
+
+### 0.10.0
+
+- Adicionados `DbContextHealthCheck<TContext>` e a extensão `AddDbContextHealthCheck<TContext>()` para health checks de banco de dados.
+- Adicionada a dependência do pacote `Microsoft.Extensions.Diagnostics.HealthChecks` (10.0.12).
 
 ### 0.9.0
 
