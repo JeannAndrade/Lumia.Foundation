@@ -1,4 +1,5 @@
 using System.Globalization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
@@ -43,15 +44,25 @@ public sealed class PaginationTagHelper(IOptions<PaginationOptions> options) : T
     }
 
     // Mantém path e demais parâmetros da requisição; troca só o parâmetro da página.
+    // Mantém path e demais parâmetros da requisição; troca só o parâmetro da página.
+    // Em métodos de escrita (POST, PUT, PATCH, DELETE) a querystring descreve a ação
+    // (ex.: ?handler=Delete&id=...), não a listagem: reaproveitá-la quebraria a navegação.
     private Func<int, string> CriarFabricaDeUrls(string parametro)
     {
         var request = ViewContext.HttpContext.Request;
         var caminho = $"{request.PathBase}{request.Path}";
 
-        var preservados = request.Query
-            .Where(par => !string.Equals(par.Key, parametro, StringComparison.OrdinalIgnoreCase))
-            .SelectMany(par => par.Value.Select(valor => KeyValuePair.Create(par.Key, valor ?? string.Empty)))
-            .ToList();
+        var metodoDeEscrita = HttpMethods.IsPost(request.Method)
+            || HttpMethods.IsPut(request.Method)
+            || HttpMethods.IsPatch(request.Method)
+            || HttpMethods.IsDelete(request.Method);
+
+        var preservados = metodoDeEscrita
+            ? []
+            : request.Query
+                .Where(par => !string.Equals(par.Key, parametro, StringComparison.OrdinalIgnoreCase))
+                .SelectMany(par => par.Value.Select(valor => KeyValuePair.Create(par.Key, valor ?? string.Empty)))
+                .ToList();
 
         return pagina =>
         {

@@ -80,15 +80,47 @@ public class PaginationTagHelperTests
         Assert.DoesNotContain("PAGINA", output.Content.GetContent(Encoder));
     }
 
+    [Theory]
+    [InlineData("POST")]
+    [InlineData("PUT")]
+    [InlineData("PATCH")]
+    [InlineData("DELETE")]
+    public void Process_EmMetodoDeEscrita_NaoPreservaAQuerystring(string metodo)
+    {
+        var (tagHelper, context, output) = Criar(
+            page: 2, totalPages: 3, path: "/Movimentos",
+            query: "?id=5&pagina=2&handler=Delete", metodo: metodo);
+
+        tagHelper.Process(context, output);
+
+        var html = output.Content.GetContent(Encoder);
+        Assert.Contains("""href="/Movimentos?pagina=3" """.TrimEnd(), html);
+        Assert.DoesNotContain("handler", html);
+        Assert.DoesNotContain("id=5", html);
+    }
+
+    [Fact]
+    public void Process_EmGet_PreservaAQuerystring()
+    {
+        var (tagHelper, context, output) = Criar(
+            page: 1, totalPages: 3, path: "/Movimentos", query: "?filtro=x", metodo: "GET");
+
+        tagHelper.Process(context, output);
+
+        Assert.Contains("""href="/Movimentos?filtro=x&amp;pagina=2" """.TrimEnd(), output.Content.GetContent(Encoder));
+    }
+
     private static (PaginationTagHelper TagHelper, TagHelperContext Context, TagHelperOutput Output) Criar(
         int page,
         int totalPages,
         string path = "/lista",
         string pathBase = "",
         string query = "",
-        PaginationOptions? opcoes = null)
+        PaginationOptions? opcoes = null,
+        string metodo = "GET")
     {
         var httpContext = new DefaultHttpContext();
+        httpContext.Request.Method = metodo;
         httpContext.Request.PathBase = pathBase;
         httpContext.Request.Path = path;
         httpContext.Request.QueryString = new QueryString(query);

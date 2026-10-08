@@ -254,7 +254,23 @@ builder.Services.Configure<PaginationOptions>(options =>
 });
 ```
 
+Em requisições `POST`, `PUT`, `PATCH` e `DELETE`, a querystring não é preservada nos links, pois ela descreve a ação (por exemplo, `?handler=Delete&id=...`) e não a listagem.
+
+### Resposta paginada da Api
+
+`ToPagedResponse()` converte o `PagedList<T>` (`Lumia.Foundation.Core`) no contrato `PagedResponse<T>` (`Lumia.Foundation.Abstractions`) devolvido pela Api:
+
+```csharp
+using LumiaFoundation.AspNetCore.Pagination;
+
+return Ok(pagina.Map(MeuDto.FromApplication).ToPagedResponse());
+```
+
 ## Histórico de versões
+
+### 0.28.0
+
+- Adicionada a extensão `ToPagedResponse()` para converter `PagedList<T>` em `PagedResponse<T>`.
 
 ### 0.27.0
 
