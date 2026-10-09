@@ -1,9 +1,9 @@
 namespace LumiaFoundation.Core.TimeService;
 
-  public class UtcDateTimeProvider : IDateTimeProvider
-  {
-public DateTime GetDateTime()
+public class UtcDateTimeProvider : IDateTimeProvider
 {
-  return DateTime.UtcNow;
+    public DateTime GetDateTime()
+    {
+        return DateTime.UtcNow;
+    }
 }
-  }
