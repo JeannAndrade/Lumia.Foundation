@@ -36,7 +36,15 @@ var content = error.ToString();
 
 `ExceptionType` é obrigatório. `Message` é opcional para acomodar cenários em que a mensagem não deve ser exposta ao cliente.
 
+## Resposta paginada
+
+`PagedResponse<T>` foi introduzido para dar suporte a páginação de APIs.
+
 ## Histórico de versões
+
+### 0.2.0
+
+- Adicionado o contrato `PagedResponse<T>` para respostas paginadas.
 
 ### 0.1.0
 

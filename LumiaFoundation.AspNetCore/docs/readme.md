@@ -225,7 +225,57 @@ builder.Services.AddExceptionHandler<ApiUnauthorizedExceptionHandler>();
 
 > A ordem de middlewares importa: `app.UseSession()` precisa vir antes de `app.UseExceptionHandler(...)`, para que o handler ainda consiga limpar a sessão quando tratar uma exceção.
 
+## Paginação (TagHelper)
+
+`<lumia-pagination>` renderiza a navegação entre páginas em Bootstrap 5, a partir de `PagedResponse<T>` (`Lumia.Foundation.Abstractions`) ou de qualquer par página atual/total de páginas.
+
+Registre o TagHelper no `_ViewImports.cshtml`:
+
+```cshtml
+@addTagHelper *, LumiaFoundation.AspNetCore
+```
+
+Use na página:
+
+```cshtml
+<lumia-pagination page="Model.Pagina" total-pages="Model.TotalPaginas" />
+```
+
+Os links usam a URL da requisição, trocam apenas o parâmetro da página (padrão `pagina`) e preservam os demais parâmetros da querystring. Nada é renderizado quando há uma página ou menos. A janela mostra a primeira e a última página e duas vizinhas de cada lado da atual, com reticências nos trechos omitidos.
+
+Para personalizar parâmetro, textos ou classes CSS:
+
+```csharp
+builder.Services.Configure<PaginationOptions>(options =>
+{
+    options.PageParameterName = "page";
+    options.PreviousLabel = "Previous";
+    options.NextLabel = "Next";
+});
+```
+
+Em requisições `POST`, `PUT`, `PATCH` e `DELETE`, a querystring não é preservada nos links, pois ela descreve a ação (por exemplo, `?handler=Delete&id=...`) e não a listagem.
+
+### Resposta paginada da Api
+
+`ToPagedResponse()` converte o `PagedList<T>` (`Lumia.Foundation.Core`) no contrato `PagedResponse<T>` (`Lumia.Foundation.Abstractions`) devolvido pela Api:
+
+```csharp
+using LumiaFoundation.AspNetCore.Pagination;
+
+return Ok(pagina.Map(MeuDto.FromApplication).ToPagedResponse());
+```
+
 ## Histórico de versões
+
+### 0.28.0
+
+- Adicionada a extensão `ToPagedResponse()` para converter `PagedList<T>` em `PagedResponse<T>`.
+
+### 0.27.0
+
+- Adicionados `PaginationTagHelper` (`<lumia-pagination>`) e `PaginationOptions`.
+- Atualizada a dependência de `Lumia.Foundation.Abstractions` para a versão `0.2.0`.
 
 ### 0.26.0
 

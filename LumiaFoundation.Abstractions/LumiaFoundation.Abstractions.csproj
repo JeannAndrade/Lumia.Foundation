@@ -9,10 +9,10 @@
     <RepositoryUrl>https://github.com/JeannAndrade/Lumia.Foundation</RepositoryUrl>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <RepositoryType>git</RepositoryType>
-    <PackageTags>ErrorDetails ErrorModel HTTP Exceptions Contracts</PackageTags>
-    <PackageReleaseNotes>Adicionado o modelo ErrorDetails para padronizar respostas de erro.</PackageReleaseNotes>
+    <PackageTags>ErrorDetails ErrorModel HTTP Exceptions Contracts Pagination</PackageTags>
+    <PackageReleaseNotes>Adicionado o contrato PagedResponse para respostas paginadas.</PackageReleaseNotes>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
-    <PackageVersion>0.1.0</PackageVersion>
+    <PackageVersion>0.2.0</PackageVersion>
     <Authors>Jeann Andrade</Authors>
     <Company>Lumia Tech</Company>
     <Product>Lumia.Foundation</Product>

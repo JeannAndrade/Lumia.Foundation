@@ -137,6 +137,16 @@ builder.Services.AddHealthChecks()
 
 A check chama `Database.CanConnectAsync`, usa o nome `banco-de-dados` e um timeout de 5 segundos por padrão (ambos configuráveis). Quando o banco não responde, o resultado é `Unhealthy` com uma mensagem genérica; os detalhes da exceção não são expostos na descrição.
 
+### Paginação
+
+```csharp
+  var pagina = await repository
+      .FindAll(trackChanges: false)
+      .OrderByDescending(m => m.DataInvestimento)
+      .ThenBy(m => m.Id)
+      .ToPagedListAsync(page: 1, pageSize: 20, cancellationToken);
+```
+
 ## Componentes disponíveis
 
 | Componente | Finalidade |

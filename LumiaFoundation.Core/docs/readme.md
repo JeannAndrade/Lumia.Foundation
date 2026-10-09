@@ -20,6 +20,7 @@ dotnet add package Lumia.Foundation.Core
 * `EntityInUseException`: exceção de domínio para quando uma ação é impedida por a entidade estar em uso/referenciada.
 * `CommandValidationException`: exceção lançada quando um comando falha nas validações.
 * `CommandValidator.Validate()`: valida objetos usando `DataAnnotations`.
+* `PagedList<T>`: página de resultados com `Page`, `PageSize`, `TotalCount` e `TotalPages`; `Map` converte os itens preservando os metadados.
 
 ## Alterações recentes
 
@@ -31,6 +32,7 @@ dotnet add package Lumia.Foundation.Core
 
 ## Histórico de versões
 
+* 0.13.0 - Adicionado `PagedList<T>`, resultado paginado de consultas.
 * 0.12.0 - Adicionada a exceção `EntityInUseException`, para regras de domínio que impedem uma ação porque a entidade está referenciada por outra.
 * 0.11.0 - Adição da classe de validação NotEmptyGuidAttribute.
 * 0.10.0 - Removido os namespaces de ValueObject, pois a validação de entrada é feita via annotations.
