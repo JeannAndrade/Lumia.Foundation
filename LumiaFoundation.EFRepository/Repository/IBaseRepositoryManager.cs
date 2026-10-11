@@ -8,4 +8,5 @@ namespace LumiaFoundation.EFRepository.Repository;
 public interface IBaseRepositoryManager
 {
   Task SaveAsync();
+  Task SaveAsync(CancellationToken cancellationToken);
 }

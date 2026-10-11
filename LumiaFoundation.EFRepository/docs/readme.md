@@ -124,6 +124,12 @@ orderRepository.Create(order);
 await repositoryManager.SaveAsync();
 ```
 
+Quando a operação fizer parte de uma requisição cancelável, passe o `CancellationToken` para interromper a persistência:
+
+```csharp
+await repositoryManager.SaveAsync(cancellationToken);
+```
+
 ### 5. Verifique a saúde do banco (opcional)
 
 Para expor se o banco está apto a receber conexões (por exemplo, em um endpoint de readiness), registre a check do contexto. A lib não define tags: informe a tag que o seu endpoint de readiness utiliza.
@@ -162,6 +168,10 @@ A check chama `Database.CanConnectAsync`, usa o nome `banco-de-dados` e um timeo
 | `AddDbContextHealthCheck<T>()` | Registro da check de banco no `IHealthChecksBuilder`. |
 
 ## Histórico de versões
+
+### 0.12.0
+
+- Adicionada, de forma aditiva e sem quebra de compatibilidade, a sobrecarga `SaveAsync(CancellationToken)` em `IBaseRepositoryManager` e `BaseRepositoryManager`.
 
 ### 0.10.0
 

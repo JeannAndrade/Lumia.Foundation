@@ -11,7 +11,7 @@ Cada pacote é publicado individualmente no NuGet e pode ser usado isoladamente 
 | `Lumia.Foundation.Core` | `Entity`, `DomainBaseException`, `CommandValidator`, `IDateTimeProvider` e utilitários de uso comum. Base para os demais pacotes. | 0.11.0 | [readme](LumiaFoundation.Core/docs/readme.md) |
 | `Lumia.Foundation.Abstractions` | Modelo `ErrorDetails` para padronizar respostas de erro entre APIs e clientes HTTP. | 0.1.0 | [readme](LumiaFoundation.Abstractions/docs/readme.md) |
 | `Lumia.Foundation.Logger` | Interface de logging (`ILoggerManager`) baseada em NLog, com suporte a log estruturado. | 0.4.0 | [readme](LumiaFoundation.Logger/docs/readme.md) |
-| `Lumia.Foundation.EFRepository` | `RepositoryContext`, `BaseRepository<T>` e configuração de conexão para MySQL/MariaDB/PostgreSQL via EF Core. | 0.9.1 | [readme](LumiaFoundation.EFRepository/docs/readme.md) |
+| `Lumia.Foundation.EFRepository` | `RepositoryContext`, `BaseRepository<T>` e configuração de conexão para MySQL/MariaDB/PostgreSQL via EF Core. | 0.12.0 | [readme](LumiaFoundation.EFRepository/docs/readme.md) |
 | `Lumia.Foundation.AspNetCore` | Tratamento global de exceções, `BaseApiController`, filtros de ação, registro automático de serviços, OpenAPI/Scalar. | 0.20.0 | [readme](LumiaFoundation.AspNetCore/docs/readme.md) |
 | `Lumia.Foundation.Auth` | ASP.NET Core Identity, autenticação JWT, refresh token e filtros para extrair o usuário do token. | 0.2.1 | [readme](LumiaFoundation.Auth/docs/readme.md) |
 | `Lumia.Foundation.Http.Client` | Cliente HTTP tipado com `HttpClientFactory`, conversão de erros em `ApiException` e refresh automático de JWT. | 0.2.1 | [readme](LumiaFoundation.Http.Client/docs/readme.md) |
