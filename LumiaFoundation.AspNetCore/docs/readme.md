@@ -139,6 +139,27 @@ app.MapLumiaHealthChecks();
 
 ## Filtros de ação
 
+### Validação de requisição
+
+`RequestValidationAttribute` valida parâmetros de corpo marcados com `BindingSource.Body`
+e o `ModelState`. Aplique-o diretamente na classe ou no método, sem registro no DI:
+
+```csharp
+using LumiaFoundation.AspNetCore.ActionFilters;
+
+[RequestValidation]
+public IActionResult Create(CreateOrderRequest request) => Ok();
+```
+
+Corpo ausente ou nulo gera HTTP 422 com `Corpo da requisição inválido.`. Erros no
+`ModelState` geram HTTP 422 com `Parâmetros inválidos: {chaves}.`, listando apenas as
+chaves com erro, nunca os valores enviados. O `DomainExceptionHandler` transforma a
+exceção em `ErrorDetails`.
+
+Esse filtro é diferente do `DtoNotEmptyValidationAttribute`: usa metadata de binding
+em vez de heurística pelo nome do tipo, lança `HttpBaseException` e não requer DI.
+O filtro de DTO existente permanece inalterado e continua usando `ServiceFilter`.
+
 ### Validação de DTO
 
 `DtoNotEmptyValidationAttribute` verifica se a ação recebeu um DTO e devolve HTTP 400 quando o corpo está vazio ou não contém DTO, e HTTP 422 quando o `ModelState` contém erros:
@@ -330,6 +351,10 @@ return Ok(pagina.Map(MeuDto.FromApplication).ToPagedResponse());
 ### 0.16.0
 
 - Reorganização de classes dentro dos pacotes
+
+### 0.29.0
+
+- Adicionado `RequestValidationAttribute` para validar corpos declarados e `ModelState` com respostas HTTP 422.
 
 ### 0.15.4
 
