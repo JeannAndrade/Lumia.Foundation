@@ -169,6 +169,10 @@ A check chama `Database.CanConnectAsync`, usa o nome `banco-de-dados` e um timeo
 
 ## Histórico de versões
 
+### 0.13.0
+
+Atualização de packages internas
+
 ### 0.12.0
 
 - Adicionada, de forma aditiva e sem quebra de compatibilidade, a sobrecarga `SaveAsync(CancellationToken)` em `IBaseRepositoryManager` e `BaseRepositoryManager`.

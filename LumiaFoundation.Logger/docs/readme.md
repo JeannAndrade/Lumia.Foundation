@@ -247,3 +247,4 @@ Você pode acessar uma propriedade individual usando `${event-properties:item=us
 * 0.2.4 - Ajuste no path do arquivo de configuração.
 * 0.3.0 - Adicionado extension method `ConfigureLoggerService` para registrar o serviço de log na injeção de dependência.
 * 0.4.0 - Adicionada a sobrecarga `LogWarn(Exception, string)` para registrar avisos associados a exceções.
+* 0.5.0 - Atualização de packages internas

@@ -238,8 +238,11 @@ builder.Services.AddApiResourceClient<IOrderApi, OrderApi>();
 | `UserRegistration` | `record` com `UserName` e `Password` e `Email`. |
 | `RegisterAsync` | |
 
-
 ## Histórico de versões
+
+### 0.5.0
+
+Atualização de packages internas
 
 ### 0.4.0
 

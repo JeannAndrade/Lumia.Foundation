@@ -324,6 +324,10 @@ app.Run();
 
 ## Histórico de versões
 
+### 0.3.0
+
+Atualização de packages internas
+
 ### 0.2.0
 
 - Revisão da geração e refresh do token

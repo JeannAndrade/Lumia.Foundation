@@ -289,6 +289,14 @@ return Ok(pagina.Map(MeuDto.FromApplication).ToPagedResponse());
 
 ## Histórico de versões
 
+### 0.30.0
+
+Atualização de packages internas
+
+### 0.29.0
+
+- Adicionado o filtro `RequestValidationAttribute` para validar body vazio
+
 ### 0.28.0
 
 - Adicionada a extensão `ToPagedResponse()` para converter `PagedList<T>` em `PagedResponse<T>`.
