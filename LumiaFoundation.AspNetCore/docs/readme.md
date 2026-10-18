@@ -289,6 +289,16 @@ return Ok(pagina.Map(MeuDto.FromApplication).ToPagedResponse());
 
 ## Histórico de versões
 
+### 0.30.1
+
+- `AddServicesFromAssembly` passou a ignorar tipos aninhados e tipos gerados pelo compilador, e só registra
+  interfaces definidas no **mesmo assembly** da implementação.
+  Motivo: no .NET 10, uma collection expression de elemento único com alvo `IEnumerable<T>` faz o compilador
+  sintetizar `<>z__ReadOnlySingleElementList<T>` (com um `Enumerator` aninhado) no assembly, e a convenção
+  `I` + nome casava `IEnumerator` com esse `Enumerator`, quebrando o `BuildServiceProvider`.
+- Atenção: é mais restritivo que antes. Quem registrava, por esta convenção, uma interface de outro assembly
+  deixa de ter o registro e precisa registrá-lo explicitamente.
+
 ### 0.30.0
 
 Atualização de packages internas
