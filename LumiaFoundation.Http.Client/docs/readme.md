@@ -240,6 +240,10 @@ builder.Services.AddApiResourceClient<IOrderApi, OrderApi>();
 
 ## Histórico de versões
 
+### 0.5.1
+
+- Cancelamento durante o refresh propaga `OperationCanceledException`, preserva o token armazenado e libera os recursos da requisição original e da tentativa de retry.
+
 ### 0.5.0
 
 Atualização de packages internas

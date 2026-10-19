@@ -39,11 +39,17 @@ public sealed class BearerTokenHandler(ITokenStore tokenStore, IAuthenticationAp
             {
                 refreshedToken = await authenticationApi.RefreshAsync(currentToken, cancellationToken);
             }
-            catch
+            catch (Exception ex) when (ex is not OperationCanceledException)
             {
                 await tokenStore.ClearAsync(cancellationToken);
                 retryRequest.Dispose();
                 return response;
+            }
+            catch
+            {
+                retryRequest.Dispose();
+                response.Dispose();
+                throw;
             }
 
             await tokenStore.SetAsync(refreshedToken, cancellationToken);

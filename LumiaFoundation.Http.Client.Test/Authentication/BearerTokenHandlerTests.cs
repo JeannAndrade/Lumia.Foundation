@@ -77,7 +77,10 @@ public class BearerTokenHandlerTests
         var tokenStore = new InMemoryTokenStore();
         await tokenStore.SetAsync(new AuthenticationToken("expired-access", "refresh-token"));
         var authenticationApi = new FakeAuthenticationApi(null);
-        var handler = new StubHttpMessageHandler((_, _) => new HttpResponseMessage(HttpStatusCode.Unauthorized));
+        var handler = new StubHttpMessageHandler((request, _) =>
+            request.Headers.Authorization?.Parameter == "new-access"
+                ? new HttpResponseMessage(HttpStatusCode.OK)
+                : new HttpResponseMessage(HttpStatusCode.Unauthorized));
         using var client = new HttpClient(new BearerTokenHandler(tokenStore, authenticationApi)
         {
             InnerHandler = handler
@@ -89,6 +92,50 @@ public class BearerTokenHandlerTests
         Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
         Assert.Equal(1, authenticationApi.RefreshCalls);
         Assert.Null(await tokenStore.GetAsync());
+    }
+
+    [Fact]
+    public async Task SendAsync_WhenRefreshIsCanceled_PropagatesAndKeepsSession()
+    {
+        var initial = new AuthenticationToken("expired-access", "refresh-token");
+        var tokenStore = new InMemoryTokenStore();
+        await tokenStore.SetAsync(initial);
+        using var cancellation = new CancellationTokenSource();
+        var authenticationApi = new FakeAuthenticationApi(null, cancellation);
+        var handler = new StubHttpMessageHandler((_, _) => new HttpResponseMessage(HttpStatusCode.Unauthorized));
+        using var client = new HttpClient(new BearerTokenHandler(tokenStore, authenticationApi)
+        {
+            InnerHandler = handler
+        })
+        { BaseAddress = new Uri("https://api.lumia.test/") };
+
+        await Assert.ThrowsAnyAsync<OperationCanceledException>(() => client.GetAsync("protected-resource", cancellation.Token));
+
+        Assert.Equal(initial, await tokenStore.GetAsync());
+    }
+
+    [Fact]
+    public async Task SendAsync_WhenRefreshIsCanceled_ReleasesRefreshLock()
+    {
+        var tokenStore = new InMemoryTokenStore();
+        await tokenStore.SetAsync(new AuthenticationToken("expired-access", "refresh-token"));
+        using var cancellation = new CancellationTokenSource();
+        var authenticationApi = new FakeAuthenticationApi(new AuthenticationToken("new-access", "new-refresh"), cancellation);
+        var handler = new StubHttpMessageHandler((request, _) =>
+            request.Headers.Authorization?.Parameter == "new-access"
+                ? new HttpResponseMessage(HttpStatusCode.OK)
+                : new HttpResponseMessage(HttpStatusCode.Unauthorized));
+        using var client = new HttpClient(new BearerTokenHandler(tokenStore, authenticationApi)
+        {
+            InnerHandler = handler
+        })
+        { BaseAddress = new Uri("https://api.lumia.test/") };
+
+        await Assert.ThrowsAnyAsync<OperationCanceledException>(() => client.GetAsync("protected-resource", cancellation.Token));
+        using var secondCallTimeout = new CancellationTokenSource(TimeSpan.FromSeconds(2));
+
+        using var response = await client.GetAsync("protected-resource", secondCallTimeout.Token);
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
     }
 
     [Fact]
@@ -117,16 +164,34 @@ public class BearerTokenHandlerTests
     }
 
 
-    private sealed class FakeAuthenticationApi(AuthenticationToken? refreshResult) : IAuthenticationApi
+    private sealed class FakeAuthenticationApi : IAuthenticationApi
     {
         public int RefreshCalls { get; private set; }
 
         public Task<AuthenticationToken> LoginAsync(UserCredentials credentials, CancellationToken cancellationToken = default)
             => throw new NotSupportedException();
 
+        private readonly CancellationTokenSource? _refreshCancellation;
+        private bool _cancelNextRefresh;
+
+        public FakeAuthenticationApi(AuthenticationToken? refreshResult, CancellationTokenSource? refreshCancellation = null)
+        {
+            this.refreshResult = refreshResult;
+            _refreshCancellation = refreshCancellation;
+            _cancelNextRefresh = refreshCancellation is not null;
+        }
+
+        private readonly AuthenticationToken? refreshResult;
+
         public Task<AuthenticationToken> RefreshAsync(AuthenticationToken token, CancellationToken cancellationToken = default)
         {
             RefreshCalls++;
+            if (_cancelNextRefresh)
+            {
+                _cancelNextRefresh = false;
+                _refreshCancellation!.Cancel();
+                throw new OperationCanceledException(_refreshCancellation.Token);
+            }
             return refreshResult is null
                 ? Task.FromException<AuthenticationToken>(new InvalidOperationException("Refresh inválido."))
                 : Task.FromResult(refreshResult);
