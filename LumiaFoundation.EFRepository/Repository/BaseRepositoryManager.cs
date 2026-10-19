@@ -9,8 +9,6 @@ public class BaseRepositoryManager(RepositoryContext repositoryContext) : IBaseR
 {
     protected readonly RepositoryContext _repositoryContext = repositoryContext;
 
-    public async Task SaveAsync() => await _repositoryContext.SaveChangesAsync();
-
     public async Task SaveAsync(CancellationToken cancellationToken) =>
         await _repositoryContext.SaveChangesAsync(cancellationToken);
 }

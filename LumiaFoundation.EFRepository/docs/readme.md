@@ -169,6 +169,10 @@ A check chama `Database.CanConnectAsync`, usa o nome `banco-de-dados` e um timeo
 
 ## Histórico de versões
 
+### 0.14.0
+
+[Breakchange] Removido método SaveAsync(). Permaneceu somente a versão com CancellationToken
+
 ### 0.13.0
 
 Atualização de packages internas

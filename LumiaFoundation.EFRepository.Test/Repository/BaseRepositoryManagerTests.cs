@@ -7,28 +7,6 @@ namespace LumiaFoundation.EFRepository.Test.Repository;
 public class BaseRepositoryManagerTests
 {
     [Fact]
-    public async Task SaveAsync_PersistsPendingChanges()
-    {
-        // Arrange
-        var databaseName = Guid.NewGuid().ToString();
-        await using (var context = CreateContext(databaseName))
-        {
-            var repository = new TestRepository(context);
-            repository.Create(new TestEntity { Name = "Alice" });
-            var manager = new TestRepositoryManager(context);
-
-            // Act
-            await manager.SaveAsync();
-        }
-
-        await using var verificationContext = CreateContext(databaseName);
-
-        // Assert
-        var persisted = await verificationContext.Set<TestEntity>().SingleAsync();
-        Assert.Equal("Alice", persisted.Name);
-    }
-
-    [Fact]
     public async Task SaveAsync_WithCancellationToken_PersistsPendingChanges()
     {
         // Arrange
