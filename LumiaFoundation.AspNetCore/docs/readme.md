@@ -12,6 +12,10 @@ dotnet add package Lumia.Foundation.AspNetCore
 
 O pacote depende de `Lumia.Foundation.Core` e `Lumia.Foundation.Logger`, e utiliza ASP.NET Core 10 com Microsoft.AspNetCore.OpenApi e Scalar.AspNetCore.
 
+## Histórico de versões
+
+* 0.30.2 - Atualizadas as dependências `Microsoft.AspNetCore.OpenApi` para 10.0.15 e `Scalar.AspNetCore` para 2.20.0.
+
 ## Registro automático de serviços
 
 O método `AddServicesFromAssembly` registra classes concretas que implementam uma interface com o padrão `I{NomeDaClasse}`. O tempo de vida padrão é `Scoped`:

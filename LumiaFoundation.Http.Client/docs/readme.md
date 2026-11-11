@@ -10,6 +10,10 @@ Instale o pacote no projeto que consumirá a API:
 dotnet add package Lumia.Foundation.Http.Client
 ```
 
+## Histórico de versões
+
+* 0.5.2 - Atualizada a dependência `Microsoft.Extensions.Http` para 10.0.15.
+
 ## Registro do cliente
 
 Registre o cliente informando o endereço base da API:

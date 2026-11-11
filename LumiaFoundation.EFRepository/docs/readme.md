@@ -12,6 +12,10 @@ dotnet add package Lumia.Foundation.EFRepository
 
 O pacote atualmente utiliza Entity Framework Core 10 e oferece suporte aos provedores MySQL, MariaDB e PostgreSQL incluídos como dependências.
 
+## Histórico de versões
+
+* 0.14.1 - Atualizadas as dependências do Entity Framework Core e `Microsoft.Extensions.Diagnostics.HealthChecks` para 10.0.15; atualizados os provedores Microting MySQL para 10.0.14 e Oracle MySQL para 10.0.12.
+
 ## Como usar
 
 ### 1. Crie o contexto da aplicação

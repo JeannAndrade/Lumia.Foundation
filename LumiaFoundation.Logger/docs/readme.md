@@ -2,6 +2,10 @@
 
 Biblioteca com interface para logging, baseada em NLog.
 
+## Histórico de versões
+
+* 0.5.1 - Atualizada a dependência `NLog.Extensions.Logging` para 6.3.0.
+
 ## Instalação
 
 Instale o pacote com o comando:

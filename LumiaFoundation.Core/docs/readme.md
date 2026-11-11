@@ -32,6 +32,7 @@ dotnet add package Lumia.Foundation.Core
 
 ## Histórico de versões
 
+* 0.13.1 - Atualizadas as dependências de desenvolvimento e testes.
 * 0.13.0 - Adicionado `PagedList<T>`, resultado paginado de consultas.
 * 0.12.0 - Adicionada a exceção `EntityInUseException`, para regras de domínio que impedem uma ação porque a entidade está referenciada por outra.
 * 0.11.0 - Adição da classe de validação NotEmptyGuidAttribute.

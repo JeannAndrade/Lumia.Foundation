@@ -17,6 +17,10 @@ dotnet add package Lumia.Foundation.Auth
 
 O pacote depende de `Lumia.Foundation.Logger`.
 
+## Histórico de versões
+
+* 0.3.1 - Atualizadas as dependências do ASP.NET Core Identity, autenticação JWT, Entity Framework Core e ferramentas do EF Core para 10.0.15.
+
 ---
 
 ## Referência de projeto modelo usando a lib
