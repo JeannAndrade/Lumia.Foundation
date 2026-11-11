@@ -12,10 +12,6 @@ dotnet add package Lumia.Foundation.AspNetCore
 
 O pacote depende de `Lumia.Foundation.Core` e `Lumia.Foundation.Logger`, e utiliza ASP.NET Core 10 com Microsoft.AspNetCore.OpenApi e Scalar.AspNetCore.
 
-## Histórico de versões
-
-* 0.30.2 - Atualizadas as dependências `Microsoft.AspNetCore.OpenApi` para 10.0.15 e `Scalar.AspNetCore` para 2.20.0.
-
 ## Registro automático de serviços
 
 O método `AddServicesFromAssembly` registra classes concretas que implementam uma interface com o padrão `I{NomeDaClasse}`. O tempo de vida padrão é `Scoped`:
@@ -293,14 +289,22 @@ return Ok(pagina.Map(MeuDto.FromApplication).ToPagedResponse());
 
 ## Histórico de versões
 
+### 0.31.0
+
+* Adicionada o método de extensão AddExceptionHandlers que registra, neste ordem, as classes de tratamento de exeções DomainExceptionHandler e UnhandledExceptionHandler
+
+### 0.31.2
+
+* Atualizadas as dependências `Microsoft.AspNetCore.OpenApi` para 10.0.15 e `Scalar.AspNetCore` para 2.20.0.
+
 ### 0.30.1
 
-- `AddServicesFromAssembly` passou a ignorar tipos aninhados e tipos gerados pelo compilador, e só registra
+* `AddServicesFromAssembly` passou a ignorar tipos aninhados e tipos gerados pelo compilador, e só registra
   interfaces definidas no **mesmo assembly** da implementação.
   Motivo: no .NET 10, uma collection expression de elemento único com alvo `IEnumerable<T>` faz o compilador
   sintetizar `<>z__ReadOnlySingleElementList<T>` (com um `Enumerator` aninhado) no assembly, e a convenção
   `I` + nome casava `IEnumerator` com esse `Enumerator`, quebrando o `BuildServiceProvider`.
-- Atenção: é mais restritivo que antes. Quem registrava, por esta convenção, uma interface de outro assembly
+* Atenção: é mais restritivo que antes. Quem registrava, por esta convenção, uma interface de outro assembly
   deixa de ter o registro e precisa registrá-lo explicitamente.
 
 ### 0.30.0
@@ -309,112 +313,112 @@ Atualização de packages internas
 
 ### 0.29.0
 
-- Adicionado o filtro `RequestValidationAttribute` para validar body vazio
+* Adicionado o filtro `RequestValidationAttribute` para validar body vazio
 
 ### 0.28.0
 
-- Adicionada a extensão `ToPagedResponse()` para converter `PagedList<T>` em `PagedResponse<T>`.
+* Adicionada a extensão `ToPagedResponse()` para converter `PagedList<T>` em `PagedResponse<T>`.
 
 ### 0.27.0
 
-- Adicionados `PaginationTagHelper` (`<lumia-pagination>`) e `PaginationOptions`.
-- Atualizada a dependência de `Lumia.Foundation.Abstractions` para a versão `0.2.0`.
+* Adicionados `PaginationTagHelper` (`<lumia-pagination>`) e `PaginationOptions`.
+* Atualizada a dependência de `Lumia.Foundation.Abstractions` para a versão `0.2.0`.
 
 ### 0.26.0
 
-- Adicionado `MapLumiaHealthChecks()`, que mapeia `/health/live` e `/health/ready`.
-- Adicionadas as constantes `LumiaHealthCheckTags.Ready`, `LumiaHealthCheckPaths.Live` e `LumiaHealthCheckPaths.Ready`.
+* Adicionado `MapLumiaHealthChecks()`, que mapeia `/health/live` e `/health/ready`.
+* Adicionadas as constantes `LumiaHealthCheckTags.Ready`, `LumiaHealthCheckPaths.Live` e `LumiaHealthCheckPaths.Ready`.
 
 ### 0.25.0
 
-- Inclusão de duas extensões de registro de serviços: AddApiSignInService e AddApiRegistrationService
+* Inclusão de duas extensões de registro de serviços: AddApiSignInService e AddApiRegistrationService
 
 ### 0.24.1
 
-- Atualização do package Scalar.AspNetCore 2.17.11
+* Atualização do package Scalar.AspNetCore 2.17.11
 
 ### 0.24.0
 
-- Adicionado IApiRegistrationService/ApiRegistrationService a ClientAuthentication
+* Adicionado IApiRegistrationService/ApiRegistrationService a ClientAuthentication
 
 ### 0.23.0
 
-- Adicionada a área `ClientAuthentication`: `SessionTokenStore`, `IApiSignInService`/`ApiSignInService`, `ApiUnauthorizedExceptionHandler` e `ApiSessionCookieEvents`, para hosts ASP.NET Core que consomem uma API protegida pelo `Lumia.Foundation.Auth` via `Lumia.Foundation.Http.Client`.
-- Nova dependência: `Lumia.Foundation.Http.Client`.
+* Adicionada a área `ClientAuthentication`: `SessionTokenStore`, `IApiSignInService`/`ApiSignInService`, `ApiUnauthorizedExceptionHandler` e `ApiSessionCookieEvents`, para hosts ASP.NET Core que consomem uma API protegida pelo `Lumia.Foundation.Auth` via `Lumia.Foundation.Http.Client`.
+* Nova dependência: `Lumia.Foundation.Http.Client`.
 
 ### 0.22.0 (breaking change)
 
-- Consolidada uma única estratégia de tratamento de exceções: `DomainExceptionHandler` reconhece diretamente `EntityNotFoundException`, `EntityInUseException` e `CommandValidationException`, sem depender de um filtro de MVC pra traduzi-las antes.
-- **Removidos** `DomainExceptionMappingFilter`, `AddDomainExceptionMappingFilter` (`Commons/Extensions/DomainExceptionMappingFilterExtensions`) e o middleware legado `ConfigureExceptionHandler` (`Commons/Extensions/ExceptionMiddlewareExtensions`). Migre para `AddExceptionHandler<DomainExceptionHandler>()` + `AddExceptionHandler<UnhandledExceptionHandler>()` + `app.UseExceptionHandler()`.
-- `BaseApiController` não aplica mais nenhum filtro de exceção — segue existindo só por `GetCurrentUserId()`.
-- Nova propriedade `HttpBaseException.ExceptionType`: expõe o tipo real da exceção (o da `InnerException`, quando existir). `ErrorDetails.ExceptionType` agora mostra `EntityNotFoundException`/`EntityInUseException`/etc. em vez de sempre `"HttpBaseException"`.
+* Consolidada uma única estratégia de tratamento de exceções: `DomainExceptionHandler` reconhece diretamente `EntityNotFoundException`, `EntityInUseException` e `CommandValidationException`, sem depender de um filtro de MVC pra traduzi-las antes.
+* **Removidos** `DomainExceptionMappingFilter`, `AddDomainExceptionMappingFilter` (`Commons/Extensions/DomainExceptionMappingFilterExtensions`) e o middleware legado `ConfigureExceptionHandler` (`Commons/Extensions/ExceptionMiddlewareExtensions`). Migre para `AddExceptionHandler<DomainExceptionHandler>()` + `AddExceptionHandler<UnhandledExceptionHandler>()` + `app.UseExceptionHandler()`.
+* `BaseApiController` não aplica mais nenhum filtro de exceção — segue existindo só por `GetCurrentUserId()`.
+* Nova propriedade `HttpBaseException.ExceptionType`: expõe o tipo real da exceção (o da `InnerException`, quando existir). `ErrorDetails.ExceptionType` agora mostra `EntityNotFoundException`/`EntityInUseException`/etc. em vez de sempre `"HttpBaseException"`.
 
 ### 0.21.0
 
-- `DomainExceptionMappingFilter` passa a mapear `EntityInUseException` (de `Lumia.Foundation.Core`) para HTTP 422 — para regras de domínio que impedem uma ação por existirem entidades dependentes.
-- Atualizada a dependência de `Lumia.Foundation.Core` para a versão `0.12.0`.
+* `DomainExceptionMappingFilter` passa a mapear `EntityInUseException` (de `Lumia.Foundation.Core`) para HTTP 422 — para regras de domínio que impedem uma ação por existirem entidades dependentes.
+* Atualizada a dependência de `Lumia.Foundation.Core` para a versão `0.12.0`.
 
 ### 0.20.0
 
-- Adicionada implementação do método GetCurrentUserId a classe BaseApiController
+* Adicionada implementação do método GetCurrentUserId a classe BaseApiController
 
 ### 0.19.0
 
-- `AddValidationFilters` mudou para o namespace `LumiaFoundation.AspNetCore.Commons.Extensions`
+* `AddValidationFilters` mudou para o namespace `LumiaFoundation.AspNetCore.Commons.Extensions`
 
 ### 0.17.0
 
-- Movidas funcionalidades de autenticação para o novo pacote `Lumia.Foundation.Auth`
-- Removidas classes: `RetrieveUserIdFromTokenAttribute`, `AppConfigurationParameter`, `IAppConfigurationParameter`
-- Removidas extensões: `ConfigureIdentity`, `ConfigureJWT`, `ConfigureIdentityMariaDbDatabase`
-- Removidos DTOs e modelos: `UserForRegistrationDto`, `UserForAuthenticationDto`, `TokenDto`, `User`, `IdentityContext`, `AuthenticationService`, `JwtTokenService`
-- Recomenda-se usar o pacote `Lumia.Foundation.Auth` para funcionalidades de autenticação
+* Movidas funcionalidades de autenticação para o novo pacote `Lumia.Foundation.Auth`
+* Removidas classes: `RetrieveUserIdFromTokenAttribute`, `AppConfigurationParameter`, `IAppConfigurationParameter`
+* Removidas extensões: `ConfigureIdentity`, `ConfigureJWT`, `ConfigureIdentityMariaDbDatabase`
+* Removidos DTOs e modelos: `UserForRegistrationDto`, `UserForAuthenticationDto`, `TokenDto`, `User`, `IdentityContext`, `AuthenticationService`, `JwtTokenService`
+* Recomenda-se usar o pacote `Lumia.Foundation.Auth` para funcionalidades de autenticação
 
 ### 0.16.0
 
-- Reorganização de classes dentro dos pacotes
+* Reorganização de classes dentro dos pacotes
 
 ### 0.29.0
 
-- Adicionado `RequestValidationAttribute` para validar corpos declarados e `ModelState` com respostas HTTP 422.
+* Adicionado `RequestValidationAttribute` para validar corpos declarados e `ModelState` com respostas HTTP 422.
 
 ### 0.15.4
 
-- Adicionada a extensão `AddDomainExceptionMappingFilter` para registrar `DomainExceptionMappingFilter` com tempo de vida `Scoped`.
+* Adicionada a extensão `AddDomainExceptionMappingFilter` para registrar `DomainExceptionMappingFilter` com tempo de vida `Scoped`.
 
 ### 0.15.0
 
-- Adicionado `BaseApiController` para converter exceções de domínio em respostas HTTP.
-- Centralizado o mapeamento de exceções usando `switch`, com suporte a `EntityNotFoundException` (404), `CommandValidationException` (422) e fallback para HTTP 500.
-- Preservadas as exceções que já são `HttpBaseException`.
-- Atualizada a dependência de `Lumia.Foundation.Core` para a versão `0.8.0`.
+* Adicionado `BaseApiController` para converter exceções de domínio em respostas HTTP.
+* Centralizado o mapeamento de exceções usando `switch`, com suporte a `EntityNotFoundException` (404), `CommandValidationException` (422) e fallback para HTTP 500.
+* Preservadas as exceções que já são `HttpBaseException`.
+* Atualizada a dependência de `Lumia.Foundation.Core` para a versão `0.8.0`.
 
 ### 0.14.0
 
-- Movida `DomainBaseException` para o pacote `Lumia.Foundation.Core`, removendo a dependência de HTTP das exceções de domínio.
-- Movida `CommandValidationException` e `CommandValidator` para o pacote `Lumia.Foundation.Core`.
-- Adicionada `HttpBaseException` como base para exceções que representam respostas HTTP.
-- Atualizados os handlers para tratar `HttpBaseException` e manter o tratamento genérico para as demais exceções.
-- Adicionada a dependência do pacote `Lumia.Foundation.Core` na versão `0.7.0`.
+* Movida `DomainBaseException` para o pacote `Lumia.Foundation.Core`, removendo a dependência de HTTP das exceções de domínio.
+* Movida `CommandValidationException` e `CommandValidator` para o pacote `Lumia.Foundation.Core`.
+* Adicionada `HttpBaseException` como base para exceções que representam respostas HTTP.
+* Atualizados os handlers para tratar `HttpBaseException` e manter o tratamento genérico para as demais exceções.
+* Adicionada a dependência do pacote `Lumia.Foundation.Core` na versão `0.7.0`.
 
 ### 0.13.0
 
-- Adicionadas as extensões `ConfigureOpenApi`, `MapOpenApiDocuments`, `MapScalarUi` e `MapOpenApiDevTools` para configurar OpenAPI e Scalar UI.
-- `ConfigureOpenApi` recebe o título e a versão do documento como parâmetros.
-- `MapOpenApiDevTools` expõe as ferramentas automaticamente apenas no ambiente de desenvolvimento, com opção de controle explícito.
+* Adicionadas as extensões `ConfigureOpenApi`, `MapOpenApiDocuments`, `MapScalarUi` e `MapOpenApiDevTools` para configurar OpenAPI e Scalar UI.
+* `ConfigureOpenApi` recebe o título e a versão do documento como parâmetros.
+* `MapOpenApiDevTools` expõe as ferramentas automaticamente apenas no ambiente de desenvolvimento, com opção de controle explícito.
 
 ## 0.12.0
 
-- Atualizada a documentação do pacote sobre o uso de `DomainBaseException` em exceções de domínio.
-- Incluída a referência à classe `CommandValidationException` para cenários de validação de comando com resposta HTTP 422.
-- Mantido o padrão de que cada exceção derivada define seu status HTTP em `StatusCodeValue`.
-- Ajustados os exemplos e a descrição do fluxo de tratamento de erros para refletir a implementação atual.
+* Atualizada a documentação do pacote sobre o uso de `DomainBaseException` em exceções de domínio.
+* Incluída a referência à classe `CommandValidationException` para cenários de validação de comando com resposta HTTP 422.
+* Mantido o padrão de que cada exceção derivada define seu status HTTP em `StatusCodeValue`.
+* Ajustados os exemplos e a descrição do fluxo de tratamento de erros para refletir a implementação atual.
 
 ## 0.11.0
 
-- Tornada a classe `DomainBaseException` abstrata, impedindo sua instanciação direta.
-- O código HTTP deve ser definido por cada classe derivada através de `StatusCodeValue`.
-- Removido o recebimento do código HTTP pelos construtores da exceção base.
+* Tornada a classe `DomainBaseException` abstrata, impedindo sua instanciação direta.
+* O código HTTP deve ser definido por cada classe derivada através de `StatusCodeValue`.
+* Removido o recebimento do código HTTP pelos construtores da exceção base.
 
 Exemplo de definição de uma exceção de domínio:
 
@@ -427,9 +431,9 @@ public sealed class UserNotFoundException : DomainBaseException
 
 ## 0.10.0
 
-- Especializado o `DomainExceptionHandler` para tratar apenas exceções do tipo `DomainBaseException`.
-- Adaptado o `UnhandledExceptionHandler` para tratar exceções que não são `DomainBaseException`, retornando status HTTP 500.
-- Handlers que não correspondem ao tipo da exceção retornam `false`, permitindo o processamento pelo próximo handler.
+* Especializado o `DomainExceptionHandler` para tratar apenas exceções do tipo `DomainBaseException`.
+* Adaptado o `UnhandledExceptionHandler` para tratar exceções que não são `DomainBaseException`, retornando status HTTP 500.
+* Handlers que não correspondem ao tipo da exceção retornam `false`, permitindo o processamento pelo próximo handler.
 
 A lib agora ficou com duas possibilidades de tratamento de erros. A primeira, mais moderna, através de service, configurada como:
 
@@ -447,14 +451,14 @@ app.ConfigureExceptionHandler(logger);
 
 ## 0.9.0
 
-- Refatorado o tratamento de exceções HTTP para registrar erros 5xx como erro e respostas 4xx como aviso.
+* Refatorado o tratamento de exceções HTTP para registrar erros 5xx como erro e respostas 4xx como aviso.
 
 ## 0.8.0
 
-- Adicionado método `AddServicesFromAssembly` em `ServiceCollectionExtensions`
-- Permite registrar serviços automaticamente de um assembly seguindo a convenção de nomenclatura (Interface: `I{NomeDaClasse}`, Implementação: `NomeDaClasse`)
-- Suporta configuração de `ServiceLifetime` (padrão: Scoped)
+* Adicionado método `AddServicesFromAssembly` em `ServiceCollectionExtensions`
+* Permite registrar serviços automaticamente de um assembly seguindo a convenção de nomenclatura (Interface: `I{NomeDaClasse}`, Implementação: `NomeDaClasse`)
+* Suporta configuração de `ServiceLifetime` (padrão: Scoped)
 
 ## 0.7.0
 
-- Migração para .NET 10.0
+* Migração para .NET 10.0

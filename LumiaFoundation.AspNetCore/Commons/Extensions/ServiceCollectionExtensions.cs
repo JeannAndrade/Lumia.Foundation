@@ -2,6 +2,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using LumiaFoundation.AspNetCore.ActionFilters;
 using LumiaFoundation.AspNetCore.ClientAuthentication;
+using LumiaFoundation.AspNetCore.ExceptionHandlers;
 using LumiaFoundation.Http.Client.Authentication;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -53,5 +54,11 @@ public static class ServiceCollectionExtensions
     public static void AddApiRegistrationService(this IServiceCollection services)
     {
         services.AddScoped<IApiRegistrationService, ApiRegistrationService>();
+    }
+
+    public static void AddExceptionHandlers(this IServiceCollection services)
+    {
+        services.AddExceptionHandler<DomainExceptionHandler>();
+        services.AddExceptionHandler<UnhandledExceptionHandler>();
     }
 }

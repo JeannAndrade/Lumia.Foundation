@@ -1,0 +1,131 @@
+name: Publish NuGet packages
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      - name: Detect packages with changed versions
+        id: changes
+        env:
+          GITHUB_SHA: ${{ github.sha }}
+        run: |
+          previous_tag="$(git describe --tags --abbrev=0 "${GITHUB_SHA}^" 2>/dev/null || true)"
+          if [[ -z "$previous_tag" ]]; then
+            echo "::error::No previous Git tag found. Add a baseline tag before creating a release tag."
+            exit 1
+          fi
+
+          BASELINE_TAG="$previous_tag" python3 <<'PY'
+          import os
+          import subprocess
+          import xml.etree.ElementTree as ET
+          from pathlib import Path
+
+          baseline = os.environ["BASELINE_TAG"]
+
+          def package_metadata(content):
+              root = ET.fromstring(content)
+              properties = {
+                  element.tag: (element.text or "").strip()
+                  for element in root.iter()
+              }
+              return properties.get("PackageId"), properties.get("PackageVersion")
+
+          changed_projects = []
+          for project in subprocess.check_output(
+              ["git", "ls-files", "*.csproj"], text=True
+          ).splitlines():
+              current_id, current_version = package_metadata(
+                  Path(project).read_text(encoding="utf-8-sig")
+              )
+              if not current_id or not current_version:
+                  continue
+
+              previous = subprocess.run(
+                  ["git", "show", f"{baseline}:{project}"],
+                  capture_output=True,
+                  text=True,
+                  check=False,
+              )
+              if previous.returncode == 0:
+                  previous_id, previous_version = package_metadata(previous.stdout)
+              else:
+                  previous_id, previous_version = None, None
+
+              if (current_id, current_version) != (previous_id, previous_version):
+                  changed_projects.append(project)
+                  print(f"Will publish {current_id} {current_version} ({project})")
+
+          if not changed_projects:
+              print(f"No package versions changed since {baseline}.")
+
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:
+              output.write(f"has_changes={'true' if changed_projects else 'false'}\n")
+              output.write("projects<<EOF\n")
+              output.write("\n".join(changed_projects) + "\n")
+              output.write("EOF\n")
+          PY
+
+      - name: Test solution
+        run: dotnet test LumiaFoundation.slnx --configuration Release
+
+      - name: Pack changed packages
+        if: steps.changes.outputs.has_changes == 'true'
+        env:
+          CHANGED_PROJECTS: ${{ steps.changes.outputs.projects }}
+        run: |
+          while IFS= read -r project; do
+            [[ -z "$project" ]] && continue
+            dotnet pack "$project" --configuration Release --output ./artifacts
+          done <<< "$CHANGED_PROJECTS"
+
+      - name: Validate NuGet username
+        if: steps.changes.outputs.has_changes == 'true'
+        env:
+          NUGET_USER: ${{ secrets.NUGET_USER }}
+        run: |
+          if [[ -z "$NUGET_USER" ]]; then
+            echo "::error::Add the NuGet.org profile username as the NUGET_USER repository secret."
+            exit 1
+          fi
+
+      - name: NuGet login via Trusted Publishing
+        if: steps.changes.outputs.has_changes == 'true'
+        id: nuget-login
+        uses: NuGet/login@v1
+        with:
+          user: ${{ secrets.NUGET_USER }}
+
+      - name: Push packages to NuGet.org
+        if: steps.changes.outputs.has_changes == 'true'
+        env:
+          NUGET_API_KEY: ${{ steps.nuget-login.outputs.NUGET_API_KEY }}
+        run: |
+          for package in ./artifacts/*.nupkg; do
+            dotnet nuget push "$package" \
+              --api-key "$NUGET_API_KEY" \
+              --source https://api.nuget.org/v3/index.json \
+              --skip-duplicate
+          done

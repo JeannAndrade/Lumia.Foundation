@@ -79,6 +79,17 @@ LumiaFoundation.slnx            Solution com todos os projetos
 dotnet test LumiaFoundation.slnx
 ```
 
+## Publicação no NuGet.org
+
+O workflow `.github/workflows/publish-nuget.yml` publica pacotes quando uma tag `v*` é enviada. Antes de criar a tag:
+
+1. Atualize o `PackageVersion` no `.csproj` de cada pacote que será publicado.
+2. No NuGet.org, crie uma política de **Trusted Publishing** para o proprietário e o repositório `JeannAndrade/Lumia.Foundation`, usando o arquivo de workflow `publish-nuget.yml` e os escopos dos pacotes que serão publicados. Não configure um ambiente, pois o workflow não usa GitHub Environments.
+3. Cadastre `NUGET_USER` como secret do repositório no GitHub, com o nome de usuário do perfil NuGet.org (não o e-mail).
+4. Envie uma nova tag, por exemplo `v0.4.0`. A tag dispara o workflow; a versão de cada pacote continua sendo a definida no respectivo `.csproj`.
+
+O workflow executa os testes da solution e publica apenas projetos cuja versão do pacote mudou desde a tag anterior. Ele usa OIDC/Trusted Publishing, sem uma API key NuGet de longa duração. É necessário haver uma tag anterior para servir de referência.
+
 ## Licença
 
 Distribuído sob a licença definida em [`LICENSE`](LICENSE).
