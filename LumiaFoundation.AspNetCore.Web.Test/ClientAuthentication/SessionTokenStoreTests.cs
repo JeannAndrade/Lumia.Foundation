@@ -1,9 +1,9 @@
-using LumiaFoundation.AspNetCore.ClientAuthentication;
+using LumiaFoundation.AspNetCore.Web.ClientAuthentication;
 using LumiaFoundation.Http.Client.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 
-namespace LumiaFoundation.AspNetCore.Test.ClientAuthentication;
+namespace LumiaFoundation.AspNetCore.Web.Test.ClientAuthentication;
 
 public class SessionTokenStoreTests
 {

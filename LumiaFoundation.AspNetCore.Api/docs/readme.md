@@ -11,7 +11,7 @@ dotnet add package Lumia.Foundation.AspNetCore.Api
 ## Uso rápido
 
 ```csharp
-using LumiaFoundation.AspNetCore.Commons.Extensions;
+using LumiaFoundation.AspNetCore.Api.Commons.Extensions;
 
 builder.Services.AddServicesFromAssembly(typeof(MyService).Assembly);
 builder.Services.AddValidationFilters();
@@ -21,7 +21,7 @@ builder.Services.AddExceptionHandlers();
 ## Endpoints de health checks
 
 ```csharp
-using LumiaFoundation.AspNetCore.Commons.Extensions;
+using LumiaFoundation.AspNetCore.Api.Commons.Extensions;
 
 var app = builder.Build();
 app.MapLumiaHealthChecks();
@@ -30,7 +30,7 @@ app.MapLumiaHealthChecks();
 ## OpenAPI e Scalar
 
 ```csharp
-using LumiaFoundation.AspNetCore.Commons.Extensions;
+using LumiaFoundation.AspNetCore.Api.Commons.Extensions;
 
 builder.Services.ConfigureOpenApi(title: "Orders API", version: "v1");
 var app = builder.Build();

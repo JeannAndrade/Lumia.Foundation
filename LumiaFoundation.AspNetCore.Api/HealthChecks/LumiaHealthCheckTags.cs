@@ -1,4 +1,4 @@
-namespace LumiaFoundation.AspNetCore.HealthChecks;
+namespace LumiaFoundation.AspNetCore.Api.HealthChecks;
 
 /// <summary>Tags usadas pelos endpoints de health check da Lumia Foundation.</summary>
 public static class LumiaHealthCheckTags

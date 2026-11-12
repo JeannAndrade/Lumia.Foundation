@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Scalar.AspNetCore;
 
-namespace LumiaFoundation.AspNetCore.Commons.Extensions;
+namespace LumiaFoundation.AspNetCore.Api.Commons.Extensions;
 
 public static class OpenApiEndpointRouteBuilderExtensions
 {

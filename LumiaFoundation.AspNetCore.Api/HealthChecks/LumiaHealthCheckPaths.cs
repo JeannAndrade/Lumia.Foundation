@@ -1,4 +1,4 @@
-namespace LumiaFoundation.AspNetCore.HealthChecks;
+namespace LumiaFoundation.AspNetCore.Api.HealthChecks;
 
 /// <summary>Rotas dos endpoints de health check mapeados por <c>MapLumiaHealthChecks</c>.</summary>
 public static class LumiaHealthCheckPaths

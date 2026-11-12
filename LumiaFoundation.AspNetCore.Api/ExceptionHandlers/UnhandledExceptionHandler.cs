@@ -1,10 +1,10 @@
-using LumiaFoundation.AspNetCore.Commons.Exceptions;
+using LumiaFoundation.AspNetCore.Api.Commons.Exceptions;
 using LumiaFoundation.Abstractions.ErrorModel;
 using LumiaFoundation.Logger.Contracts;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 
-namespace LumiaFoundation.AspNetCore.ExceptionHandlers;
+namespace LumiaFoundation.AspNetCore.Api.ExceptionHandlers;
 
 public class UnhandledExceptionHandler(ILoggerManager logger) : IExceptionHandler
 {

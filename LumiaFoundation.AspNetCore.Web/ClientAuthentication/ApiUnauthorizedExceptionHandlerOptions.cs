@@ -1,4 +1,4 @@
-namespace LumiaFoundation.AspNetCore.ClientAuthentication;
+namespace LumiaFoundation.AspNetCore.Web.ClientAuthentication;
 
 public sealed class ApiUnauthorizedExceptionHandlerOptions
 {

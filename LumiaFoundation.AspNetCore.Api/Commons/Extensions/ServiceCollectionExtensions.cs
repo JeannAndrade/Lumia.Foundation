@@ -1,10 +1,10 @@
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using LumiaFoundation.AspNetCore.ActionFilters;
-using LumiaFoundation.AspNetCore.ExceptionHandlers;
+using LumiaFoundation.AspNetCore.Api.ActionFilters;
+using LumiaFoundation.AspNetCore.Api.ExceptionHandlers;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace LumiaFoundation.AspNetCore.Commons.Extensions;
+namespace LumiaFoundation.AspNetCore.Api.Commons.Extensions;
 
 public static class ServiceCollectionExtensions
 {

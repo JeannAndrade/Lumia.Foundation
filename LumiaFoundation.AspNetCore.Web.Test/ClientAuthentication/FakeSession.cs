@@ -1,7 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Http;
 
-namespace LumiaFoundation.AspNetCore.Test.ClientAuthentication;
+namespace LumiaFoundation.AspNetCore.Web.Test.ClientAuthentication;
 
 /// <summary>
 /// Fake de <see cref="ISession"/> com estado real (grava e devolve o que foi gravado).

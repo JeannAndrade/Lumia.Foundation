@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Http;
 
-namespace LumiaFoundation.AspNetCore.ClientAuthentication;
+namespace LumiaFoundation.AspNetCore.Web.ClientAuthentication;
 
 public interface IApiSignInService
 {

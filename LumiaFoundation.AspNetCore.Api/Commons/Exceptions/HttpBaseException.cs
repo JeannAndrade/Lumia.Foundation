@@ -1,4 +1,4 @@
-namespace LumiaFoundation.AspNetCore.Commons.Exceptions;
+namespace LumiaFoundation.AspNetCore.Api.Commons.Exceptions;
 
 [Serializable]
 public class HttpBaseException : Exception

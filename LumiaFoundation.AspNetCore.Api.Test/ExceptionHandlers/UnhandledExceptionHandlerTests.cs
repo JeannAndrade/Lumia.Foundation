@@ -1,10 +1,10 @@
 using System.Text.Json;
-using LumiaFoundation.AspNetCore.ExceptionHandlers;
+using LumiaFoundation.AspNetCore.Api.ExceptionHandlers;
 using LumiaFoundation.Abstractions.ErrorModel;
-using LumiaFoundation.AspNetCore.Test.TestDoubles;
+using LumiaFoundation.AspNetCore.Api.Test.TestDoubles;
 using Microsoft.AspNetCore.Http;
 
-namespace LumiaFoundation.AspNetCore.Test.ExceptionHandlers;
+namespace LumiaFoundation.AspNetCore.Api.Test.ExceptionHandlers;
 
 public class UnhandledExceptionHandlerTests
 {
@@ -53,7 +53,7 @@ public class UnhandledExceptionHandlerTests
         Assert.Same(exception, logger.Exceptions.Single());
     }
 
-    private sealed class TestHttpBaseException(int statusCode, string message) : LumiaFoundation.AspNetCore.Commons.Exceptions.HttpBaseException(statusCode, message)
+    private sealed class TestHttpBaseException(int statusCode, string message) : LumiaFoundation.AspNetCore.Api.Commons.Exceptions.HttpBaseException(statusCode, message)
     {
     }
 }

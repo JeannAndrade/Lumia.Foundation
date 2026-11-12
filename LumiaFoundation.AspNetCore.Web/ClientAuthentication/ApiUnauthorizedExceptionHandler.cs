@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
-namespace LumiaFoundation.AspNetCore.ClientAuthentication;
+namespace LumiaFoundation.AspNetCore.Web.ClientAuthentication;
 
 /// <summary>
 /// Quando a API responde 401 e a sessão não pôde ser renovada, encerra o sign-in local e

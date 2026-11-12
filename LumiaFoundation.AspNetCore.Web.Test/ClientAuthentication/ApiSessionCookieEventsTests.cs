@@ -1,5 +1,5 @@
 using System.Security.Claims;
-using LumiaFoundation.AspNetCore.ClientAuthentication;
+using LumiaFoundation.AspNetCore.Web.ClientAuthentication;
 using LumiaFoundation.Http.Client.Authentication;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using AuthenticationToken = LumiaFoundation.Http.Client.Authentication.AuthenticationToken;
 
-namespace LumiaFoundation.AspNetCore.Test.ClientAuthentication;
+namespace LumiaFoundation.AspNetCore.Web.Test.ClientAuthentication;
 
 public class ApiSessionCookieEventsTests
 {

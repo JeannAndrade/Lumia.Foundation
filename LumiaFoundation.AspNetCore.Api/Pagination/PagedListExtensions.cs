@@ -1,7 +1,7 @@
 using LumiaFoundation.Abstractions.Pagination;
 using LumiaFoundation.Core.Pagination;
 
-namespace LumiaFoundation.AspNetCore.Pagination;
+namespace LumiaFoundation.AspNetCore.Api.Pagination;
 
 public static class PagedListExtensions
 {

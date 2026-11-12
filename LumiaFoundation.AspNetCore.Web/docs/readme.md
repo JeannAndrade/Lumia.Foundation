@@ -11,7 +11,7 @@ dotnet add package Lumia.Foundation.AspNetCore.Web
 ## Uso rápido
 
 ```csharp
-using LumiaFoundation.AspNetCore.Commons.Extensions;
+using LumiaFoundation.AspNetCore.Web.Commons.Extensions;
 
 builder.Services.AddApiSignInService();
 builder.Services.AddApiRegistrationService();

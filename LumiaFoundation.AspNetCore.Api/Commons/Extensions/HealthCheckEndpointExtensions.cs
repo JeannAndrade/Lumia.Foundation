@@ -1,9 +1,9 @@
-using LumiaFoundation.AspNetCore.HealthChecks;
+using LumiaFoundation.AspNetCore.Api.HealthChecks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Routing;
 
-namespace LumiaFoundation.AspNetCore.Commons.Extensions;
+namespace LumiaFoundation.AspNetCore.Api.Commons.Extensions;
 
 public static class HealthCheckEndpointExtensions
 {

@@ -1,7 +1,7 @@
 using System.Net;
 using System.Security.Claims;
-using LumiaFoundation.AspNetCore.ClientAuthentication;
-using LumiaFoundation.AspNetCore.Test.TestDoubles;
+using LumiaFoundation.AspNetCore.Web.ClientAuthentication;
+using LumiaFoundation.AspNetCore.Web.Test.TestDoubles;
 using LumiaFoundation.Http.Client.Authentication;
 using LumiaFoundation.Http.Client.Exceptions;
 using Microsoft.AspNetCore.Authentication;
@@ -10,7 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using AuthenticationToken = LumiaFoundation.Http.Client.Authentication.AuthenticationToken;
 
-namespace LumiaFoundation.AspNetCore.Test.ClientAuthentication;
+namespace LumiaFoundation.AspNetCore.Web.Test.ClientAuthentication;
 
 public class ApiSignInServiceTests
 {

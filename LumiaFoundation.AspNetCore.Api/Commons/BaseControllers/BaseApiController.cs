@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace LumiaFoundation.AspNetCore.Commons.BaseControllers;
+namespace LumiaFoundation.AspNetCore.Api.Commons.BaseControllers;
 
 public abstract class BaseApiController : ControllerBase
 {

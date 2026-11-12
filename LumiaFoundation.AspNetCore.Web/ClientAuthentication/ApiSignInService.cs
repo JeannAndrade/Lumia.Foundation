@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using AuthenticationToken = LumiaFoundation.Http.Client.Authentication.AuthenticationToken;
 
-namespace LumiaFoundation.AspNetCore.ClientAuthentication;
+namespace LumiaFoundation.AspNetCore.Web.ClientAuthentication;
 
 public sealed class ApiSignInService(
     IAuthenticationApi authenticationApi,

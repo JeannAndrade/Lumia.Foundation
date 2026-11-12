@@ -2,7 +2,7 @@ using System.Globalization;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace LumiaFoundation.AspNetCore.Pagination;
+namespace LumiaFoundation.AspNetCore.Web.Pagination;
 
 internal static class PaginationRenderer
 {

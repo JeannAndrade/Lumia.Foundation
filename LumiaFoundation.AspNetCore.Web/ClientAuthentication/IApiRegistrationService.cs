@@ -1,6 +1,6 @@
 using LumiaFoundation.Http.Client.Authentication;
 
-namespace LumiaFoundation.AspNetCore.ClientAuthentication;
+namespace LumiaFoundation.AspNetCore.Web.ClientAuthentication;
 
 public interface IApiRegistrationService
 {

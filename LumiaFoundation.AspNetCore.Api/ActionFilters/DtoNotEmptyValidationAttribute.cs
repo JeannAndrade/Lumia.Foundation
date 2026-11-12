@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace LumiaFoundation.AspNetCore.ActionFilters;
+namespace LumiaFoundation.AspNetCore.Api.ActionFilters;
 
 public class DtoNotEmptyValidationAttribute : IActionFilter
 {

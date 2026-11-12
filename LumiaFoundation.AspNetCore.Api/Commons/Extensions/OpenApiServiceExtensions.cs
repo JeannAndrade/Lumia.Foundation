@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.OpenApi;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi;
 
-namespace LumiaFoundation.AspNetCore.Commons.Extensions;
+namespace LumiaFoundation.AspNetCore.Api.Commons.Extensions;
 
 public static class OpenApiServiceExtensions
 {

@@ -1,9 +1,9 @@
 using System.Collections;
-using LumiaFoundation.AspNetCore.Commons.Extensions;
+using LumiaFoundation.AspNetCore.Api.Commons.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using System.Runtime.CompilerServices;
 
-namespace LumiaFoundation.AspNetCore.Test.Commons.Extensions;
+namespace LumiaFoundation.AspNetCore.Api.Test.Commons.Extensions;
 
 public interface IServicoDeExemplo { }
 public class ServicoDeExemplo : IServicoDeExemplo { }

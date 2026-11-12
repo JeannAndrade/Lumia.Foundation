@@ -1,4 +1,4 @@
-namespace LumiaFoundation.AspNetCore.Pagination;
+namespace LumiaFoundation.AspNetCore.Web.Pagination;
 
 /// <summary>
 /// Configurações do <see cref="PaginationTagHelper"/>. Os padrões usam Bootstrap 5 e textos em português.

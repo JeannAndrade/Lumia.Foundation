@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.Extensions.Options;
 
-namespace LumiaFoundation.AspNetCore.Pagination;
+namespace LumiaFoundation.AspNetCore.Web.Pagination;
 
 /// <summary>
 /// Renderiza a navegação entre páginas: <c>&lt;lumia-pagination page="..." total-pages="..." /&gt;</c>.

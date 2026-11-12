@@ -1,6 +1,6 @@
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
-using LumiaFoundation.AspNetCore.Pagination;
+using LumiaFoundation.AspNetCore.Web.Pagination;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Options;
 using Moq;
 
-namespace LumiaFoundation.AspNetCore.Test.Pagination;
+namespace LumiaFoundation.AspNetCore.Web.Test.Pagination;
 
 public class PaginationTagHelperTests
 {

@@ -1,12 +1,12 @@
 using System.Text.Json;
-using LumiaFoundation.AspNetCore.Commons.Exceptions;
-using LumiaFoundation.AspNetCore.ExceptionHandlers;
+using LumiaFoundation.AspNetCore.Api.Commons.Exceptions;
+using LumiaFoundation.AspNetCore.Api.ExceptionHandlers;
 using LumiaFoundation.Abstractions.ErrorModel;
-using LumiaFoundation.AspNetCore.Test.TestDoubles;
+using LumiaFoundation.AspNetCore.Api.Test.TestDoubles;
 using LumiaFoundation.Core.Domain.Exceptions;
 using Microsoft.AspNetCore.Http;
 
-namespace LumiaFoundation.AspNetCore.Test.ExceptionHandlers;
+namespace LumiaFoundation.AspNetCore.Api.Test.ExceptionHandlers;
 
 public class DomainExceptionHandlerTests
 {

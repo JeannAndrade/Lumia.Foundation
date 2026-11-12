@@ -1,6 +1,6 @@
 using LumiaFoundation.Logger.Contracts;
 
-namespace LumiaFoundation.AspNetCore.Test.TestDoubles;
+namespace LumiaFoundation.AspNetCore.Web.Test.TestDoubles;
 
 internal sealed class FakeLoggerManager : ILoggerManager
 {

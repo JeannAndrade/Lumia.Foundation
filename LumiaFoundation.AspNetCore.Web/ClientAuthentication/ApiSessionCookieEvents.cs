@@ -2,7 +2,7 @@ using LumiaFoundation.Http.Client.Authentication;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
-namespace LumiaFoundation.AspNetCore.ClientAuthentication;
+namespace LumiaFoundation.AspNetCore.Web.ClientAuthentication;
 
 /// <summary>
 /// Rejeita o cookie de autenticação quando não há mais um token de API associado à sessão

@@ -1,6 +1,6 @@
 using System.Net;
-using LumiaFoundation.AspNetCore.Commons.Extensions;
-using LumiaFoundation.AspNetCore.HealthChecks;
+using LumiaFoundation.AspNetCore.Api.Commons.Extensions;
+using LumiaFoundation.AspNetCore.Api.HealthChecks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 
-namespace LumiaFoundation.AspNetCore.Test.Commons.Extensions;
+namespace LumiaFoundation.AspNetCore.Api.Test.Commons.Extensions;
 
 public class HealthCheckEndpointExtensionsTests
 {

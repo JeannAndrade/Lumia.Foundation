@@ -1,5 +1,5 @@
-using LumiaFoundation.AspNetCore.ActionFilters;
-using LumiaFoundation.AspNetCore.Commons.Exceptions;
+using LumiaFoundation.AspNetCore.Api.ActionFilters;
+using LumiaFoundation.AspNetCore.Api.Commons.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Routing;
 
-namespace LumiaFoundation.AspNetCore.Test.ActionFilters;
+namespace LumiaFoundation.AspNetCore.Api.Test.ActionFilters;
 
 public class RequestValidationAttributeTests
 {

@@ -1,6 +1,6 @@
-using LumiaFoundation.AspNetCore.Pagination;
+using LumiaFoundation.AspNetCore.Web.Pagination;
 
-namespace LumiaFoundation.AspNetCore.Test.Pagination;
+namespace LumiaFoundation.AspNetCore.Web.Test.Pagination;
 
 public class PaginationWindowTests
 {

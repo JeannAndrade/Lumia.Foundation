@@ -1,7 +1,7 @@
 using System.Text.Json;
 using LumiaFoundation.Abstractions.ErrorModel;
 
-namespace LumiaFoundation.AspNetCore.Test.ExceptionHandlers.ErrorModel;
+namespace LumiaFoundation.AspNetCore.Api.Test.ExceptionHandlers.ErrorModel;
 
 public class ErrorDetailsTests
 {

@@ -1,10 +1,10 @@
-using LumiaFoundation.AspNetCore.Commons.Exceptions;
+using LumiaFoundation.AspNetCore.Api.Commons.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace LumiaFoundation.AspNetCore.ActionFilters;
+namespace LumiaFoundation.AspNetCore.Api.ActionFilters;
 
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
 public sealed class RequestValidationAttribute : ActionFilterAttribute

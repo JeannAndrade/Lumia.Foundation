@@ -1,4 +1,4 @@
-namespace LumiaFoundation.AspNetCore.Pagination;
+namespace LumiaFoundation.AspNetCore.Web.Pagination;
 
 internal static class PaginationWindow
 {

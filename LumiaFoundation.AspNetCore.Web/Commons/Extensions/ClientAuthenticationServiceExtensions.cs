@@ -1,8 +1,8 @@
-using LumiaFoundation.AspNetCore.ClientAuthentication;
+using LumiaFoundation.AspNetCore.Web.ClientAuthentication;
 using LumiaFoundation.Http.Client.Authentication;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace LumiaFoundation.AspNetCore.Commons.Extensions;
+namespace LumiaFoundation.AspNetCore.Web.Commons.Extensions;
 
 public static class ClientAuthenticationServiceExtensions
 {

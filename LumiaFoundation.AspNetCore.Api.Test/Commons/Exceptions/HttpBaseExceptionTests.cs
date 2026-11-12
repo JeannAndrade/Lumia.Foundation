@@ -1,6 +1,6 @@
-using LumiaFoundation.AspNetCore.Commons.Exceptions;
+using LumiaFoundation.AspNetCore.Api.Commons.Exceptions;
 
-namespace LumiaFoundation.AspNetCore.Test.Commons.Exceptions;
+namespace LumiaFoundation.AspNetCore.Api.Test.Commons.Exceptions;
 
 public class HttpBaseExceptionTests
 {

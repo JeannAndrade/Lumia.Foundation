@@ -1,8 +1,8 @@
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
-using LumiaFoundation.AspNetCore.Pagination;
+using LumiaFoundation.AspNetCore.Web.Pagination;
 
-namespace LumiaFoundation.AspNetCore.Test.Pagination;
+namespace LumiaFoundation.AspNetCore.Web.Test.Pagination;
 
 public class PaginationRendererTests
 {

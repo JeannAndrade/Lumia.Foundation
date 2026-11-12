@@ -3,7 +3,7 @@ using LumiaFoundation.Http.Client.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 
-namespace LumiaFoundation.AspNetCore.ClientAuthentication;
+namespace LumiaFoundation.AspNetCore.Web.ClientAuthentication;
 
 /// <summary>
 /// Guarda o par de tokens da API na sessão do usuário atual (<see cref="ISession"/>).

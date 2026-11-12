@@ -3,7 +3,7 @@ using LumiaFoundation.Http.Client.Authentication;
 using LumiaFoundation.Http.Client.Exceptions;
 using LumiaFoundation.Logger.Contracts;
 
-namespace LumiaFoundation.AspNetCore.ClientAuthentication;
+namespace LumiaFoundation.AspNetCore.Web.ClientAuthentication;
 
 public sealed class ApiRegistrationService(
     IAuthenticationApi authenticationApi,

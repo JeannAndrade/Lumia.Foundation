@@ -1,13 +1,13 @@
 using System.Net;
-using LumiaFoundation.AspNetCore.ClientAuthentication;
-using LumiaFoundation.AspNetCore.Test.TestDoubles;
+using LumiaFoundation.AspNetCore.Web.ClientAuthentication;
+using LumiaFoundation.AspNetCore.Web.Test.TestDoubles;
 using LumiaFoundation.Http.Client.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Moq;
 
-namespace LumiaFoundation.AspNetCore.Test.ClientAuthentication;
+namespace LumiaFoundation.AspNetCore.Web.Test.ClientAuthentication;
 
 public class ApiUnauthorizedExceptionHandlerTests
 {

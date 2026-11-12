@@ -1,7 +1,7 @@
-using LumiaFoundation.AspNetCore.Pagination;
+using LumiaFoundation.AspNetCore.Api.Pagination;
 using LumiaFoundation.Core.Pagination;
 
-namespace LumiaFoundation.AspNetCore.Test.Pagination;
+namespace LumiaFoundation.AspNetCore.Api.Test.Pagination;
 
 public class PagedListExtensionsTests
 {
