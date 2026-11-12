@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <PackageId>Lumia.Foundation.AspNetCore.Api</PackageId>
+    <Description>Conjunto de classes utilitárias para uso em projetos ASP.NET Core REST Api</Description>
+    <RepositoryUrl>https://github.com/JeannAndrade/Lumia.Foundation</RepositoryUrl>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>aspnetcore;api;openapi;healthchecks;filters</PackageTags>
+    <PackageReleaseNotes>v0.32.0 - Divisão do pacote AspNetCore em Api e Web.</PackageReleaseNotes>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
+    <PackageVersion>0.32.0</PackageVersion>
+    <Authors>Jeann Andrade</Authors>
+    <Company>Lumia Tech</Company>
+    <Product>Lumia.Foundation</Product>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.15" />
+    <PackageReference Include="Scalar.AspNetCore" Version="2.20.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LumiaFoundation.Abstractions\LumiaFoundation.Abstractions.csproj" />
+    <ProjectReference Include="..\LumiaFoundation.Core\LumiaFoundation.Core.csproj" />
+    <ProjectReference Include="..\LumiaFoundation.Logger\LumiaFoundation.Logger.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="docs\readme.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+</Project>

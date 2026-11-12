@@ -1,7 +1,9 @@
 <Solution>
   <Project Path="LumiaFoundation.Abstractions/LumiaFoundation.Abstractions.csproj" />
-  <Project Path="LumiaFoundation.AspNetCore.Test/LumiaFoundation.AspNetCore.Test.csproj" />
-  <Project Path="LumiaFoundation.AspNetCore/LumiaFoundation.AspNetCore.csproj" />
+  <Project Path="LumiaFoundation.AspNetCore.Api.Test/LumiaFoundation.AspNetCore.Api.Test.csproj" />
+  <Project Path="LumiaFoundation.AspNetCore.Api/LumiaFoundation.AspNetCore.Api.csproj" />
+  <Project Path="LumiaFoundation.AspNetCore.Web.Test/LumiaFoundation.AspNetCore.Web.Test.csproj" />
+  <Project Path="LumiaFoundation.AspNetCore.Web/LumiaFoundation.AspNetCore.Web.csproj" />
   <Project Path="LumiaFoundation.EFRepository.Test/LumiaFoundation.EFRepository.Test.csproj" />
   <Project Path="LumiaFoundation.EFRepository/LumiaFoundation.EFRepository.csproj" />
   <Project Path="LumiaFoundation.Http.Client.Test/LumiaFoundation.Http.Client.Test.csproj" />

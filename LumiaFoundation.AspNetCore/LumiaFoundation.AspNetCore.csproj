@@ -10,7 +10,7 @@
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <RepositoryType>git</RepositoryType>
     <PackageTags>ActionFilters Auth GLobalExceptionMiddleware</PackageTags>
-    <PackageReleaseNotes>v0.31.0 - Adicionada Extension para o registro correto no container de DI das classes de tratamento de exceções.</PackageReleaseNotes>
+    <PackageReleaseNotes>v0.31.0 - Obsoleto; use Lumia.Foundation.AspNetCore.Api e Lumia.Foundation.AspNetCore.Web.</PackageReleaseNotes>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
     <PackageVersion>0.31.0</PackageVersion>
     <Authors>Jeann Andrade</Authors>
@@ -19,23 +19,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.15" />
-    <PackageReference Include="Scalar.AspNetCore" Version="2.20.0" />
-    <PackageReference Include="Lumia.Foundation.Abstractions" Version="0.2.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="docs\readme.md" Pack="true" PackagePath="\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <FrameworkReference Include="Microsoft.AspNetCore.App" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\LumiaFoundation.Core\LumiaFoundation.Core.csproj" />
-    <ProjectReference Include="..\LumiaFoundation.Logger\LumiaFoundation.Logger.csproj" />
-    <ProjectReference Include="..\LumiaFoundation.Http.Client\LumiaFoundation.Http.Client.csproj" />
   </ItemGroup>
 
 </Project>

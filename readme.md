@@ -12,7 +12,9 @@ Cada pacote é publicado individualmente no NuGet e pode ser usado isoladamente 
 | `Lumia.Foundation.Abstractions` | Contratos compartilhados `ErrorDetails` e `PagedResponse<T>` para respostas padronizadas de erro e paginação. | 0.2.0 | [readme](LumiaFoundation.Abstractions/docs/readme.md) |
 | `Lumia.Foundation.Logger` | Interface de logging (`ILoggerManager`) baseada em NLog, registro via injeção de dependência e configuração inicial copiada sem sobrescrever arquivos existentes. | 0.5.0 | [readme](LumiaFoundation.Logger/docs/readme.md) |
 | `Lumia.Foundation.EFRepository` | Contexto e repositórios genéricos, configuração para MySQL/MariaDB/PostgreSQL, health checks do banco e persistência com `CancellationToken`. | 0.14.0 | [readme](LumiaFoundation.EFRepository/docs/readme.md) |
-| `Lumia.Foundation.AspNetCore` | Handlers globais de exceção, filtros de validação, `BaseApiController`, registro automático de serviços, health checks de liveness/readiness e OpenAPI/Scalar. | 0.30.1 | [readme](LumiaFoundation.AspNetCore/docs/readme.md) |
+| `Lumia.Foundation.AspNetCore.Api` | Filtros de ação, `BaseApiController`, handlers de exceção, health checks e OpenAPI/Scalar para APIs REST. | 0.32.0 | [readme](LumiaFoundation.AspNetCore.Api/docs/readme.md) |
+| `Lumia.Foundation.AspNetCore.Web` | Autenticação de cliente, paginação com tag helper e serviços de sign-in/registration para aplicações web. | 0.32.0 | [readme](LumiaFoundation.AspNetCore.Web/docs/readme.md) |
+| `Lumia.Foundation.AspNetCore` | Pacote legado; marcado como obsoleto em favor de `.Api` e `.Web`. | 0.31.0 | [readme](LumiaFoundation.AspNetCore/docs/readme.md) |
 | `Lumia.Foundation.Auth` | ASP.NET Core Identity, geração e validação de JWT, autenticação e renovação de tokens com refresh token. | 0.3.0 | [readme](LumiaFoundation.Auth/docs/readme.md) |
 | `Lumia.Foundation.Http.Client` | Cliente HTTP tipado com `HttpClientFactory`, desserialização JSON, erros como `ApiException` e refresh automático de JWT após HTTP 401. | 0.5.1 | [readme](LumiaFoundation.Http.Client/docs/readme.md) |
 
@@ -30,7 +32,8 @@ dotnet add package Lumia.Foundation.Core
 dotnet add package Lumia.Foundation.Abstractions
 dotnet add package Lumia.Foundation.Logger
 dotnet add package Lumia.Foundation.EFRepository
-dotnet add package Lumia.Foundation.AspNetCore
+dotnet add package Lumia.Foundation.AspNetCore.Api
+dotnet add package Lumia.Foundation.AspNetCore.Web
 dotnet add package Lumia.Foundation.Auth
 dotnet add package Lumia.Foundation.Http.Client
 ```
@@ -45,14 +48,20 @@ graph TD
     Abstractions[Lumia.Foundation.Abstractions]
     Logger[Lumia.Foundation.Logger]
     EFRepository[Lumia.Foundation.EFRepository]
-    AspNetCore[Lumia.Foundation.AspNetCore]
+    Api[Lumia.Foundation.AspNetCore.Api]
+    Web[Lumia.Foundation.AspNetCore.Web]
+    Legacy[Lumia.Foundation.AspNetCore]
     Auth[Lumia.Foundation.Auth]
     HttpClient[Lumia.Foundation.Http.Client]
 
     EFRepository --> Core
-    AspNetCore --> Core
-    AspNetCore --> Logger
-    AspNetCore --> Abstractions
+    Api --> Core
+    Api --> Logger
+    Api --> Abstractions
+    Web --> HttpClient
+    Web --> Logger
+    Legacy -. obsoleto .-> Api
+    Legacy -. obsoleto .-> Web
     Auth --> Logger
     HttpClient --> Abstractions
 ```
@@ -66,7 +75,9 @@ LumiaFoundation.Core/           Abstrações de domínio e utilitários
 LumiaFoundation.Abstractions/   Modelo de erro compartilhado
 LumiaFoundation.Logger/         Logging estruturado (NLog)
 LumiaFoundation.EFRepository/   Repositório genérico sobre EF Core
-LumiaFoundation.AspNetCore/     Utilitários para APIs ASP.NET Core
+LumiaFoundation.AspNetCore/     Pacote legado (obsoleto)
+LumiaFoundation.AspNetCore.Api/ ASP.NET Core API utilities
+LumiaFoundation.AspNetCore.Web/ ASP.NET Core web utilities
 LumiaFoundation.Auth/           Identity + JWT
 LumiaFoundation.Http.Client/    Cliente HTTP tipado
 *.Test/                         Projetos de teste (xUnit) de cada pacote
