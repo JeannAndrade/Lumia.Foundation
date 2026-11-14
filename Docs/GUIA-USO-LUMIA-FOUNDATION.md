@@ -1,6 +1,6 @@
 # Guia de uso do Lumia.Foundation
 
-> **Versão 0.2.0 — 13/11/2026**
+> **Versão 0.2.1 — 13/11/2026**
 > Acrescenta exemplos reais extraídos do projeto Vault, a organização de camadas efetivamente adotada, lições aprendidas (armadilhas) e um checklist ampliado.
 
 ## Objetivo e escopo
@@ -213,12 +213,44 @@ Quando a aplicação precisar de data/hora substituível em testes, injete `IDat
 > model.UpdateDomain(movimento, _dateTimeProvider.GetDateTime().Date);
 > ```
 
-> **Armadilha — dono do registro vindo do corpo da requisição.** Dois estilos convivem no Vault:
+> **Padrão obrigatório — o dono do registro vem do usuário autenticado, nunca do corpo da requisição.**
 >
-> - `CorretoraModelForCreation.ToDomain(Guid ownerId)` e `MovimentoModelForCreation.ToDomain(ownerId, ...)`: o dono é um parâmetro do caso de uso, preenchido a partir do usuário autenticado. **Este é o padrão recomendado.**
-> - `TipoRendaModelForCreation(string Nome, Guid OwnerId)`, `ProdutoModelForCreation`, `EmissorModelForCreation` e `ObjetivoModelForCreation`: o `OwnerId` é um campo do próprio modelo. Se a Api desserializar o corpo da requisição direto nesse tipo sem sobrescrever o campo, um cliente malicioso poderia criar registros em nome de outro usuário. Além disso, `[Required]` em `Guid` não bloqueia `Guid.Empty`.
+> Em projetos multiusuário, o `OwnerId` **não é um campo do modelo de entrada**. Ele é um parâmetro do caso de uso, preenchido pela borda (Api) a partir da identidade do usuário autenticado, e entra na entidade apenas por `ToDomain(ownerId)`:
 >
-> Em projetos multiusuário, o dono **nunca** deve ser lido do corpo da requisição. Recomenda-se migrar todos os `ModelForCreation` para o padrão `ToDomain(ownerId)` e cobrir com teste de integração que tente "forjar" outro `OwnerId`.
+> ```csharp
+> // Application/Corretoras/Commands/CreateCorretora/CorretoraModelForCreation.cs
+> public record CorretoraModelForCreation
+> {
+>     [Required(ErrorMessage = "Nome da Corretora é obrigatório")]
+>     [MaxLength(60, ErrorMessage = "Nome da Corretora não deve exceder 60 caracteres")]
+>     public string Nome { get; set; } = string.Empty;     // nenhum OwnerId aqui
+>
+>     public Corretora ToDomain(Guid ownerId) => new() { Nome = Nome, OwnerId = ownerId };
+> }
+> ```
+>
+> ```csharp
+> // Application/Corretoras/Commands/CreateCorretora/CreateCorretoraCommand.cs
+> public async Task<CorretoraModel> ExecuteAsync(
+>     CorretoraModelForCreation corretoraModel, Guid ownerId, CancellationToken cancellationToken)
+> ```
+>
+> **Por que esse padrão:**
+>
+> - **Segurança:** se o `OwnerId` fizesse parte do corpo, um cliente malicioso poderia criar registros em nome de outro usuário (ataque de atribuição em massa / *mass assignment*) sempre que a Api esquecesse de sobrescrever o campo. Com o dono fora do modelo, **não há campo para forjar**: a proteção é estrutural, e não depende de disciplina em cada controller.
+> - **Validação:** `[Required]` em `Guid` não bloqueia `Guid.Empty`, então um `OwnerId` no modelo ainda exigiria `[NotEmptyGuid]` e continuaria aceitando um identificador de terceiro, que é válido, mas errado.
+> - **Consistência:** o mesmo `ownerId` que cria o registro é o que filtra toda leitura, atualização e exclusão (ver "Multi-tenant na camada de dados"). Uma única origem para o dono torna a regra fácil de auditar.
+>
+> **Regras práticas:**
+>
+> 1. Nenhum `ModelForCreation`, `ModelForUpdate` ou parâmetro de consulta contém `OwnerId` como dado de entrada.
+> 2. Todo caso de uso recebe `ownerId` como parâmetro explícito e o repassa ao repositório.
+> 3. `ToDomain(ownerId)` (ou `ToDomain(ownerId, ...)`, como em `MovimentoModelForCreation`) é o único ponto onde o dono é atribuído.
+> 4. O modelo de **saída** (`<X>Model`) pode expor `OwnerId` se houver necessidade, mas isso não deve ser reaproveitado como entrada.
+>
+> **Teste obrigatório:** além dos testes de isolamento entre dois `OwnerId`, mantenha um teste de integração que tente "forjar" o dono, enviando no corpo um `OwnerId` de outro usuário, e prove que o registro é gravado para o usuário autenticado (ou que o campo é ignorado). Se um dia alguém reintroduzir `OwnerId` em um modelo de entrada, esse teste é o que acusa.
+>
+> *Lição do Vault:* durante um tempo, `TipoRenda`, `Produto`, `Emissor` e `Objetivo` receberam `OwnerId` no próprio modelo de criação, enquanto `Corretora` e `Movimento` já usavam `ToDomain(ownerId)`. Os dois estilos conviveram até a correção, que unificou todos os agregados no padrão acima. Ao iniciar um projeto, adote o padrão desde o primeiro agregado: migrar depois exige tocar em modelos, casos de uso, controllers e testes.
 
 ### 2. Modele a persistência
 
@@ -594,6 +626,10 @@ Observações feitas ao comparar este guia com o uso real no Vault, que podem vi
 Este documento será ampliado iterativamente a partir da experiência dos projetos que usam o Lumia.Foundation. Ao descobrir uma convenção, corrigir uma sequência ou adicionar um cenário recorrente, atualize o conteúdo e registre a mudança abaixo. Alterações incompatíveis ou mudanças de orientação devem receber uma nova versão claramente descrita.
 
 ## Histórico de versões
+
+### 0.2.1 — 13/11/2026
+
+- A antiga armadilha "dono do registro vindo do corpo da requisição" foi convertida em **padrão obrigatório**: o `OwnerId` é parâmetro do caso de uso, atribuído por `ToDomain(ownerId)`, e nunca faz parte do modelo de entrada. Incluídos a justificativa, as regras práticas, o teste de "forjar o dono" e a lição da correção feita no Vault.
 
 ### 0.2.0 — 13/11/2026
 
