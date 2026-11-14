@@ -1,6 +1,6 @@
 # Guia de uso do Lumia.Foundation
 
-> **Versão 0.2.1 — 13/11/2026**
+> **Versão 0.2.3 — 14/11/2026**
 > Acrescenta exemplos reais extraídos do projeto Vault, a organização de camadas efetivamente adotada, lições aprendidas (armadilhas) e um checklist ampliado.
 
 ## Objetivo e escopo
@@ -509,7 +509,22 @@ Configure também OpenAPI/Scalar com `ConfigureOpenApi` e `MapOpenApiDevTools` d
 >
 > Confirme os códigos exatos no README do `AspNetCore.Api`: o guia não os define e este quadro descreve a intenção observada no código da Application.
 >
-> **Armadilha de consistência:** mensagens de exceção misturam português (`"Movimento não encontrado"`) e inglês (`"Produto not found"`, `"Emissor not found"` nos comandos de atualização). Como as mensagens chegam ao cliente, padronize um idioma por projeto.
+> **Convenção — um único idioma nas mensagens de exceção.** As mensagens das exceções de domínio chegam ao cliente (corpo do erro em `ErrorDetails`), portanto fazem parte do contrato público. Defina **um idioma por projeto** e use-o em todos os casos de uso. No Vault, o idioma é o português, com o mesmo formato em leitura, atualização e exclusão:
+>
+> ```csharp
+> throw new EntityNotFoundException("Movimento não encontrado");
+> throw new EntityNotFoundException("Corretora não encontrada");
+> throw new EntityInUseException("Não é possível excluir o Produto pois existem Movimentos associados a ele.");
+> ```
+>
+> **Regras práticas:**
+>
+> 1. O idioma das mensagens acompanha o das validações por DataAnnotations (`ErrorMessage = "Nome da Corretora é obrigatório"`) e o da documentação do projeto.
+> 2. Use o mesmo texto para a mesma situação, em qualquer caso de uso: o "não encontrado" de uma `Query`, de um `Update` e de um `Delete` do mesmo agregado deve ser idêntico, respeitando o gênero (`encontrado`/`encontrada`).
+> 3. Revise a mensagem ao copiar um caso de uso para um novo agregado: é o ponto onde um texto em outro idioma costuma entrar por descuido.
+> 4. Não exponha detalhes internos (nomes de tabelas, SQL, caminhos) na mensagem; ela é para o cliente, e os detalhes técnicos ficam no log.
+>
+> *Lição do Vault:* os comandos de atualização usavam `"Produto not found"` e `"Emissor not found"`, enquanto consultas e exclusões já usavam português. Como cada mensagem chega ao usuário final, a mistura aparecia na interface. Uma busca por `"not found"` nos casos de uso, ou um teste que verifique a mensagem de cada exceção de "não encontrado", ajuda a impedir a regressão.
 
 > **Exemplo no Vault — regras fixas para todo caso de uso** (README da Application):
 >
@@ -543,7 +558,31 @@ Defina `JWT_SECRET` fora do repositório. A autenticação deve ser integrada de
 > services.AddScoped<IdentityContext>(provider => provider.GetRequiredService<VaultIdentityDbContext>());
 > ```
 
-> **Armadilha — valores padrão de credenciais no código.** `ServiceExtensions.BuildDbConnectionHelper` usa *fallbacks* como `"example-user"` e `"my_cool_secret"` quando a variável de ambiente não existe. São valores de desenvolvimento (porta `3307`, banco `my_database`), mas ficam no código-fonte e, se um ambiente real subir sem configurar `VAULT_DB_PASS`, a aplicação tentará conectar com a senha de exemplo em vez de falhar. Alternativas: (1) remover o *fallback* de usuário/senha e falhar rápido fora de `Development`; (2) manter os padrões apenas em `appsettings.Development.json`/`docker compose`. Isso também atende à restrição do projeto de nunca depender de segredos em texto puro.
+> **Padrão obrigatório — credenciais e segredos nunca têm valor padrão no código-fonte.**
+>
+> O código lê a configuração (variáveis de ambiente, *secret manager*, *appsettings*) e **não carrega nenhum valor de reserva** para usuário, senha ou chaves como `JWT_SECRET`. Os valores de conveniência para desenvolvimento ficam **fora do código**, em arquivos que só existem no ambiente local: `appsettings.Development.json` (ou *user-secrets*) e o `docker compose` de desenvolvimento.
+>
+> ```text
+> Produção / homologação  →  variáveis de ambiente ou secret manager (nada no repositório)
+> Desenvolvimento local   →  appsettings.Development.json / user-secrets / docker compose
+> Código-fonte            →  lê a configuração; sem "example-user", sem "my_cool_secret"
+> ```
+>
+> **Por que esse padrão:**
+>
+> - **Falha explícita em vez de comportamento perigoso:** com valores de reserva no código, um ambiente real que subisse sem configurar `VAULT_DB_PASS` tentaria conectar com a senha de exemplo, mascarando o erro de configuração (ou, pior, funcionando por coincidência com credenciais fracas). Sem valor de reserva, a configuração ausente aparece logo na inicialização.
+> - **Segredos não vazam pelo repositório:** o que está no código-fonte vai para o histórico do Git, para clones, para *forks* e para imagens de contêiner.
+> - **Dev e produção separados por construção:** o ambiente decide os valores; o código é o mesmo em todos.
+>
+> **Regras práticas:**
+>
+> 1. Parâmetros **não sensíveis** (host, porta, nome do banco, versão do servidor) podem ter padrão para desenvolvimento, de preferência também no arquivo de ambiente e não no código.
+> 2. Parâmetros **sensíveis** (usuário, senha, chaves de assinatura, *connection strings* completas) **nunca** têm padrão no código.
+> 3. Arquivos de ambiente local com valores reais não vão para o repositório (`.gitignore`); versione apenas um modelo com valores fictícios (por exemplo, `.env.example`).
+> 4. A ausência de uma configuração obrigatória deve gerar um erro claro na inicialização (que diga **qual** variável falta, sem imprimir valores), e não uma falha obscura na primeira consulta.
+> 5. Cubra a regra com um teste: construir o `DbConnectionHelper` sem as variáveis obrigatórias deve falhar, e nunca produzir uma conexão com valores de exemplo.
+>
+> *Lição do Vault:* `ServiceExtensions.BuildDbConnectionHelper` trazia valores de reserva como `"example-user"` e `"my_cool_secret"` para o usuário e a senha do banco. Eram valores de desenvolvimento, mas viviam no código-fonte. A correção moveu esses padrões para os arquivos de desenvolvimento (`appsettings.Development.json` / `docker compose`) e retirou o reserva sensível do código, atendendo à restrição do projeto de nunca depender de segredos em texto puro.
 
 ### 6. Construa consumidores de API
 
@@ -626,6 +665,14 @@ Observações feitas ao comparar este guia com o uso real no Vault, que podem vi
 Este documento será ampliado iterativamente a partir da experiência dos projetos que usam o Lumia.Foundation. Ao descobrir uma convenção, corrigir uma sequência ou adicionar um cenário recorrente, atualize o conteúdo e registre a mudança abaixo. Alterações incompatíveis ou mudanças de orientação devem receber uma nova versão claramente descrita.
 
 ## Histórico de versões
+
+### 0.2.3 — 14/11/2026
+
+- A antiga armadilha de credenciais com valor padrão no código foi convertida em **padrão obrigatório**: segredos nunca têm valor de reserva no código; os padrões de desenvolvimento ficam em `appsettings.Development.json`, *user-secrets* ou `docker compose`. Incluídos a justificativa, as regras práticas, o teste de configuração ausente e a lição da correção feita no Vault.
+
+### 0.2.2 — 13/11/2026
+
+- A antiga armadilha de mensagens de exceção em dois idiomas foi convertida em **convenção**: um único idioma por projeto, texto idêntico para a mesma situação em qualquer caso de uso, sem detalhes internos. Incluídas as regras práticas e a lição da correção feita no Vault.
 
 ### 0.2.1 — 13/11/2026
 
