@@ -595,7 +595,7 @@ builder.Services.AddApiResourceClient<IOrderApi, OrderApi>();
 
 Use `IApiConnection` nos clientes de recurso. Respostas HTTP malsucedidas geram `ApiException`; trate o `StatusCode` sem duplicar a lógica de serialização de erros.
 
-> **Exemplo no Vault.** O `Vault.Web` (Razor Pages) é o consumidor, e a regra de ouro é que ele **nunca** acessa o banco: só chama a Api. A integração com `Http.Client` e `AspNetCore.Web` ainda não foi implementada, então esta seção do guia será completada com exemplos reais quando o front-end existir (cliente de recurso para Movimentos/Objetivos, `ITokenStore` por usuário e a paginação por tag helper sobre `PagedResponse<T>`).
+> **Exemplo no Vault.** O `Vault.Presentation` (Razor Pages) é o consumidor, e a regra de ouro é que ele **nunca** acessa o banco: só chama a Api. A integração com `Http.Client` e `AspNetCore.Web` ainda não foi implementada, então esta seção do guia será completada com exemplos reais quando o front-end existir (cliente de recurso para Movimentos/Objetivos, `ITokenStore` por usuário e a paginação por tag helper sobre `PagedResponse<T>`).
 
 ## Convenções de uso
 
@@ -685,7 +685,6 @@ Este documento será ampliado iterativamente a partir da experiência dos projet
 - Adicionadas seções de **Armadilhas** (decimais sem precisão, seed aleatório, renomeação de colunas, dono vindo do corpo da requisição, credenciais padrão no código, mensagens em dois idiomas).
 - Incluídos padrões reaproveitáveis (invariante também no banco, defesa em profundidade para unicidade, migration com migração de dados).
 - Ampliado o checklist e criada a lista de pontos a validar nos pacotes.
-- Marcada como pendente a seção de consumidores de API, a completar quando o `Vault.Web` for implementado.
 
 ### 0.1.0 — 13/11/2026
 
