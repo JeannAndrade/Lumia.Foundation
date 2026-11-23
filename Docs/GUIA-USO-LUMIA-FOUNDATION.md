@@ -685,6 +685,7 @@ Este documento será ampliado iterativamente a partir da experiência dos projet
 - Adicionadas seções de **Armadilhas** (decimais sem precisão, seed aleatório, renomeação de colunas, dono vindo do corpo da requisição, credenciais padrão no código, mensagens em dois idiomas).
 - Incluídos padrões reaproveitáveis (invariante também no banco, defesa em profundidade para unicidade, migration com migração de dados).
 - Ampliado o checklist e criada a lista de pontos a validar nos pacotes.
+- Marcada como pendente a seção de consumidores de API, a completar quando o `Vault.Presentation` for implementado.
 
 ### 0.1.0 — 13/11/2026
 
