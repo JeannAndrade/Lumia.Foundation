@@ -10,7 +10,7 @@ Cada pacote é publicado individualmente no NuGet e pode ser usado isoladamente 
 | :--- | :--- | :--- | :--- |
 | `Lumia.Foundation.Core` | Entidades e exceções de domínio, validação com DataAnnotations, provedores de data/hora e paginação com `PagedList<T>`. Base para os demais pacotes. | 0.13.0 | [readme](LumiaFoundation.Core/docs/readme.md) |
 | `Lumia.Foundation.Abstractions` | Contratos compartilhados `ErrorDetails` e `PagedResponse<T>` para respostas padronizadas de erro e paginação. | 0.2.0 | [readme](LumiaFoundation.Abstractions/docs/readme.md) |
-| `Lumia.Foundation.Logger` | Interface de logging (`ILoggerManager`) baseada em NLog, registro via injeção de dependência e configuração inicial copiada sem sobrescrever arquivos existentes. | 0.5.0 | [readme](LumiaFoundation.Logger/docs/readme.md) |
+| `Lumia.Foundation.Logger` | Interface de logging (`ILoggerManager`) baseada em NLog, registro via injeção de dependência e renderizadores de `TraceId` e `OwnerId`. | 0.6.0 | [readme](LumiaFoundation.Logger/docs/readme.md) |
 | `Lumia.Foundation.EFRepository` | Contexto e repositórios genéricos, configuração para MySQL/MariaDB/PostgreSQL, health checks do banco e persistência com `CancellationToken`. | 0.14.0 | [readme](LumiaFoundation.EFRepository/docs/readme.md) |
 | `Lumia.Foundation.AspNetCore.Api` | Filtros de ação, `BaseApiController`, handlers de exceção, health checks e OpenAPI/Scalar para APIs REST. | 0.32.0 | [readme](LumiaFoundation.AspNetCore.Api/docs/readme.md) |
 | `Lumia.Foundation.AspNetCore.Web` | Autenticação de cliente, paginação com tag helper e serviços de sign-in/registration para aplicações web. | 0.32.0 | [readme](LumiaFoundation.AspNetCore.Web/docs/readme.md) |

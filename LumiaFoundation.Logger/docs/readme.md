@@ -4,7 +4,37 @@ Biblioteca com interface para logging, baseada em NLog.
 
 ## Histórico de versões
 
+* 0.6.0 - Adicionados os renderizadores `${lumia-traceid}` e `${lumia-ownerid}` para correlação e identificação do dono do recurso.
 * 0.5.1 - Atualizada a dependência `NLog.Extensions.Logging` para 6.3.0.
+
+## Renderizadores `${lumia-traceid}` e `${lumia-ownerid}`
+
+Os renderizadores leem dados da `System.Diagnostics.Activity` corrente. `${lumia-traceid}` escreve o `TraceId` W3C da Activity. `${lumia-ownerid}` procura a tag `lumia.owner_id` na Activity atual e nas Activities pai; o host deve preencher essa tag depois da autenticação.
+
+Quando não há Activity, ou quando o valor não está disponível ou é inválido, o campo fica vazio.
+
+É necessário declarar a extensão no `nlog.config`; sem essa declaração o NLog não reconhece os nomes dos renderizadores:
+
+```xml
+<nlog xmlns="http://www.nlog-project.org/schemas/NLog.xsd"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <extensions>
+    <add assembly="LumiaFoundation.Logger" />
+  </extensions>
+  <targets>
+    <target xsi:type="File" name="jsonFile" fileName="logs/current.json">
+      <layout xsi:type="JsonLayout">
+        <attribute name="traceId" layout="${lumia-traceid}" />
+        <attribute name="ownerId" layout="${lumia-ownerid}" />
+        <attribute name="message" layout="${message}" />
+      </layout>
+    </target>
+  </targets>
+  <rules>
+    <logger name="*" minlevel="Info" writeTo="jsonFile" />
+  </rules>
+</nlog>
+```
 
 ## Instalação
 
